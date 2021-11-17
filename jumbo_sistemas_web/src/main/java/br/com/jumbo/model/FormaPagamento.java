@@ -1,6 +1,7 @@
 package br.com.jumbo.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,6 +37,23 @@ public class FormaPagamento implements Serializable{
 
 	public void setPagamDesc(String pagamDesc) {
 		this.pagamDesc = pagamDesc;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(Id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FormaPagamento other = (FormaPagamento) obj;
+		return Objects.equals(Id, other.Id);
 	}
 	
 	

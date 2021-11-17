@@ -1,13 +1,17 @@
 package br.com.jumbo.model;
 
 import java.io.Serializable;
+import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import org.springframework.lang.Nullable;
 
 @Entity
 @Table(name = "categoria_produto")
@@ -20,6 +24,7 @@ public class CategoriaProduto implements Serializable{
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_categoria_produto")
 	private Long Id;
 	
+	@Column(name= "nome_cat_desc" , nullable = false)
 	private String nomeCatProdDesc;
 
 	public Long getId() {
@@ -36,6 +41,23 @@ public class CategoriaProduto implements Serializable{
 
 	public void setNomeCatProdDesc(String nomeCatProdDesc) {
 		this.nomeCatProdDesc = nomeCatProdDesc;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(Id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CategoriaProduto other = (CategoriaProduto) obj;
+		return Objects.equals(Id, other.Id);
 	}
 	
 	
