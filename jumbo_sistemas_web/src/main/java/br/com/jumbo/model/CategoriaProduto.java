@@ -60,8 +60,4 @@ public class CategoriaProduto implements Serializable{
 		return Objects.equals(Id, other.Id);
 	}
 	
-	
-	
-	
-
 }

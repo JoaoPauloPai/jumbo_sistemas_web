@@ -71,7 +71,4 @@ public class PessoaJuridica extends Pessoa {
 		this.categoria = categoria;
 	}
 	
-	
-	
-
 }

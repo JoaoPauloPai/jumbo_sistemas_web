@@ -126,10 +126,5 @@ public class Endereco implements Serializable{
 		Endereco other = (Endereco) obj;
 		return Id == other.Id;
 	}
-	
-	
-	
-	
-	
 
 }

@@ -44,7 +44,4 @@ public class PessoaFisica extends Pessoa {
 		return Objects.hash(cpf);
 	}
 
-	
-
-	
 }

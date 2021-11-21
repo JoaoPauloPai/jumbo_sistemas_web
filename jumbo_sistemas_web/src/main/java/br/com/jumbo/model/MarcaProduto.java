@@ -58,9 +58,4 @@ public class MarcaProduto implements Serializable{
 		return Id == other.Id;
 	}
 	
-	
-	
-	
-	
-
 }

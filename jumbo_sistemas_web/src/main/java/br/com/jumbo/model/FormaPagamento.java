@@ -55,7 +55,5 @@ public class FormaPagamento implements Serializable{
 		FormaPagamento other = (FormaPagamento) obj;
 		return Objects.equals(Id, other.Id);
 	}
-	
-	
 
 }
