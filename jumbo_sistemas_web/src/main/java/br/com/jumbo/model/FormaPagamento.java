@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "forma_pagam")
+@Table(name = "forma_pagamento")
 @SequenceGenerator(name = "seq_forma_pagam", sequenceName = "seq_forma_pagam", allocationSize = 1 , initialValue = 1)
 public class FormaPagamento implements Serializable{
 
