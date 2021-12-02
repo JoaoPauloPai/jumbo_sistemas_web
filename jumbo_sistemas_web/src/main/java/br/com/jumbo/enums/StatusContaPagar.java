@@ -7,23 +7,24 @@ public enum StatusContaPagar {
 	VENCIDA("Vencida"),
 	ABERTA("Aberta"),
 	QUITADA("Quitada"),
-	NEGOCIADA("Re-negociada");
+	ALUGUEL("Aluguel"),
+	FUNCIONARIO("Funcionário"),
+	NEGOCIADA("Renegociada");
+	
 	
 	private String descricao;
 	
-	 private StatusContaPagar(String descricao) {
-		 
-    this.descricao = descricao;
+	private StatusContaPagar(String descricao) {
+		this.descricao = descricao;
 	}
-		
+	
 	public String getDescricao() {
 		return descricao;
 	}
 	
 	@Override
 	public String toString() {
-		
-		return this.toString();
+		return this.descricao;
 	}
 
 }

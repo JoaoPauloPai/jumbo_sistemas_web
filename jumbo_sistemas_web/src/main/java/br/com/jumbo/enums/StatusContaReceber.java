@@ -10,19 +10,17 @@ public enum StatusContaReceber {
 	
 	private String descricao;
 	
-	 private StatusContaReceber(String descricao) {
-		 
-    this.descricao = descricao;
+	private StatusContaReceber(String descricao) {
+		this.descricao = descricao;
 	}
-		
+	
 	public String getDescricao() {
 		return descricao;
 	}
 	
 	@Override
 	public String toString() {
-		
-		return this.toString();
+		return this.descricao;
 	}
 
 }
