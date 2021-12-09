@@ -3,7 +3,6 @@ package br.com.jumbo.model;
 import java.io.Serializable;
 import java.util.Objects;
 
-import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -16,26 +15,27 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "imagem_produto")
-@SequenceGenerator(name = "seq_imagem_produto", sequenceName = "seq_imagem_produto", allocationSize = 1 , initialValue = 1)
-public class ImagemProduto  implements Serializable{
+@Table(name = "item_venda_loja")
+@SequenceGenerator(name = "seq_item_venda_loja", sequenceName = "seq_item_venda_loja", allocationSize = 1 , initialValue = 1)
+public class ItemVendaLoja implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_imagem_produto")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_item_venda_loja")
 	private long Id;
-
-	@Column(columnDefinition = "text")
-	private String imagemOriginal;
-
-	@Column(columnDefinition = "text")
-	private String imagemMiniatura;
-
-	@ManyToOne
-	@JoinColumn(name = "produto_id", nullable = false,
+	
+	private Double quantidade;
+	
+	@ManyToOne(targetEntity = Produto.class)
+	@JoinColumn(name = "produto_id", nullable = false, 
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
 	private Produto produto;
+	
+	@ManyToOne(targetEntity = VdCpLojaVirtual.class)
+	@JoinColumn(name = "vd_cp_loja_virtual_id", nullable = false, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "vd_cp_loja_virtual_fk"))
+	private VdCpLojaVirtual vdCpLojaVirtual;
 
 	public long getId() {
 		return Id;
@@ -45,20 +45,12 @@ public class ImagemProduto  implements Serializable{
 		Id = id;
 	}
 
-	public String getImagemOriginal() {
-		return imagemOriginal;
+	public Double getQuantidade() {
+		return quantidade;
 	}
 
-	public void setImagemOriginal(String imagemOriginal) {
-		this.imagemOriginal = imagemOriginal;
-	}
-
-	public String getImagemMiniatura() {
-		return imagemMiniatura;
-	}
-
-	public void setImagemMiniatura(String imagemMiniatura) {
-		this.imagemMiniatura = imagemMiniatura;
+	public void setQuantidade(Double quantidade) {
+		this.quantidade = quantidade;
 	}
 
 	public Produto getProduto() {
@@ -67,6 +59,14 @@ public class ImagemProduto  implements Serializable{
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+	}
+
+	public VdCpLojaVirtual getVdCpLojaVirtual() {
+		return vdCpLojaVirtual;
+	}
+
+	public void setVdCpLojaVirtual(VdCpLojaVirtual vdCpLojaVirtual) {
+		this.vdCpLojaVirtual = vdCpLojaVirtual;
 	}
 
 	@Override
@@ -82,11 +82,9 @@ public class ImagemProduto  implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ImagemProduto other = (ImagemProduto) obj;
+		ItemVendaLoja other = (ItemVendaLoja) obj;
 		return Id == other.Id;
 	}
 	
 	
-
-
 }
