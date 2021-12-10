@@ -1,7 +1,11 @@
-# jumbo_sistemas_web
-# Loja Virtual
-Diagrama Classes BD
 
-![DiagramaClassesBD](https://user-images.githubusercontent.com/68359416/145595357-efb6c39c-d118-44a3-8394-b8524c5478)
-![image](https://user-images.githubusercontent.com/68359416/145597154-5a842c5f-cddb-4fe2-adaf-acb5e13bbae3.png)
+# Loja Virtual
+
 #  Planejamento
+![image](https://user-images.githubusercontent.com/68359416/145598077-d5275012-2d46-420e-bc25-3848739f516d.png)
+
+# Diagrama de Classes BD
+![DiagramaClassesBD](https://user-images.githubusercontent.com/68359416/145598269-195eb1c2-4d7b-49c3-88ab-856f11c18210.png)
+
+# Requesitos Funcionais e Não Funcionais
+![image](https://user-images.githubusercontent.com/68359416/145598649-6e7de0b4-3907-421a-ba0d-480f578d617d.png)
