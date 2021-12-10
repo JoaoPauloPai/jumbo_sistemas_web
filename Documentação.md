@@ -1,10 +1,7 @@
-# jumbo_sistemas_web
-Loja Virtual
- Planejamento
 
- 
+# Loja Virtual
 
- Requisitos Funcionais
+# Requisitos Funcionais
 
 
 •	Gerenciamento 
