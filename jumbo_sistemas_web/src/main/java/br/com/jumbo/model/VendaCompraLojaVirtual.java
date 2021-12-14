@@ -19,15 +19,15 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "vd_cp_loja_virtual")
-@SequenceGenerator(name = "seq_vd_cp_loja_virtual", sequenceName = "seq_vd_cp_loja_virtual", allocationSize = 1 , initialValue = 1)
-public class VdCpLojaVirtual implements Serializable {
+@Table(name = "vd_cp_loja_virt")
+@SequenceGenerator(name = "seq_vd_cp_loja_virt", sequenceName = "seq_vd_cp_loja_virt", allocationSize = 1 , initialValue = 1)
+public class VendaCompraLojaVirtual implements Serializable {
 
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_vd_cp_loja_virtual")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_vd_cp_loja_virt")
 	private long Id;
 	
 	private BigDecimal valorTotal;
@@ -49,18 +49,18 @@ public class VdCpLojaVirtual implements Serializable {
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
 	
-	@ManyToOne(targetEntity = Endereco.class)
-	@JoinColumn(name = "endereco_id", nullable = false, 
+	@ManyToOne
+	@JoinColumn(name = "endereco_entrega_id", nullable = false, 
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_entrega_fk"))
 	private Endereco enderecoEntrega;
 	
-	/**
-	@ManyToOne(targetEntity = Endereco.class)
-	@JoinColumn(name = "endereco_id", nullable = false, 
+	
+	@ManyToOne
+	@JoinColumn(name = "endereco_cobranca_id", nullable = false, 
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_cobranca_fk"))
 	private Endereco enderecoCobranca;
 	
-	**/
+	
 	
 	@ManyToOne(targetEntity = FormaPagamento.class)
 	@JoinColumn(name = "forma_pagamento_id", nullable = false, 
@@ -187,7 +187,7 @@ public class VdCpLojaVirtual implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		VdCpLojaVirtual other = (VdCpLojaVirtual) obj;
+		VendaCompraLojaVirtual other = (VendaCompraLojaVirtual) obj;
 		return Id == other.Id;
 	}
 	
