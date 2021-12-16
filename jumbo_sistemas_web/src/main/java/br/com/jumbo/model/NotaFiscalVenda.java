@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -19,7 +23,7 @@ public class NotaFiscalVenda implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_nota_fiscal_compra")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_nota_fiscal_venda")
 	private long Id;
 
 	private String numero;
@@ -33,6 +37,12 @@ public class NotaFiscalVenda implements Serializable {
 
 	@Column(columnDefinition = "text")
 	private String PDF;
+	
+	@OneToOne
+	@JoinColumn(name = "venda_compra_loja virt_id", nullable = false, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_compra_loja virt_fk"))
+	private VendaCompraLojaVirtual vendaCompraLojaVirtual;
+	
 
 	public long getId() {
 		return Id;

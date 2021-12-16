@@ -16,7 +16,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "item_venda_loja")
-@SequenceGenerator(name = "seq_item_venda_loja", sequenceName = "seq_item_venda_loja", allocationSize = 1 , initialValue = 1)
+@SequenceGenerator(name = "seq_item_venda_loja", sequenceName = "seq_item_venda_loja", allocationSize = 1, initialValue = 1)
 public class ItemVendaLoja implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,18 +24,16 @@ public class ItemVendaLoja implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_item_venda_loja")
 	private long Id;
-	
+
 	private Double quantidade;
-	
-	@ManyToOne(targetEntity = Produto.class)
-	@JoinColumn(name = "produto_id", nullable = false, 
-	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
+
+	@ManyToOne
+	@JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
 	private Produto produto;
-	
-	@ManyToOne(targetEntity = VendaCompraLojaVirtual.class)
-	@JoinColumn(name = "vd_cp_loja_virtual_id", nullable = false, 
-	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "vd_cp_loja_virtual_fk"))
-	private VendaCompraLojaVirtual vdCpLojaVirtual;
+
+	@ManyToOne
+	@JoinColumn(name = "venda_compra_loja_virtual_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_compra_loja_virtual_fk"))
+	private VendaCompraLojaVirtual vendaCompraLojaVirtual;
 
 	public long getId() {
 		return Id;
@@ -61,12 +59,13 @@ public class ItemVendaLoja implements Serializable {
 		this.produto = produto;
 	}
 
-	public VendaCompraLojaVirtual getVdCpLojaVirtual() {
-		return vdCpLojaVirtual;
+
+	public VendaCompraLojaVirtual getVendaCompraLojaVirtual() {
+		return vendaCompraLojaVirtual;
 	}
 
-	public void setVdCpLojaVirtual(VendaCompraLojaVirtual vdCpLojaVirtual) {
-		this.vdCpLojaVirtual = vdCpLojaVirtual;
+	public void setVendaCompraLojaVirtual(VendaCompraLojaVirtual vendaCompraLojaVirtual) {
+		this.vendaCompraLojaVirtual = vendaCompraLojaVirtual;
 	}
 
 	@Override
@@ -85,6 +84,5 @@ public class ItemVendaLoja implements Serializable {
 		ItemVendaLoja other = (ItemVendaLoja) obj;
 		return Id == other.Id;
 	}
-	
-	
+
 }

@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -62,17 +63,17 @@ public class VendaCompraLojaVirtual implements Serializable {
 	
 	
 	
-	@ManyToOne(targetEntity = FormaPagamento.class)
+	@ManyToOne
 	@JoinColumn(name = "forma_pagamento_id", nullable = false, 
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "forma_pagamento_fk"))
 	private FormaPagamento formaPagamento;
 	
-	@ManyToOne(targetEntity = NotaFiscalVenda.class)
+	@OneToOne
 	@JoinColumn(name = "nota_fiscal_venda_id", nullable = false, 
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_fiscal_venda_fk"))
 	private NotaFiscalVenda notaFiscalVenda;
 	
-	@ManyToOne(targetEntity = CupomDesc.class)
+	@ManyToOne
 	@JoinColumn(name = "cupom_desc_id", nullable = false, 
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "cupom_desc_fk"))
 	private CupomDesc cupomDesc;
