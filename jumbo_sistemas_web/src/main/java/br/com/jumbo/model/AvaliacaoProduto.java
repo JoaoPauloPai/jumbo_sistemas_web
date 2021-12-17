@@ -16,27 +16,25 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "avaliacao_produto")
-@SequenceGenerator(name = "seq_avaliacao_produto", sequenceName = "seq_avaliacao_produto", allocationSize = 1 , initialValue = 1)
+@SequenceGenerator(name = "seq_avaliacao_produto", sequenceName = "seq_avaliacao_produto", allocationSize = 1, initialValue = 1)
 public class AvaliacaoProduto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_avaliacao_produto")
 	private long Id;
-	
-    private String descricao;
-    
-    private Integer nota;
-    
-	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "pessoa_id", nullable = false, 
-	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+
+	private String descricao;
+
+	private Integer nota;
+
+	@ManyToOne
+	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
-    
-	@ManyToOne(targetEntity = Produto.class)
-	@JoinColumn(name = "produto_id", nullable = false, 
-	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
+
+	@ManyToOne
+	@JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
 	private Produto produto;
 
 	public long getId() {
@@ -95,6 +93,5 @@ public class AvaliacaoProduto implements Serializable {
 		AvaliacaoProduto other = (AvaliacaoProduto) obj;
 		return Id == other.Id;
 	}
-	
-	
+
 }
