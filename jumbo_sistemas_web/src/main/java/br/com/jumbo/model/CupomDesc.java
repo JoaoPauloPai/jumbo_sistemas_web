@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +14,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.apache.el.parser.AstFalse;
 
 @Entity
 @Table(name = "cup_desc")
@@ -24,9 +27,12 @@ public class CupomDesc implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cup_desc")
 	private long Id;
+   
 
 	private String codDesc;
+	
 	private BigDecimal valorRealDesc;
+	
 	private BigDecimal valorPercDesc;
 
 	@Temporal(TemporalType.DATE)
