@@ -1,9 +1,16 @@
 package br.com.jumbo.model;
+/**
+ * @author João Paulo
+ *
+ * 06 de dez. de 2021
+ * 21:34:48
+ */
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -37,12 +44,15 @@ public abstract class ContaReceber implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private StatusContaReceber status;
 
+	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dtVencimento;
 
+	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dtPagamento;
 
+	@Column(nullable = false)
 	private BigDecimal valorTotal;
 
 	private BigDecimal valorDesconto;

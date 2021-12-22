@@ -1,4 +1,10 @@
 package br.com.jumbo.model;
+/**
+ * @author João Paulo
+ *
+ * 02 de dez. de 2021
+ * 21:34:48
+ */
 
 import java.util.Objects;
 

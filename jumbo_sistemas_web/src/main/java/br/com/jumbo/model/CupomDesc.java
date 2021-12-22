@@ -1,4 +1,10 @@
 package br.com.jumbo.model;
+/**
+ * @author João Paulo
+ *
+ * 06 de dez. de 2021
+ * 21:34:48
+ */
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -28,13 +34,15 @@ public class CupomDesc implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cup_desc")
 	private long Id;
    
-
+	@Column(nullable = false)
 	private String codDesc;
 	
+	@Column(nullable = false)
 	private BigDecimal valorRealDesc;
 	
 	private BigDecimal valorPercDesc;
-
+	
+	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dataValidadeCupom;
 

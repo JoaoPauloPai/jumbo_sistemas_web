@@ -1,4 +1,10 @@
 package br.com.jumbo.enums;
+/**
+ * @author João Paulo
+ *
+ * 01 de dez. de 2021
+ * 21:34:48
+ */
 
 public enum StatusContaPagar {
 	
