@@ -23,7 +23,7 @@ public class FormaPagamento implements Serializable{
 	private Long Id;
 	
 	@Column(nullable = false)
-	private String pagamDesc;
+	private String descricao;
 
 	public Long getId() {
 		return Id;
@@ -33,12 +33,14 @@ public class FormaPagamento implements Serializable{
 		Id = id;
 	}
 
-	public String getPagamDesc() {
-		return pagamDesc;
+
+
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setPagamDesc(String pagamDesc) {
-		this.pagamDesc = pagamDesc;
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	@Override

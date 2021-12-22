@@ -39,7 +39,8 @@ public class ContaPagar implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_conta_pagar")
 	private Long id;
-
+	
+	@Column(nullable = false)
 	private String descricao;
 
 	@Column(nullable = false)
@@ -55,7 +56,7 @@ public class ContaPagar implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dtVencimento;
 
-	@Column(nullable = false)
+	
 	@Temporal(TemporalType.DATE)
 	private Date dtPagamento;
 

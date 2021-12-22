@@ -37,7 +37,7 @@ public class CupomDesc implements Serializable {
 	@Column(nullable = false)
 	private String codDesc;
 	
-	@Column(nullable = false)
+	
 	private BigDecimal valorRealDesc;
 	
 	private BigDecimal valorPercDesc;

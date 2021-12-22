@@ -14,14 +14,44 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "produto")
-@SequenceGenerator(name = "seq_produto", sequenceName = "seq_produto", allocationSize = 1 , initialValue = 1)
-public class Produto implements Serializable{
+@SequenceGenerator(name = "seq_produto", sequenceName = "seq_produto", allocationSize = 1, initialValue = 1)
+public class Produto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_produto")
 	private long Id;
+
+	@Column(nullable = false)
+	private String tipoUnidade;
+
+	@Column(nullable = false)
+	private String nome;
+
+	@Column(nullable = false)
+	private Boolean ativo = Boolean.TRUE;
+
+	@Column(columnDefinition = "text", length = 2000, nullable = false)
+	private String Descricao;
+
+	@Column(nullable = false)
+	private Double peso;
+
+	@Column(nullable = false)
+	private Double largura;
+
+	@Column(nullable = false)
+	private Double Altura;
+
+	@Column(nullable = false)
+	private Double profundidade;
+
+	@Column(nullable = false)
+	private BigDecimal valorVenda = BigDecimal.ZERO;
+
+	@Column(nullable = false)
+	private Integer qtdEstoque = 0;
 
 	public long getId() {
 		return Id;
@@ -30,39 +60,14 @@ public class Produto implements Serializable{
 	public void setId(long id) {
 		Id = id;
 	}
-	
-	private String tipoUnidade;
-	
-	private String nome;
-	
-	private Boolean ativo = Boolean.TRUE ;
-	
-	@Column(columnDefinition = "text",length = 2000)
-	private String Descricao;
-	
-	/**Nota Item nota produto - ASSOCIAR**/ 
-	
-	private Double peso;
-	
-	private Double largura;
-	
-	private Double Altura;
-	
-	private Double profundidade;
-	
-	private BigDecimal valorVenda = BigDecimal.ZERO;
-	
-	private Integer qtdEstoque = 0;
-	
+
 	private Integer qtdAlertaEstoque = 0;
-	
+
 	private String linkYoutube;
-	
-	private Boolean alertaQtdEstoque = Boolean.FALSE ;
-	
+
+	private Boolean alertaQtdEstoque = Boolean.FALSE;
+
 	private Integer qtdClique = 0;
-	
-	
 
 	public Boolean getAtivo() {
 		return ativo;
@@ -196,7 +201,5 @@ public class Produto implements Serializable{
 		Produto other = (Produto) obj;
 		return Id == other.Id;
 	}
-	
-	
-	
+
 }
