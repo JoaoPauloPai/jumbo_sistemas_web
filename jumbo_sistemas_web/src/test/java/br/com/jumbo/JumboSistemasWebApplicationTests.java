@@ -1,13 +1,28 @@
 package br.com.jumbo;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class JumboSistemasWebApplicationTests {
+
+//@SpringBootTest(classes =  JumboSistemasWebApplication.class)
+public class JumboSistemasWebApplicationTests {
+	/**
+	@Autowired
+	private AcessoService acessoService;
+	
+	//  @Autowired
+	//  private AcessoRepository acessoRepository;
+	
+	
 
 	@Test
-	void contextLoads() {
+	public void testCadastraAcesso() {
+		
+		Acesso acesso = new Acesso();
+		
+		acesso.setDescricao("ROLE_ADMIN");
+		
+		acessoService.save(acesso);
+		
 	}
 
+*/
 }

@@ -7,7 +7,8 @@ package br.com.jumbo.enums;
  */
 
 public enum TipoEndereco {
-	
+
+	PRINCIPAL("pincipal"),
 	COBRANCA("Cobrança"),
 	ENTREGA("Entrega");
 	
