@@ -23,60 +23,55 @@ import br.com.jumbo.service.AcessoService;
 /**
  * @author João Paulo
  *
- * 11 de jan. de 2022
- * 18:12:35
+ *         11 de jan. de 2022 18:12:35
  */
 @Controller
 @RestController
 public class AcessoController {
-	
+
 	@Autowired
 	private AcessoService acessoService;
-	
+
 	@Autowired
 	private AcessoRepository acessoRepository;
-	
+
 	@ResponseBody
 	@PostMapping(value = "**/salvarAcesso")
-	public ResponseEntity<Acesso>salvarAcesso(@RequestBody Acesso acesso) {
-		
+	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) {
+
 		Acesso acessoSalvo = acessoService.save(acesso);
-		
+
 		return new ResponseEntity<Acesso>(acessoSalvo, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@PostMapping(value = "**/deleteAcesso")
-	public ResponseEntity<Acesso>deleteAcesso(@RequestBody Acesso acesso) {
+	public ResponseEntity<Acesso> deleteAcesso(@RequestBody Acesso acesso) {
+
 		
-		
-		 acessoRepository.deleteById(acesso.getId());
-		
+		acessoRepository.deleteById(acesso.getId());
+
 		return new ResponseEntity("Acesso deletado com sucesso!", HttpStatus.OK);
 	}
-	
 
 	@ResponseBody
 	@GetMapping(value = "**/listaAcesso")
 	public ResponseEntity<List<Acesso>> listaAcesso() {
 
 		List<Acesso> acess = acessoRepository.findAll();
-				
 
 		return new ResponseEntity<List<Acesso>>(acess, HttpStatus.OK);
 
 	}
-	
 
-	@ResponseBody 
-	@GetMapping(value = "**/buscaAcessoPorId") 
-	public ResponseEntity<Acesso>buscaacessoid(@RequestParam(name = "id") long id) {
-
+	@ResponseBody
+	@GetMapping(value = "**/buscaAcessoPorId")
+	public ResponseEntity<Acesso> buscaacessoid(@RequestParam(name = "id") long id) {
 
 		Acesso acess = acessoRepository.findById(id).get();
 
 		return new ResponseEntity<Acesso>(acess, HttpStatus.OK);
-		
+
 	}
 
 }
