@@ -3,12 +3,16 @@
  */
 package br.com.jumbo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,6 +55,28 @@ public class AcessoController {
 		return new ResponseEntity("Acesso deletado com sucesso!", HttpStatus.OK);
 	}
 	
+
+	@ResponseBody
+	@GetMapping(value = "**/listaAcesso")
+	public ResponseEntity<List<Acesso>> listaAcesso() {
+
+		List<Acesso> acess = acessoRepository.findAll();
+				
+
+		return new ResponseEntity<List<Acesso>>(acess, HttpStatus.OK);
+
+	}
 	
+
+	@ResponseBody 
+	@GetMapping(value = "**/buscaAcessoPorId") 
+	public ResponseEntity<Acesso>buscaacessoid(@RequestParam(name = "id") long id) {
+
+
+		Acesso acess = acessoRepository.findById(id).get();
+
+		return new ResponseEntity<Acesso>(acess, HttpStatus.OK);
+		
+	}
 
 }
