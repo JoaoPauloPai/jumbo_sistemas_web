@@ -23,7 +23,7 @@ public class JumboSistemasWebApplicationTests {
 
 		acesso.setDescricao("ROLE_ADMIN");
 
-		acesso = acessoController.salvarAcesso(acesso);
+		//acesso = acessoController.salvarAcesso(acesso);
 
 	}
 
