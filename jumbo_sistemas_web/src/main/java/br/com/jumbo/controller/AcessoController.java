@@ -50,6 +50,7 @@ public class AcessoController {
 
 		
 		acessoRepository.deleteById(acesso.getId());
+	
 
 		return new ResponseEntity("Acesso deletado com sucesso!", HttpStatus.OK);
 	}
@@ -73,5 +74,6 @@ public class AcessoController {
 		return new ResponseEntity<Acesso>(acess, HttpStatus.OK);
 
 	}
+	
 
 }

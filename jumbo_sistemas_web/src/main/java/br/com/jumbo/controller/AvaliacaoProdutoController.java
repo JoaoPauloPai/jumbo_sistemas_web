@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +37,17 @@ public class AvaliacaoProdutoController {
 		List<AvaliacaoProduto> avaprod = avaliacaoProdutoRepository.findAll();
 
 		return new ResponseEntity<List<AvaliacaoProduto>>(avaprod, HttpStatus.OK);
+
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/buscaAvaliacaoProdutoPorId")
+	public ResponseEntity<AvaliacaoProduto> buscaavaliacaporid(@RequestParam(name = "id") long id) {
+
+		AvaliacaoProduto avaprod = avaliacaoProdutoRepository.findById(id).get();
+				
+
+		return new ResponseEntity<AvaliacaoProduto>(avaprod, HttpStatus.OK);
 
 	}
 
