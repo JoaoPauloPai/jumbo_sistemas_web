@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -36,6 +37,16 @@ public class CategoriaProdutoController {
 		List<CategoriaProduto> catprod = categoriaProdutoRepository.findAll();
 
 		return new ResponseEntity<List<CategoriaProduto>>(catprod, HttpStatus.OK);
+
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/buscaCatProdutoPorId")
+	public ResponseEntity<CategoriaProduto> buscacatprodutoporid(@RequestParam(name = "id") long id) {
+
+		CategoriaProduto catprod = categoriaProdutoRepository.findById(id).get();
+
+		return new ResponseEntity<CategoriaProduto>(catprod, HttpStatus.OK);
 
 	}
 

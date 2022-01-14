@@ -15,22 +15,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 /**
  * @author João Paulo
  *
- * 11 de jan. de 2022
- * 19:28:12
+ *         11 de jan. de 2022 19:28:12
  */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements HttpSessionListener{
+public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements HttpSessionListener {
 
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers(HttpMethod.GET,"/salvarAcesso","/deleteAcesso","/listaAcesso",
-				"/buscaAcessoPorId","/listaProduto","/listaAvaliacaoProduto","/buscaAvaliacaoProdutoPorId",
-				"/listaPessoaFisica", "/listaCategoriaProduto")
-		.antMatchers(HttpMethod.POST,"/salvarAcesso","/deleteAcesso","/listaAcesso",
-				"/buscaAcessoPorId","/listaProduto","/listaAvaliacaoProduto","/buscaAvaliacaoProdutoPorId",
-				"/listaPessoaFisica", "/listaCategoriaProduto");
+		web.ignoring()
+				.antMatchers(HttpMethod.GET, "/salvarAcesso", "/deleteAcesso", "/listaAcesso", "/buscaAcessoPorId",
+						"/listaProduto", "/listaAvaliacaoProduto", "/buscaAvaliacaoProdutoPorId", "/listaPessoaFisica",
+						"/listaCategoriaProduto", "/buscaCatProdutoPorId")
+				.antMatchers(HttpMethod.POST, "/salvarAcesso", "/deleteAcesso", "/listaAcesso", "/buscaAcessoPorId",
+						"/listaProduto", "/listaAvaliacaoProduto", "/buscaAvaliacaoProdutoPorId", "/listaPessoaFisica",
+						"/listaCategoriaProduto", "/buscaCatProdutoPorId");
 	}
-	
+
 }
