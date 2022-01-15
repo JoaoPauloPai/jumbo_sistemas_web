@@ -27,10 +27,10 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 		web.ignoring()
 				.antMatchers(HttpMethod.GET, "/salvarAcesso", "/deleteAcesso", "/listaAcesso", "/buscaAcessoPorId",
 						"/listaProduto", "/listaAvaliacaoProduto", "/buscaAvaliacaoProdutoPorId", "/listaPessoaFisica",
-						"/listaCategoriaProduto", "/buscaCatProdutoPorId")
+						"/listaCategoriaProduto", "/buscaCatProdutoPorId", "/listaContaPagar", "/listaContaReceber")
 				.antMatchers(HttpMethod.POST, "/salvarAcesso", "/deleteAcesso", "/listaAcesso", "/buscaAcessoPorId",
 						"/listaProduto", "/listaAvaliacaoProduto", "/buscaAvaliacaoProdutoPorId", "/listaPessoaFisica",
-						"/listaCategoriaProduto", "/buscaCatProdutoPorId");
+						"/listaCategoriaProduto", "/buscaCatProdutoPorId", "/listaContaPagar", "/listaContaReceber");
 	}
 
 }
