@@ -13,33 +13,34 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.jumbo.model.ContaReceber;
-import br.com.jumbo.repository.ContaReceberRepository;
-import br.com.jumbo.service.ContaReceberService;
+import br.com.jumbo.model.Endereco;
+import br.com.jumbo.repository.EndereçoRepository;
+import br.com.jumbo.service.EnderecoService;
 
 /**
  * @author João Paulo
  *
  * 15 de jan. de 2022
- * 14:12:30
+ * 18:41:04
  */
 @Controller
 @RestController
-public class ContaReceberController {
+public class EnderecoController {
 	
 	@Autowired
-	private ContaReceberRepository contaReceberRepository;
-
+	private EnderecoService enderecoService;
+	
 	@Autowired
-	private ContaReceberService contaReceberService;
+	private EndereçoRepository endereçoRepository;
+
 	
 	@ResponseBody
-	@GetMapping(value = "**/listaContaReceber")
-	public ResponseEntity<List<ContaReceber>> listaContaReceber() {
+	@GetMapping(value = "**/listaEndereco")
+	public ResponseEntity<List<Endereco>> listaEndereco() {
 
-		List<ContaReceber> contarec = contaReceberRepository.findAll();
+		List<Endereco> end = endereçoRepository.findAll();
 
-		return new ResponseEntity<List<ContaReceber>>(contarec, HttpStatus.OK);
+		return new ResponseEntity<List<Endereco>>(end, HttpStatus.OK);
 
 	}	
 }
