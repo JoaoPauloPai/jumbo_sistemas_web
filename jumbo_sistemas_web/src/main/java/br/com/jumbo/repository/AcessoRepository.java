@@ -22,7 +22,7 @@ import br.com.jumbo.model.Acesso;
 @Transactional
 public interface AcessoRepository extends JpaRepository<Acesso, Long>{
 	
-	//@Query("select a from Acesso a where upper(trim(a.descrricao))like %?1%")
-	//List<Acesso> buscarAcessoDesc(String desc);
+	@Query("select a from acesso a where upper(trim(a.descrricao))like %?1%")
+	List<Acesso> buscaAcessoDesc(String desc);
 
 }

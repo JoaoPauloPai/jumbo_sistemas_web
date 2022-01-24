@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -48,11 +50,18 @@ public class AcessoController {
 	@PostMapping(value = "**/deleteAcesso")
 	public ResponseEntity<Acesso> deleteAcesso(@RequestBody Acesso acesso) {
 
-		
 		acessoRepository.deleteById(acesso.getId());
-	
 
 		return new ResponseEntity("Acesso deletado com sucesso!", HttpStatus.OK);
+	}
+
+	@ResponseBody
+	@DeleteMapping(value = "**/deleteAcessoPorId/{id}")
+	public ResponseEntity<?> deleteAcessoPorId(@PathVariable("id") Long id) {
+
+		acessoRepository.deleteById(id);
+
+		return new ResponseEntity("Acesso deletado por Id com sucesso!", HttpStatus.OK);
 	}
 
 	@ResponseBody
@@ -66,7 +75,7 @@ public class AcessoController {
 	}
 
 	@ResponseBody
-	@GetMapping(value = "**/buscaAcessoPorId")
+	@GetMapping(value = "**/buscaAcessoPorId/{id}")
 	public ResponseEntity<Acesso> buscaacessoid(@RequestParam(name = "id") long id) {
 
 		Acesso acess = acessoRepository.findById(id).get();
@@ -75,5 +84,13 @@ public class AcessoController {
 
 	}
 	
+	@ResponseBody
+	@GetMapping(value = "**/buscaAcessoPorDesc/{desc}")
+	public ResponseEntity<List<Acesso>> buscarPorDesc(@PathVariable("desc") String desc) { 
+		
+		List<Acesso> acess = acessoRepository.buscaAcessoDesc(desc);
+		
+		return new ResponseEntity<List<Acesso>>(acess,HttpStatus.OK);
+	}
 
 }
