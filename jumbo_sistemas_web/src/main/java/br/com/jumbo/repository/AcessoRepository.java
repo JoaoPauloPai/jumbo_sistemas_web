@@ -15,14 +15,14 @@ import br.com.jumbo.model.Acesso;
 /**
  * @author João Paulo
  *
- * 11 de jan. de 2022
- * 18:22:33
+ *         11 de jan. de 2022 18:22:33
  */
 @Repository
 @Transactional
-public interface AcessoRepository extends JpaRepository<Acesso, Long>{
-	
-	@Query("select a from acesso a where upper(trim(a.descrricao))like %?1%")
+public interface AcessoRepository extends JpaRepository<Acesso, Long> {
+
+	@Query("select a from Acesso a where upper(trim(a.descricao)) like %?1%")
+
 	List<Acesso> buscaAcessoDesc(String desc);
 
 }

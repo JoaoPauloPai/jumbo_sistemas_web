@@ -1,4 +1,5 @@
 package br.com.jumbo.model;
+
 /**
  * @author João Paulo
  *
@@ -31,7 +32,7 @@ public class Acesso implements GrantedAuthority {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_acesso")
 	private Long id;
 
-	@Column(name= "descricao" , nullable = false)
+	@Column(name = "descricao", nullable = false)
 	private String descricao; /* Acesso Ex. ROLE_ADMIN ROLE_SECRETARIO */
 
 	@JsonIgnore
@@ -59,7 +60,10 @@ public class Acesso implements GrantedAuthority {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
