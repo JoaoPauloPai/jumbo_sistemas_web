@@ -25,11 +25,13 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring()
-				.antMatchers(HttpMethod.GET, "/salvarAcesso", "/deleteAcesso", "/listaAcesso", "/buscaAcessoPorId",
+				.antMatchers(HttpMethod.GET, "/salvarAcesso", "/outroDeleteAcesso", "/listaAcesso", "/outraBuscaAcessoPorId",
+						"/buscaAcessoPorId/{id}","/buscaAcessoPorDesc/{desc}",
 						"/listaProduto", "/listaAvaliacaoProduto", "/buscaAvaliacaoProdutoPorId", "/listaPessoaFisica",
 						"/listaCategoriaProduto", "/buscaCatProdutoPorId", "/listaContaPagar", "/listaContaReceber",
 						"/listaCupomDesconto", "/listaEndereco", "/deleteAvaliacaoProduto")
-				.antMatchers(HttpMethod.POST, "/salvarAcesso", "/deleteAcesso", "/listaAcesso", "/buscaAcessoPorId",
+				.antMatchers(HttpMethod.POST, "/salvarAcesso", "/outroDeleteAcesso", "/listaAcesso", "/outraBuscaAcessoPorId",
+						"/buscaAcessoPorId/{id}","/buscaAcessoPorDesc/{desc}",
 						"/listaProduto", "/listaAvaliacaoProduto", "/buscaAvaliacaoProdutoPorId", "/listaPessoaFisica",
 						"/listaCategoriaProduto", "/buscaCatProdutoPorId", "/listaContaPagar", "/listaContaReceber",
 						"/listaCupomDesconto", "/listaEndereco", "/deleteAvaliacaoProduto");

@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
 @EntityScan(basePackages = "br.com.jumbo.model")
-@ComponentScan(basePackages = {"br.*"} )
+@ComponentScan(basePackages = {"br.*"})
 @EnableJpaRepositories(basePackages = "br.com.jumbo.repository")
 @EnableTransactionManagement
 public class JumboSistemasWebApplication {

@@ -47,7 +47,7 @@ public class AcessoController {
 	}
 
 	@ResponseBody
-	@PostMapping(value = "**/deleteAcesso")
+	@PostMapping(value = "**/outroDeleteAcesso")
 	public ResponseEntity<?> deleteAcesso(@RequestBody Acesso acesso) {
 
 		acessoRepository.deleteById(acesso.getId());
@@ -92,5 +92,17 @@ public class AcessoController {
 		
 		return new ResponseEntity<List<Acesso>>(acess,HttpStatus.OK);
 	}
+	
+	@GetMapping(value = "**/outraBuscaAcessoPorId") 
+	@ResponseBody
+	public ResponseEntity<Acesso> buscaUsuarioPorId(@RequestParam(name = "id") long id) {
+
+	
+		Acesso acess = acessoRepository.findById(id).get();
+			
+
+		return new ResponseEntity<Acesso>(acess, HttpStatus.OK);
+	}
+
 
 }
