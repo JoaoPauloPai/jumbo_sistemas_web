@@ -5,11 +5,17 @@ package br.com.jumbo.security;
 
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import br.com.jumbo.AplicationContextLoad;
+import br.com.jumbo.model.Usuario;
+import br.com.jumbo.repository.UsuarioRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
@@ -54,9 +60,62 @@ public class JWTTokenAutenticacaoService {
 		 * javascript, outra chamadajava
 		 */
 		response.addHeader(HEADER_STRING, token);
+		liberacaoCors(response);
 
 		/* Usado para ver no Postman para teste */
 		response.getWriter().write("{\"Authorization\": \"" + token + "\"}");
+
+	}
+
+	/* Retorna usuario validado com Token ou caso não seja retorna Null */
+	public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
+
+		String token = request.getHeader(HEADER_STRING);
+
+		if (token != null) {
+
+			String tokenlimpo = token.replace(TOKEN_PREFIX, "").trim();
+
+			/* Faz a validação do Token do usuario na requesição e obtem o User */
+			String user = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(tokenlimpo).getBody().getSubject();
+
+			if (user != null) {
+
+				Usuario usuario = AplicationContextLoad.getApplicationContext().getBean(UsuarioRepository.class)
+						.findeUserByLogin(user);
+
+				if (usuario != null) {
+					return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
+							usuario.getAuthorities());
+				}
+
+			}
+
+		}
+
+		liberacaoCors(response);
+		return null;
+	}
+
+	// Fazendo liberação contra erro de Cors
+	private void liberacaoCors(HttpServletResponse response) {
+
+		if (response.getHeader("Acess-Control-Allow-Oringin") == null) {
+			response.addHeader("Acess-Control-Allow-Oringin", "*");
+
+		}
+
+		if (response.getHeader("Acess-Control-Allow-Headers") == null) {
+			response.addHeader("Acess-Control-Allow-Headers", "*");
+		}
+
+		if (response.getHeader("Acess-Control-Request-Headrs") == null) {
+			response.addHeader("Acess-Control-Request-Headrs", "*");
+		}
+
+		if (response.getHeader("Acess-Control-Allow-Methods") == null) {
+			response.addHeader("Acess-Control-Allow-Methods", "*");
+		}
 
 	}
 }
