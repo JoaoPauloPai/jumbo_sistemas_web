@@ -27,7 +27,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 /* Criar a autenticação e retonar também a autenticação JWT */
 @Service
 @Component
-public class JWTTokenAutenticacaoService {
+public class JwtTokenAutenticacaoService {
 
 	/* Token de validade de 11 dias */
 	private static final long EXPIRATION_TIME = 959990000;
