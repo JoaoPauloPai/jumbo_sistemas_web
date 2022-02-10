@@ -47,7 +47,7 @@ public class AcessoController {
 	}
 
 	@ResponseBody
-	@PostMapping(value = "**/outroDeleteAcesso")
+	@PostMapping(value = "**/deleteAcesso")
 	public ResponseEntity<?> deleteAcesso(@RequestBody Acesso acesso) {
 
 		acessoRepository.deleteById(acesso.getId());

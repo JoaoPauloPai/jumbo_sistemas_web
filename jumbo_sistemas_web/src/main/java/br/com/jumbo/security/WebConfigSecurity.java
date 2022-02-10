@@ -55,12 +55,22 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 				.addFilterBefore(new JwtApiAutenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
 	}
-
+	
+	/*Irá consultar o user no banco com Spring Security*/
 	@Override
-	public void configure(WebSecurity web) throws Exception{
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(implementacaoUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+		
+	}
+
+	/* Ignora a autenticação */
+	@Override
+	public void configure(WebSecurity auth) throws Exception {
+
 		/*
-		 * web.ignoring() .antMatchers(HttpMethod.GET, "/salvarAcesso",
-		 * "/outroDeleteAcesso", "/listaAcesso", "/outraBuscaAcessoPorId",
+		 * web.ignoring() .antMatchers(//HttpMethod.GET, "/salvarAcesso").
+		 * antMatchers(HttpMethod.POST,"/salvarAcesso"); "/outroDeleteAcesso",
+		 * "/listaAcesso", "/outraBuscaAcessoPorId",
 		 * "/buscaAcessoPorId/{id}","/buscaAcessoPorDesc/{desc}", "/listaProduto",
 		 * "/listaAvaliacaoProduto", "/buscaAvaliacaoProdutoPorId",
 		 * "/listaPessoaFisica", "/listaCategoriaProduto", "/buscaCatProdutoPorId",
@@ -75,5 +85,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 		 * "/listaEndereco", "/deleteAvaliacaoProduto");
 		 */
 	}
+	
+	
 
 }

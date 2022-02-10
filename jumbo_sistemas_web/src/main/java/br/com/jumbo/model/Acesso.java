@@ -23,7 +23,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "acesso")
 @SequenceGenerator(name = "seq_acesso", sequenceName = "seq_acesso", initialValue = 1, allocationSize = 1)
 public class Acesso implements GrantedAuthority {
-
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -31,7 +30,7 @@ public class Acesso implements GrantedAuthority {
 	private Long id;
 
 	@Column(nullable = false)
-	private String descricao;
+	private String descricao; /* Acesso ex: ROLE_ADMIN ou ROLE_SECRETARIO */
 
 	@JsonIgnore
 	@Override
@@ -54,14 +53,14 @@ public class Acesso implements GrantedAuthority {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-/*
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
-	}*/
+	}
 
 	@Override
 	public boolean equals(Object obj) {
