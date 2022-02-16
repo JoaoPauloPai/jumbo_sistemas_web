@@ -8,7 +8,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.catalina.connector.Response;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -17,9 +17,12 @@ import org.springframework.stereotype.Service;
 import br.com.jumbo.AplicationContextLoad;
 import br.com.jumbo.model.Usuario;
 import br.com.jumbo.repository.UsuarioRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
+
+
 
 /**
  * @author João Paulo
@@ -100,13 +103,15 @@ public class JWTTokenAutenticacaoService {
 				}
 
 			}
-		} catch(SignatureException e){
-			response.getWriter().write("Token está inválido!");
+		} catch (SignatureException e) {
+			response.getWriter().write("Token está inválido.");
+
+		} catch (ExpiredJwtException e) {
+			response.getWriter().write("Token está expirado, efetue o login novamente.");
 		} finally {
-
 			liberacaoCors(response);
-
 		}
+
 		return null;
 	}
 
