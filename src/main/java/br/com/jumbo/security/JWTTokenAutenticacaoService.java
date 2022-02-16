@@ -3,11 +3,12 @@
  */
 package br.com.jumbo.security;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.apache.catalina.connector.Response;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import br.com.jumbo.model.Usuario;
 import br.com.jumbo.repository.UsuarioRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
 
 /**
  * @author João Paulo
@@ -70,34 +72,41 @@ public class JWTTokenAutenticacaoService {
 	}
 
 	/* Retorna o usuário validado com token ou caso nao seja valido retona null */
-	public Authentication getAuthetication(HttpServletRequest request, HttpServletResponse response) {
+	public Authentication getAuthetication(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
 
 		String token = request.getHeader(HEADER_STRING);
 
-		if (token != null) {
+		try {
 
-			String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
+			if (token != null) {
 
-			/* Faz a validacao do token do usuário na requisicao e obtem o USER */
-			String user = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(tokenLimpo).getBody()
-					.getSubject(); /* ADMIN ou Alex */
+				String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
 
-			if (user != null) {
+				/* Faz a validacao do token do usuário na requisicao e obtem o USER */
+				String user = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(tokenLimpo).getBody()
+						.getSubject(); /* ADMIN ou Alex */
 
-				Usuario usuario = AplicationContextLoad.
-						getApplicationContext().getBean(UsuarioRepository.class)
-						.findUserByLogin(user);
+				if (user != null) {
 
-				if (usuario != null) {
-					return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
-							usuario.getAuthorities());
+					Usuario usuario = AplicationContextLoad.getApplicationContext().getBean(UsuarioRepository.class)
+							.findUserByLogin(user);
+
+					if (usuario != null) {
+						return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
+								usuario.getAuthorities());
+					}
+
 				}
 
 			}
+		} catch(SignatureException e){
+			response.getWriter().write("Token está inválido!");
+		} finally {
+
+			liberacaoCors(response);
 
 		}
-
-		liberacaoCors(response);
 		return null;
 	}
 
