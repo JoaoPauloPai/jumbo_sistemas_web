@@ -93,11 +93,11 @@ public class AcessoController {
 		return new ResponseEntity<List<Acesso>>(acess,HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "**/outraBuscaAcessoPorId") 
+	@GetMapping(value = "**/buscaAcessoPorId/{id}") 
 	@ResponseBody
-	public ResponseEntity<Acesso> buscaUsuarioPorId(@RequestParam(name = "id") long id) {
-
-	
+	public ResponseEntity<Acesso> buscaUsuarioPorId(@PathVariable("id") Long id){
+		
+	 	
 		Acesso acess = acessoRepository.findById(id).get();
 			
 

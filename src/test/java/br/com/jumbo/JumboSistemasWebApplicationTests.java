@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 @SpringBootTest(classes = JumboSistemasWebApplication.class)
 public class JumboSistemasWebApplicationTests extends TestCase {
-/*
+
 	@Autowired
 	private AcessoController acessoController;
 
@@ -34,10 +34,10 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 
 	@Autowired
 	private WebApplicationContext wac;
-	*/
+	
 
 	/* Teste do end-point de salvar */
-	/*
+	
 	@Test
 	public void testRestApiCadastroAcesso() throws JsonProcessingException, Exception {
 
@@ -62,10 +62,10 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 		assertEquals(acesso.getDescricao(), objetoRetorno.getDescricao());
 
 	}
-	*/
+	
 
 	/* Teste do end-point de Delete */
-	/*
+	
 	@Test
 	public void testRestApiDeleteAcesso() throws JsonProcessingException, Exception {
 
@@ -91,10 +91,10 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
 
 	}
-	*/
+	
 
 	/* Teste Delete por ID */
-	/*
+	
 	@Test
 	public void testRestApiDeleteAcessoPorId() throws JsonProcessingException, Exception {
 
@@ -120,10 +120,9 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
 
 	}
-	*/
+	
 
 	/* Teste Busca Acesso por ID */
-	/*
 	@Test
 	public void testRestApiBuscaAcessoPorId() throws JsonProcessingException, Exception {
 
@@ -142,19 +141,18 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 				.content(objectMapper.writeValueAsString(acesso)).accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON));
 
-		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
-		*/
+	    assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
+		
 
-	//	Acesso acessoRetorno = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(),
-	//			Acesso.class);
+		Acesso acessoRetorno = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(),
+				Acesso.class);
 
-	//	assertEquals(acesso.getDescricao(), acessoRetorno.getDescricao());
+		assertEquals(acesso.getDescricao(), acessoRetorno.getDescricao());
 
-	//	assertEquals(acesso.getId(), acessoRetorno.getId());
-
-		/*
+		assertEquals(acesso.getId(), acessoRetorno.getId());
+		
 	}
-	
+
 	
 	@Test
 	public void testRestApiBuscaAcessoDesc() throws JsonProcessingException, Exception {
@@ -192,56 +190,56 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 	    acessoRepository.deleteById(acesso.getId());
 	    
 	}
-	*/
+	
 
-	// @Test
-	// public void testCadastraAcesso() {
+	@Test
+	 public void testCadastraAcesso() {
 
-	// Acesso acesso = new Acesso();
+	 Acesso acesso = new Acesso();
 
-	// acesso.setDescricao("ROLE_ADMIN");
+	 acesso.setDescricao("ROLE_ADMIN");
 
-	// assertEquals(true, acesso.getId() == null);
+	 assertEquals(true, acesso.getId() == null);
 
 	/* Grava no BD */
 
-	// acesso = acessoController.salvarAcesso(acesso).getBody();
+	acesso = acessoController.salvarAcesso(acesso).getBody();
 
-	// assertEquals(true, acesso.getId() > 0);
+	 assertEquals(true, acesso.getId() > 0);
 
 	/* Valida dado salvos de forma correta */
 
-	// assertEquals("ROLE_ADMIN", acesso.getDescricao());
+	 assertEquals("ROLE_ADMIN", acesso.getDescricao());
 
 	/* Teste de Carregamento */
-	// Acesso acesso2 = acessoRepository.findById(acesso.getId()).get();
+	 Acesso acesso2 = acessoRepository.findById(acesso.getId()).get();
 
-	// assertEquals(acesso.getId(), acesso2.getId());
+	 assertEquals(acesso.getId(), acesso2.getId());
 
 	/* Teste de Delete */
 
-	// acessoRepository.deleteById(acesso2.getId());
+	 acessoRepository.deleteById(acesso2.getId());
 
-	// acessoRepository.flush();
+	 acessoRepository.flush();
 
-	// Acesso acesso3 = acessoRepository.findById(acesso2.getId()).orElse(null);
+	 Acesso acesso3 = acessoRepository.findById(acesso2.getId()).orElse(null);
 
-	// assertEquals(true, acesso3 == null);
+	 assertEquals(true, acesso3 == null);
 
 	/* Teste de query */
-	// acesso = new Acesso();
+	 acesso = new Acesso();
 
-	// acesso.setDescricao("ROLE_ALUNO");
+	 acesso.setDescricao("ROLE_ALUNO");
 
-	// acesso = acessoController.salvarAcesso(acesso).getBody();
+	 acesso = acessoController.salvarAcesso(acesso).getBody();
 
-	// List<Acesso> acessos =
-	// acessoRepository.buscarAcessoDesc("ALUNO".trim().toUpperCase());
+	 List<Acesso> acessos =
+	 acessoRepository.buscaAcessoDesc("ALUNO".trim().toUpperCase());
 
-	// assertEquals(1, acessos.size());
+	 assertEquals(1, acessos.size());
 
-	// acessoRepository.deleteById(acesso.getId());
+	 acessoRepository.deleteById(acesso.getId());
 
-	// }
+	 }
 
 }
