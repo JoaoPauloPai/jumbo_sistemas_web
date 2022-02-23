@@ -49,6 +49,7 @@ public class AcessoController {
 	@ResponseBody
 	@PostMapping(value = "**/deleteAcesso")
 	public ResponseEntity<?> deleteAcesso(@RequestBody Acesso acesso) {
+	
 
 		acessoRepository.deleteById(acesso.getId());
 
@@ -76,7 +77,7 @@ public class AcessoController {
 
 	@ResponseBody
 	@GetMapping(value = "**/buscaAcessoPorId/{id}")
-	public ResponseEntity<Acesso> buscaacessoid(@RequestParam(name = "id") long id) {
+	public ResponseEntity<Acesso> buscaAcessoPorId(@RequestParam(name = "id") long id) {
 
 		Acesso acess = acessoRepository.findById(id).get();
 
@@ -85,7 +86,7 @@ public class AcessoController {
 	}
 	
 	@ResponseBody
-	@GetMapping(value = "**/buscaAcessoPorDesc/{desc}")
+	@GetMapping(value = "**/*erro*buscaAcessoPorDesc/{desc}")
 	public ResponseEntity<List<Acesso>> buscarPorDesc(@PathVariable("desc") String desc) { 
 		
 		List<Acesso> acess = acessoRepository.buscaAcessoDesc(desc);
@@ -93,9 +94,9 @@ public class AcessoController {
 		return new ResponseEntity<List<Acesso>>(acess,HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "**/buscaAcessoPorId/{id}") 
+	@GetMapping(value = "**/*erro*buscaAcessoPorId/{id}") 
 	@ResponseBody
-	public ResponseEntity<Acesso> buscaUsuarioPorId(@PathVariable("id") Long id){
+	public ResponseEntity<Acesso> buscaAcessoPorId(@PathVariable("id") Long id){
 		
 	 	
 		Acesso acess = acessoRepository.findById(id).get();
