@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.Acesso;
 import br.com.jumbo.repository.AcessoRepository;
 import br.com.jumbo.service.AcessoService;
@@ -39,7 +40,15 @@ public class AcessoController {
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarAcesso")
-	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) {
+	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) throws ExceptionJumboSistemas {
+		
+		if (acesso.getId() == null) {
+			  List<Acesso> acessos = acessoRepository.buscaAcessoDesc(acesso.getDescricao().toUpperCase());
+			  
+			  if (!acessos.isEmpty()) {
+				  throw new ExceptionJumboSistemas("Já existe Acesso com a descrição: " + acesso.getDescricao());
+			  }
+			}
 
 		Acesso acessoSalvo = acessoService.save(acesso);
 
@@ -49,7 +58,6 @@ public class AcessoController {
 	@ResponseBody
 	@PostMapping(value = "**/deleteAcesso")
 	public ResponseEntity<?> deleteAcesso(@RequestBody Acesso acesso) {
-	
 
 		acessoRepository.deleteById(acesso.getId());
 
@@ -77,33 +85,26 @@ public class AcessoController {
 
 	@ResponseBody
 	@GetMapping(value = "**/buscaAcessoPorId/{id}")
-	public ResponseEntity<Acesso> buscaAcessoPorId(@RequestParam(name = "id") long id) {
+	public ResponseEntity<Acesso> buscaAcessoPorId(@RequestParam(name = "id") long id) throws ExceptionJumboSistemas {
 
-		Acesso acess = acessoRepository.findById(id).get();
-
-		return new ResponseEntity<Acesso>(acess, HttpStatus.OK);
-
-	}
-	
-	@ResponseBody
-	@GetMapping(value = "**/*erro*buscaAcessoPorDesc/{desc}")
-	public ResponseEntity<List<Acesso>> buscarPorDesc(@PathVariable("desc") String desc) { 
+		Acesso acess = acessoRepository.findById(id).orElse(null);
 		
-		List<Acesso> acess = acessoRepository.buscaAcessoDesc(desc);
-		
-		return new ResponseEntity<List<Acesso>>(acess,HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "**/*erro*buscaAcessoPorId/{id}") 
-	@ResponseBody
-	public ResponseEntity<Acesso> buscaAcessoPorId(@PathVariable("id") Long id){
-		
-	 	
-		Acesso acess = acessoRepository.findById(id).get();
+		if(acess == null) {
 			
+			throw new ExceptionJumboSistemas("Não encotrado Acesso com código "+ id);
+		}
 
 		return new ResponseEntity<Acesso>(acess, HttpStatus.OK);
+
 	}
 
+	@ResponseBody
+	@GetMapping(value = "**/buscaAcessoDesc/{desc}")
+	public ResponseEntity<List<Acesso>> buscaAcessoDesc(@PathVariable("desc") String desc) {
+
+		List<Acesso> acess = acessoRepository.buscaAcessoDesc(desc.toUpperCase());
+
+		return new ResponseEntity<List<Acesso>>(acess, HttpStatus.OK);
+	}
 
 }

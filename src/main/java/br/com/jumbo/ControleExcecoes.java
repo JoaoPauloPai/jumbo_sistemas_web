@@ -29,6 +29,18 @@ import br.com.jumbo.model.dto.ObjetoErroDTO;
 @RestControllerAdvice
 @ControllerAdvice
 public class ControleExcecoes extends ResponseEntityExceptionHandler {
+	
+	
+	@ExceptionHandler(ExceptionJumboSistemas.class)
+	public ResponseEntity<Object> handleExceptionCustom (ExceptionJumboSistemas ex) {
+		
+		ObjetoErroDTO objetoErroDTO = new ObjetoErroDTO();
+		
+		objetoErroDTO.setError(ex.getMessage());
+		objetoErroDTO.setCode(HttpStatus.OK.toString());
+		
+		return new ResponseEntity<Object>(objetoErroDTO, HttpStatus.OK);
+	}
 
 	@ExceptionHandler({ Exception.class, RuntimeException.class, Throwable.class })
 	@Override
