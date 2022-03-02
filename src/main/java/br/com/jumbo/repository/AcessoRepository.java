@@ -23,7 +23,5 @@ public interface AcessoRepository extends JpaRepository<Acesso, Long> {
 
 	@Query("select a from Acesso a where upper(trim(a.descricao)) like %?1%")
 
-	List<Acesso>buscaAcessoDesc(String desc);
+	List<Acesso> buscaAcessoDesc(String desc);
 }
-
-

@@ -45,7 +45,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 
 		Acesso acesso = new Acesso();
 
-	    acesso.setDescricao("ROLE_COMPRADOR" + Calendar.getInstance().getTimeInMillis());
+		acesso.setDescricao("ROLE_COMPRADOR" + Calendar.getInstance().getTimeInMillis());
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
@@ -55,6 +55,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 
 		System.out.println("Retorno da API : " + retornoApi.andReturn().getResponse().getContentAsString());
 
+		/* Conveter o retorno da API para um obejto de acesso */
 		Acesso objetoRetorno = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(),
 				Acesso.class);
 
@@ -119,6 +120,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 	}
 
 	/* Teste Busca Acesso por ID */
+
 	@Test
 	public void testRestApiBuscaAcessoPorId() throws JsonProcessingException, Exception {
 
@@ -147,7 +149,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 		assertEquals(acesso.getId(), acessoRetorno.getId());
 
 	}
-
+/*
 	@Test
 	public void testRestApiBuscaAcessoDesc() throws JsonProcessingException, Exception {
 
@@ -179,10 +181,11 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 		acessoRepository.deleteById(acesso.getId());
 
 	}
+	*/
 
 	@Test
 	public void testCadastraAcesso() throws ExceptionJumboSistemas {
-		
+
 		String descacesso = "ROLE_ADMIN" + Calendar.getInstance().getTimeInMillis();
 
 		Acesso acesso = new Acesso();
@@ -193,7 +196,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 
 		/* Grava no BD */
 
-		 acesso = acessoController.salvarAcesso(acesso).getBody();
+		acesso = acessoController.salvarAcesso(acesso).getBody();
 
 		assertEquals(true, acesso.getId() > 0);
 
@@ -202,6 +205,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 		assertEquals(descacesso, acesso.getDescricao());
 
 		/* Teste de Carregamento */
+
 		Acesso acesso2 = acessoRepository.findById(acesso.getId()).get();
 
 		assertEquals(acesso.getId(), acesso2.getId());
@@ -217,11 +221,12 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 		assertEquals(true, acesso3 == null);
 
 		/* Teste de query */
+
 		acesso = new Acesso();
 
 		acesso.setDescricao("ROLE_ALUNO");
 
-		//acesso = acessoController.salvarAcesso(acesso).getBody();
+		acesso = acessoController.salvarAcesso(acesso).getBody();
 
 		List<Acesso> acessos = acessoRepository.buscaAcessoDesc("ALUNO".trim().toUpperCase());
 

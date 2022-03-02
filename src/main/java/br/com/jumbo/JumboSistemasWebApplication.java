@@ -24,7 +24,7 @@ public class JumboSistemasWebApplication {
 
 	public static void main(String[] args) {
 
-		 //System.out.println("senha : "+new BCryptPasswordEncoder().encode("123"));
+		// System.out.println("senha : "+new BCryptPasswordEncoder().encode("123"));
 
 		SpringApplication.run(JumboSistemasWebApplication.class, args);
 

@@ -30,7 +30,7 @@ public class PessoaFisicaController {
 	@GetMapping(value = "**/listaPessoaFisica")
 	public ResponseEntity<List<PessoaFisica>> listaPessoaFisica() {
 
-		List<PessoaFisica> pessfis = pessoaFisicaRepository.findAll();
+		List<PessoaFisica> pessfis = (List<PessoaFisica>) pessoaFisicaRepository.findAll();
 
 		return new ResponseEntity<List<PessoaFisica>>(pessfis, HttpStatus.OK);
 

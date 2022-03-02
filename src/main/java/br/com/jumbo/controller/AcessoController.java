@@ -85,7 +85,7 @@ public class AcessoController {
 
 	@ResponseBody
 	@GetMapping(value = "**/buscaAcessoPorId/{id}")
-	public ResponseEntity<Acesso> buscaAcessoPorId(@RequestParam(name = "id") long id) throws ExceptionJumboSistemas {
+	public ResponseEntity<Acesso> buscaAcessoPorId(@PathVariable(name = "id") long id) throws ExceptionJumboSistemas {
 
 		Acesso acess = acessoRepository.findById(id).orElse(null);
 
