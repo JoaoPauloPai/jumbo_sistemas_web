@@ -17,25 +17,42 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "imagem_produto")
-@SequenceGenerator(name = "seq_imagem_produto", sequenceName = "seq_imagem_produto", allocationSize = 1 , initialValue = 1)
-public class ImagemProduto  implements Serializable{
+@SequenceGenerator(name = "seq_imagem_produto", sequenceName = "seq_imagem_produto", allocationSize = 1, initialValue = 1)
+public class ImagemProduto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_imagem_produto")
 	private long Id;
 
-	@Column(columnDefinition = "text", nullable = false )
+	@Column(columnDefinition = "text", nullable = false)
 	private String imagemOriginal;
 
 	@Column(columnDefinition = "text", nullable = false)
 	private String imagemMiniatura;
 
 	@ManyToOne
-	@JoinColumn(name = "produto_id", nullable = false,
-	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
+	@JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
 	private Produto produto;
+
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private Pessoa empresa;
+
+	/**
+	 * @return the empresa
+	 */
+	public Pessoa getEmpresa() {
+		return empresa;
+	}
+
+	/**
+	 * @param empresa the empresa to set
+	 */
+	public void setEmpresa(Pessoa empresa) {
+		this.empresa = empresa;
+	}
 
 	public long getId() {
 		return Id;
@@ -85,8 +102,5 @@ public class ImagemProduto  implements Serializable{
 		ImagemProduto other = (ImagemProduto) obj;
 		return Id == other.Id;
 	}
-	
-	
-
 
 }

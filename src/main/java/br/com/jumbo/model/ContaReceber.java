@@ -1,4 +1,5 @@
 package br.com.jumbo.model;
+
 /**
  * @author João Paulo
  *
@@ -34,7 +35,7 @@ import br.com.jumbo.enums.StatusContaReceber;
 public abstract class ContaReceber implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_conta_receber")
 	private Long id;
@@ -62,6 +63,24 @@ public abstract class ContaReceber implements Serializable {
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
+
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private Pessoa empresa;
+
+	/**
+	 * @return the empresa
+	 */
+	public Pessoa getEmpresa() {
+		return empresa;
+	}
+
+	/**
+	 * @param empresa the empresa to set
+	 */
+	public void setEmpresa(Pessoa empresa) {
+		this.empresa = empresa;
+	}
 
 	public Long getId() {
 		return id;
@@ -152,6 +171,4 @@ public abstract class ContaReceber implements Serializable {
 		return true;
 	}
 
-
-	
 }

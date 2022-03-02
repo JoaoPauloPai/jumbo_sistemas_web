@@ -49,7 +49,7 @@ public class ContaPagarController {
 	@GetMapping(value = "**/buscaContaPagarPorId/{id}")
 	public ResponseEntity<ContaPagar> buscaContaPagarPorId(@RequestParam(name = "id") long id) throws ExceptionJumboSistemas {
 		
-	}
+	
 
 	// Acesso acess = acessoRepository.findById(id).orElse(null);
 

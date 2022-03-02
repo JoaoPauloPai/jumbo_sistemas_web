@@ -41,14 +41,14 @@ public class AcessoController {
 	@ResponseBody
 	@PostMapping(value = "**/salvarAcesso")
 	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) throws ExceptionJumboSistemas {
-		
+
 		if (acesso.getId() == null) {
-			  List<Acesso> acessos = acessoRepository.buscaAcessoDesc(acesso.getDescricao().toUpperCase());
-			  
-			  if (!acessos.isEmpty()) {
-				  throw new ExceptionJumboSistemas("Já existe Acesso com a descrição: " + acesso.getDescricao());
-			  }
+			List<Acesso> acessos = acessoRepository.buscaAcessoDesc(acesso.getDescricao().toUpperCase());
+
+			if (!acessos.isEmpty()) {
+				throw new ExceptionJumboSistemas("Já existe Acesso com a descrição: " + acesso.getDescricao());
 			}
+		}
 
 		Acesso acessoSalvo = acessoService.save(acesso);
 
@@ -88,10 +88,10 @@ public class AcessoController {
 	public ResponseEntity<Acesso> buscaAcessoPorId(@RequestParam(name = "id") long id) throws ExceptionJumboSistemas {
 
 		Acesso acess = acessoRepository.findById(id).orElse(null);
-		
-		if(acess == null) {
-			
-			throw new ExceptionJumboSistemas("Não encotrado Acesso com código "+ id);
+
+		if (acess == null) {
+
+			throw new ExceptionJumboSistemas("Não encotrado Acesso com código " + id);
 		}
 
 		return new ResponseEntity<Acesso>(acess, HttpStatus.OK);

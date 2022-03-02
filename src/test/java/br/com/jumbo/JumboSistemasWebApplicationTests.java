@@ -1,5 +1,6 @@
 package br.com.jumbo;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 
 		Acesso acesso = new Acesso();
 
-		acesso.setDescricao("ROLE_COMPRADOR");
+	    acesso.setDescricao("ROLE_COMPRADOR" + Calendar.getInstance().getTimeInMillis());
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
@@ -180,23 +181,25 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 	}
 
 	@Test
-	public void testCadastraAcesso() {
+	public void testCadastraAcesso() throws ExceptionJumboSistemas {
+		
+		String descacesso = "ROLE_ADMIN" + Calendar.getInstance().getTimeInMillis();
 
 		Acesso acesso = new Acesso();
 
-		acesso.setDescricao("ROLE_ADMIN");
+		acesso.setDescricao(descacesso);
 
 		assertEquals(true, acesso.getId() == null);
 
 		/* Grava no BD */
 
-		// acesso = acessoController.salvarAcesso(acesso);
+		 acesso = acessoController.salvarAcesso(acesso).getBody();
 
 		assertEquals(true, acesso.getId() > 0);
 
 		/* Valida dado salvos de forma correta */
 
-		assertEquals("ROLE_ADMIN", acesso.getDescricao());
+		assertEquals(descacesso, acesso.getDescricao());
 
 		/* Teste de Carregamento */
 		Acesso acesso2 = acessoRepository.findById(acesso.getId()).get();
