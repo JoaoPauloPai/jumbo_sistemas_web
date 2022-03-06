@@ -149,7 +149,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 		assertEquals(acesso.getId(), acessoRetorno.getId());
 
 	}
-/*
+
 	@Test
 	public void testRestApiBuscaAcessoDesc() throws JsonProcessingException, Exception {
 
@@ -167,6 +167,8 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 		ResultActions retornoApi = mockMvc.perform(MockMvcRequestBuilders.get("/buscaAcessoPorDesc/OBTER_LIST")
 				.content(objectMapper.writeValueAsString(acesso)).accept(MediaType.APPLICATION_JSON)
 				.contentType(MediaType.APPLICATION_JSON));
+	}
+/*
 
 		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
 
