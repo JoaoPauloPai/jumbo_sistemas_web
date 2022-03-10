@@ -3,11 +3,14 @@
  */
 package br.com.jumbo;
 
+import java.util.Calendar;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 
+import br.com.jumbo.controller.PessoaController;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.PessoaJuridica;
 import br.com.jumbo.repository.PessoaFisicaRepository;
@@ -25,31 +28,25 @@ import junit.framework.TestCase;
 public class TestePessoaUsuario extends TestCase {
 
 	@Autowired
-	private PessoaUserService pessoaUserService;
-
-	@Autowired
-	private PessoaRepository pessoaRepository;
-
-	@Autowired
-	private PessoaFisicaRepository pessoaFisicaRepository;
+	private PessoaController pessoaController;
 
 	@Test
-	public void testCadPessoaFisica() {
+	public void testCadPessoaFisica() throws ExceptionJumboSistemas {
+
+		PessoaJuridica pessoaJuridica = new PessoaJuridica();
+
+		pessoaJuridica.setCnpj("" + Calendar.getInstance().getTimeInMillis() + 2);
+		pessoaJuridica.setNome("Empresa Teste Matriz");
+		pessoaJuridica.setEmail("empresatestesalvarpj2@gmail.com");
+		pessoaJuridica.setTelefone("6536832009");
+		pessoaJuridica.setInscEstadual("65556565656665");
+		pessoaJuridica.setInscMunicipal("55554565656565");
+		pessoaJuridica.setNomeFantasia("NomeFantasia Emp Teste");
+		pessoaJuridica.setRazaoSocial("4656656566");
+		pessoaJuridica.setCategoria("CategoriaEmpTeste");
+
+		pessoaController.salvarPessoaJuridica(pessoaJuridica);
 		/*
-		 * PessoaJuridica pessoaJuridica = new PessoaJuridica();
-		 * 
-		 * pessoaJuridica.setCnpj("08905412/0001-82");
-		 * pessoaJuridica.setNome("Empresa Teste Matriz");
-		 * pessoaJuridica.setEmail("empresatestematriz@gmail.com");
-		 * pessoaJuridica.setTelefone("6536832009");
-		 * pessoaJuridica.setInscEstadual("65556565656665");
-		 * pessoaJuridica.setInscMunicipal("55554565656565");
-		 * pessoaJuridica.setNomeFantasia("NomeFantasia Emp Teste");
-		 * pessoaJuridica.setRazaoSocial("4656656566");
-		 * pessoaJuridica.setCategoria("CategoriaEmpTeste");
-		 * 
-		 * pessoaRepository.save(pessoaJuridica);
-		 * 
 		 * PessoaFisica pessoaFisica = new PessoaFisica();
 		 * 
 		 * pessoaFisica.setCpf("76691179153");
