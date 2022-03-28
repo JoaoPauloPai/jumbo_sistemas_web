@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -26,6 +27,10 @@ public class NotaFiscalVenda implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_nota_fiscal_venda")
 	private long Id;
 
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private Pessoa empresa;
+
 	@Column(nullable = false)
 	private String numero;
 
@@ -38,7 +43,7 @@ public class NotaFiscalVenda implements Serializable {
 	@Column(columnDefinition = "text", nullable = false)
 	private String XML;
 
-	@Column(columnDefinition = "text",nullable = false)
+	@Column(columnDefinition = "text", nullable = false)
 	private String PDF;
 
 	@OneToOne
@@ -51,6 +56,20 @@ public class NotaFiscalVenda implements Serializable {
 
 	public void setVendaCompraLojaVirtual(VendaCompraLojaVirtual vendaCompraLojaVirtual) {
 		this.vendaCompraLojaVirtual = vendaCompraLojaVirtual;
+	}
+
+	/**
+	 * @return the empresa
+	 */
+	public Pessoa getEmpresa() {
+		return empresa;
+	}
+
+	/**
+	 * @param empresa the empresa to set
+	 */
+	public void setEmpresa(Pessoa empresa) {
+		this.empresa = empresa;
 	}
 
 	public long getId() {

@@ -3,6 +3,7 @@
  */
 package br.com.jumbo.security;
 
+import java.io.IOException;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,21 +17,27 @@ import org.springframework.stereotype.Service;
 import br.com.jumbo.AplicationContextLoad;
 import br.com.jumbo.model.Usuario;
 import br.com.jumbo.repository.UsuarioRepository;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
+
+
 
 /**
  * @author João Paulo
  *
- *         2 de fev. de 2022 18:27:55
+ *         14 de fev. de 2022 14:52:54
  */
+
 /* Criar a autenticação e retonar também a autenticação JWT */
 @Service
 @Component
-public class JwtTokenAutenticacaoService {
+public class JWTTokenAutenticacaoService {
 
-	/* Token de validade de 11 dias */
+	/* Token de validade de 11 dias = 959990000 */
 	private static final long EXPIRATION_TIME = 959990000;
+	
 
 	/* Chave de senha para juntar com o JWT */
 	private static final String SECRET = "ss/-*-*sds565dsd-s/d-s*dsds";
@@ -60,6 +67,7 @@ public class JwtTokenAutenticacaoService {
 		 * javascript, outra chamadajava
 		 */
 		response.addHeader(HEADER_STRING, token);
+
 		liberacaoCors(response);
 
 		/* Usado para ver no Postman para teste */
@@ -67,54 +75,64 @@ public class JwtTokenAutenticacaoService {
 
 	}
 
-	/* Retorna usuario validado com Token ou caso não seja retorna Null */
-	public Authentication getAuthentication(HttpServletRequest request, HttpServletResponse response) {
+	/* Retorna o usuário validado com token ou caso nao seja valido retona null */
+	public Authentication getAuthetication(HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
 
 		String token = request.getHeader(HEADER_STRING);
 
-		if (token != null) {
+		try {
 
-			String tokenlimpo = token.replace(TOKEN_PREFIX, "").trim();
+			if (token != null) {
 
-			/* Faz a validação do Token do usuario na requesição e obtem o User */
-			String user = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(tokenlimpo).getBody().getSubject();
+				String tokenLimpo = token.replace(TOKEN_PREFIX, "").trim();
 
-			if (user != null) {
+				/* Faz a validacao do token do usuário na requisicao e obtem o USER */
+				String user = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(tokenLimpo).getBody()
+						.getSubject(); /* ADMIN ou Alex */
 
-				Usuario usuario = AplicationContextLoad.getApplicationContext().getBean(UsuarioRepository.class)
-						.findeUserByLogin(user);
+				if (user != null) {
 
-				if (usuario != null) {
-					return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
-							usuario.getAuthorities());
+					Usuario usuario = AplicationContextLoad.getApplicationContext().getBean(UsuarioRepository.class)
+							.findUserByLogin(user);
+
+					if (usuario != null) {
+						return new UsernamePasswordAuthenticationToken(usuario.getLogin(), usuario.getSenha(),
+								usuario.getAuthorities());
+					}
+
 				}
 
 			}
+		} catch (SignatureException e) {
+			response.getWriter().write("Token está inválido.");
 
+		} catch (ExpiredJwtException e) {
+			response.getWriter().write("Token está expirado, efetue o login novamente.");
+		} finally {
+			liberacaoCors(response);
 		}
 
-		liberacaoCors(response);
 		return null;
 	}
 
-	// Fazendo liberação contra erro de Cors
+	/* Fazendo liberação contra erro de COrs no navegador */
 	private void liberacaoCors(HttpServletResponse response) {
 
-		if (response.getHeader("Acess-Control-Allow-Oringin") == null) {
-			response.addHeader("Acess-Control-Allow-Oringin", "*");
-
+		if (response.getHeader("Access-Control-Allow-Origin") == null) {
+			response.addHeader("Access-Control-Allow-Origin", "*");
 		}
 
-		if (response.getHeader("Acess-Control-Allow-Headers") == null) {
-			response.addHeader("Acess-Control-Allow-Headers", "*");
+		if (response.getHeader("Access-Control-Allow-Headers") == null) {
+			response.addHeader("Access-Control-Allow-Headers", "*");
 		}
 
-		if (response.getHeader("Acess-Control-Request-Headrs") == null) {
-			response.addHeader("Acess-Control-Request-Headrs", "*");
+		if (response.getHeader("Access-Control-Request-Headers") == null) {
+			response.addHeader("Access-Control-Request-Headers", "*");
 		}
 
-		if (response.getHeader("Acess-Control-Allow-Methods") == null) {
-			response.addHeader("Acess-Control-Allow-Methods", "*");
+		if (response.getHeader("Access-Control-Allow-Methods") == null) {
+			response.addHeader("Access-Control-Allow-Methods", "*");
 		}
 
 	}

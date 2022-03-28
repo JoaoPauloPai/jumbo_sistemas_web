@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Component
-public class JWTTokenAutenticacaoService {
+public class JwtTokenAutenticacaoService {
 	
 	/*Token validade 11 dias*/
 	private static final long EXPIRATION_TIME = 959990000;

@@ -17,8 +17,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "nota_item_produto")
-@SequenceGenerator(name = "seq_nota_item_produto", sequenceName = "seq_nota_item_produto", allocationSize = 1 , initialValue = 1)
-public class NotaItemProduto  implements Serializable {
+@SequenceGenerator(name = "seq_nota_item_produto", sequenceName = "seq_nota_item_produto", allocationSize = 1, initialValue = 1)
+public class NotaItemProduto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -36,6 +36,24 @@ public class NotaItemProduto  implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
 	private Produto produto;
+
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private Pessoa empresa;
+
+	/**
+	 * @return the empresa
+	 */
+	public Pessoa getEmpresa() {
+		return empresa;
+	}
+
+	/**
+	 * @param empresa the empresa to set
+	 */
+	public void setEmpresa(Pessoa empresa) {
+		this.empresa = empresa;
+	}
 
 	public long getId() {
 		return Id;
@@ -85,7 +103,5 @@ public class NotaItemProduto  implements Serializable {
 		NotaItemProduto other = (NotaItemProduto) obj;
 		return Id == other.Id;
 	}
-	
-	
-	
+
 }

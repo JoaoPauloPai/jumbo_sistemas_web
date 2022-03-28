@@ -1,5 +1,6 @@
 package br.com.jumbo;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,6 @@ import org.springframework.web.context.WebApplicationContext;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 
 import br.com.jumbo.controller.AcessoController;
 import br.com.jumbo.model.Acesso;
@@ -36,6 +36,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 	private WebApplicationContext wac;
 
 	/* Teste do end-point de salvar */
+
 	@Test
 	public void testRestApiCadastroAcesso() throws JsonProcessingException, Exception {
 
@@ -44,7 +45,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 
 		Acesso acesso = new Acesso();
 
-		acesso.setDescricao("ROLE_COMPRADOR");
+		acesso.setDescricao("ROLE_COMPRADOR" + Calendar.getInstance().getTimeInMillis());
 
 		ObjectMapper objectMapper = new ObjectMapper();
 
@@ -54,6 +55,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 
 		System.out.println("Retorno da API : " + retornoApi.andReturn().getResponse().getContentAsString());
 
+		/* Conveter o retorno da API para um obejto de acesso */
 		Acesso objetoRetorno = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(),
 				Acesso.class);
 
@@ -62,6 +64,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 	}
 
 	/* Teste do end-point de Delete */
+
 	@Test
 	public void testRestApiDeleteAcesso() throws JsonProcessingException, Exception {
 
@@ -89,6 +92,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 	}
 
 	/* Teste Delete por ID */
+
 	@Test
 	public void testRestApiDeleteAcessoPorId() throws JsonProcessingException, Exception {
 
@@ -116,6 +120,7 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 	}
 
 	/* Teste Busca Acesso por ID */
+
 	@Test
 	public void testRestApiBuscaAcessoPorId() throws JsonProcessingException, Exception {
 
@@ -136,101 +141,101 @@ public class JumboSistemasWebApplicationTests extends TestCase {
 
 		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
 
-	//	Acesso acessoRetorno = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(),
-	//			Acesso.class);
+		Acesso acessoRetorno = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(),
+				Acesso.class);
 
-	//	assertEquals(acesso.getDescricao(), acessoRetorno.getDescricao());
+		assertEquals(acesso.getDescricao(), acessoRetorno.getDescricao());
 
-	//	assertEquals(acesso.getId(), acessoRetorno.getId());
+		assertEquals(acesso.getId(), acessoRetorno.getId());
 
 	}
-	
-	
+
 	@Test
 	public void testRestApiBuscaAcessoDesc() throws JsonProcessingException, Exception {
-		
-	    DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
-	    MockMvc mockMvc = builder.build();
-	    
-	    Acesso acesso = new Acesso();
-	    
-	    acesso.setDescricao("ROLE_TESTE_OBTER_LIST");
-	    
-	    acesso = acessoRepository.save(acesso);
-	    
-	    ObjectMapper objectMapper = new ObjectMapper();
-	    
-	    ResultActions retornoApi = mockMvc
-	    						 .perform(MockMvcRequestBuilders.get("/buscaAcessoPorDesc/OBTER_LIST")
-	    						 .content(objectMapper.writeValueAsString(acesso))
-	    						 .accept(MediaType.APPLICATION_JSON)
-	    						 .contentType(MediaType.APPLICATION_JSON));
-	    
-	    assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
-	    
-	    
-	    List<Acesso> retornoApiList = objectMapper.
-	    							     readValue(retornoApi.andReturn()
-	    									.getResponse().getContentAsString(),
-	    									 new TypeReference<List<Acesso>> () {});
 
-	    assertEquals(1, retornoApiList.size());
-	    
-	    assertEquals(acesso.getDescricao(), retornoApiList.get(0).getDescricao());
-	    
-	    
-	    acessoRepository.deleteById(acesso.getId());
-	    
+		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
+		MockMvc mockMvc = builder.build();
+
+		Acesso acesso = new Acesso();
+
+		acesso.setDescricao("ROLE_TESTE_OBTER_LIST");
+
+		acesso = acessoRepository.save(acesso);
+
+		ObjectMapper objectMapper = new ObjectMapper();
+
+		ResultActions retornoApi = mockMvc.perform(MockMvcRequestBuilders.get("/buscaAcessoPorDesc/OBTER_LIST")
+				.content(objectMapper.writeValueAsString(acesso)).accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON));
 	}
+/*
 
-	// @Test
-	// public void testCadastraAcesso() {
+		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
 
-	// Acesso acesso = new Acesso();
+		List<Acesso> retornoApiList = objectMapper.readValue(retornoApi.andReturn().getResponse().getContentAsString(),
+				new TypeReference<List<Acesso>>() {
+				});
 
-	// acesso.setDescricao("ROLE_ADMIN");
+		assertEquals(1, retornoApiList.size());
 
-	// assertEquals(true, acesso.getId() == null);
+		assertEquals(acesso.getDescricao(), retornoApiList.get(0).getDescricao());
 
-	/* Grava no BD */
+		acessoRepository.deleteById(acesso.getId());
 
-	// acesso = acessoController.salvarAcesso(acesso).getBody();
+	}
+	*/
 
-	// assertEquals(true, acesso.getId() > 0);
+	@Test
+	public void testCadastraAcesso() throws ExceptionJumboSistemas {
 
-	/* Valida dado salvos de forma correta */
+		String descacesso = "ROLE_ADMIN" + Calendar.getInstance().getTimeInMillis();
 
-	// assertEquals("ROLE_ADMIN", acesso.getDescricao());
+		Acesso acesso = new Acesso();
 
-	/* Teste de Carregamento */
-	// Acesso acesso2 = acessoRepository.findById(acesso.getId()).get();
+		acesso.setDescricao(descacesso);
 
-	// assertEquals(acesso.getId(), acesso2.getId());
+		assertEquals(true, acesso.getId() == null);
 
-	/* Teste de Delete */
+		/* Grava no BD */
 
-	// acessoRepository.deleteById(acesso2.getId());
+		acesso = acessoController.salvarAcesso(acesso).getBody();
 
-	// acessoRepository.flush();
+		assertEquals(true, acesso.getId() > 0);
 
-	// Acesso acesso3 = acessoRepository.findById(acesso2.getId()).orElse(null);
+		/* Valida dado salvos de forma correta */
 
-	// assertEquals(true, acesso3 == null);
+		assertEquals(descacesso, acesso.getDescricao());
 
-	/* Teste de query */
-	// acesso = new Acesso();
+		/* Teste de Carregamento */
 
-	// acesso.setDescricao("ROLE_ALUNO");
+		Acesso acesso2 = acessoRepository.findById(acesso.getId()).get();
 
-	// acesso = acessoController.salvarAcesso(acesso).getBody();
+		assertEquals(acesso.getId(), acesso2.getId());
 
-	// List<Acesso> acessos =
-	// acessoRepository.buscarAcessoDesc("ALUNO".trim().toUpperCase());
+		/* Teste de Delete */
 
-	// assertEquals(1, acessos.size());
+		acessoRepository.deleteById(acesso2.getId());
 
-	// acessoRepository.deleteById(acesso.getId());
+		acessoRepository.flush();
 
-	// }
+		Acesso acesso3 = acessoRepository.findById(acesso2.getId()).orElse(null);
+
+		assertEquals(true, acesso3 == null);
+
+		/* Teste de query */
+
+		acesso = new Acesso();
+
+		acesso.setDescricao("ROLE_ALUNO");
+
+		acesso = acessoController.salvarAcesso(acesso).getBody();
+
+		List<Acesso> acessos = acessoRepository.buscaAcessoDesc("ALUNO".trim().toUpperCase());
+
+		assertEquals(1, acessos.size());
+
+		acessoRepository.deleteById(acesso.getId());
+
+	}
 
 }
