@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.PessoaJuridica;
 
 /**
@@ -21,7 +22,10 @@ public interface PessoaRepository extends CrudRepository<PessoaJuridica, Long> {
 	
 	@Query(value = "select pj from PessoaJuridica pj where pj.cnpj = ?1")
 	public PessoaJuridica existeCnpjCadastrado(String cnpj);
-		
+
 	
+	@Query(value = "select pj from PessoaJuridica pj where pj.inscEstadual = ?1")
+	public Object existeInsEstadualCadastrado(String inscEstadual);
+
 
 }

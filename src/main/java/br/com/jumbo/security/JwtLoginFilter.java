@@ -27,10 +27,10 @@ import br.com.jumbo.model.Usuario;
  *
  *         8 de fev. de 2022 18:36:46
  */
-public class JwtLoginFilter extends AbstractAuthenticationProcessingFilter {
+public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
 	/* Confgurando o gerenciado de autenticacao */
-	public JwtLoginFilter(String url, AuthenticationManager authenticationManager) {
+	public JWTLoginFilter(String url, AuthenticationManager authenticationManager) {
 
 		/* Ibriga a autenticat a url */
 		super(new AntPathRequestMatcher(url));

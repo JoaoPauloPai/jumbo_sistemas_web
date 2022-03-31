@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
+import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.PessoaJuridica;
 import br.com.jumbo.repository.PessoaRepository;
 import br.com.jumbo.service.PessoaUserService;
+
 
 /**
  * @author João Paulo
@@ -43,9 +45,33 @@ public class PessoaController {
 			throw new ExceptionJumboSistemas("Ja existe cnpj com o número: " + pessoaJuridica.getCnpj());
 		}
 		
+		/*if (pessoaJuridica.getId() == null && pessoaRepository.existeInsEstadualCadastrado(pessoaJuridica.getInscEstadual()) != null) {
+			throw new ExceptionJumboSistemas("Já existe Inscrição estadual cadastrado com o número: " + pessoaJuridica.getInscEstadual());
+		}*/
+
 		pessoaJuridica = pessoaUserService.salvarPessoaJuridica(pessoaJuridica);
 
 		return new ResponseEntity<PessoaJuridica>(pessoaJuridica, HttpStatus.OK);
+	}
+
+	@ResponseBody
+	@PostMapping(value = "**/salvarPessoaFisica")
+	public ResponseEntity<PessoaFisica> salvarPessoaFisica(@RequestBody PessoaFisica pessoaFisica)
+			throws ExceptionJumboSistemas {
+
+		// if (pessoaFisica.getId() != null) {
+		// throw new ExceptionJumboSistemas("Já existe Id para o Cadastro: " +
+		// pessoaFisica.getId());
+		// if (!pessoaFisica.getId().isEmpty()) {
+		// throw new ExceptionJumboSistemas("Já existe Acesso com a descrição: " +
+		// acesso.getDescricao());
+		// }
+		// }
+		// }
+
+		PessoaFisica pess = pessoaUserService.save(pessoaFisica);
+
+		return new ResponseEntity<PessoaFisica>(pess, HttpStatus.OK);
 	}
 
 }

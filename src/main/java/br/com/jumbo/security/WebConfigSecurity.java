@@ -37,9 +37,10 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).disable().authorizeRequests()
-				.antMatchers("/").permitAll().antMatchers("/index").permitAll().antMatchers(HttpMethod.OPTIONS, "/**")
-				.permitAll()
+		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+		.disable().authorizeRequests().antMatchers("/").permitAll()
+		.antMatchers("/index").permitAll()
+		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
 				/* redireciona ou da um retorno para index quando desloga */
 				.anyRequest().authenticated().and().logout().logoutSuccessUrl("/index")
@@ -49,7 +50,7 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 
 				/* Filtra as requisicoes para login de JWT */
 				.and()
-				.addFilterAfter(new JwtLoginFilter("/login", authenticationManager()),
+				.addFilterAfter(new JWTLoginFilter("/login", authenticationManager()),
 						UsernamePasswordAuthenticationFilter.class)
 
 				.addFilterBefore(new JwtApiAutenticationFilter(), UsernamePasswordAuthenticationFilter.class);

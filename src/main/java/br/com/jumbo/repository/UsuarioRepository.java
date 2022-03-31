@@ -1,6 +1,3 @@
-/**
- * 
- */
 package br.com.jumbo.repository;
 
 import javax.transaction.Transactional;
@@ -29,10 +26,8 @@ public interface UsuarioRepository extends CrudRepository<Usuario, Long> {
 	Usuario findUserByPessoa(Long id, String email);
 
 
-    @Query(value = "select constraint_name from information_schema.constraint_column_usage\r\n"
-    		+ " where table_name = 'usuarios_acesso' and column_name = 'acesso_id'\r\n"
-    		+ "and constraint_name <> 'unique_acesso_user';", nativeQuery = true)
-	String consultaConstraint();
+    @Query(value = "select constraint_name from information_schema.constraint_column_usage where table_name = 'usuarios_acesso' and column_name = 'acesso_id' and constraint_name <> 'unique_acesso_user';", nativeQuery = true)
+	String consultaConstraintAcesso();
 
 
     @Transactional    
