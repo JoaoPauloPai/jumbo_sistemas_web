@@ -45,9 +45,9 @@ public class PessoaController {
 			throw new ExceptionJumboSistemas("Ja existe cnpj com o número: " + pessoaJuridica.getCnpj());
 		}
 		
-		/*if (pessoaJuridica.getId() == null && pessoaRepository.existeInsEstadualCadastrado(pessoaJuridica.getInscEstadual()) != null) {
+		if (pessoaJuridica.getId() == null && pessoaRepository.existeInsEstadualCadastrado(pessoaJuridica.getInscEstadual()) != null) {
 			throw new ExceptionJumboSistemas("Já existe Inscrição estadual cadastrado com o número: " + pessoaJuridica.getInscEstadual());
-		}*/
+		}
 
 		pessoaJuridica = pessoaUserService.salvarPessoaJuridica(pessoaJuridica);
 

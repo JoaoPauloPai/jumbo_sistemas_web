@@ -30,7 +30,7 @@ public class PessoaUserService {
 
 	@Autowired
 	private PessoaRepository pessoaRepository;
-	
+
 	@Autowired
 	private PessoaFisicaRepository pessoaFisicaRepository;
 
@@ -41,8 +41,6 @@ public class PessoaUserService {
 	private ServiceSendEmail serviceSendEmail;
 
 	public PessoaJuridica salvarPessoaJuridica(PessoaJuridica juridica) {
-
-	
 
 		for (int i = 0; i < juridica.getEnderecos().size(); i++) {
 			juridica.getEnderecos().get(i).setPessoa(juridica);
@@ -63,41 +61,37 @@ public class PessoaUserService {
 			}
 
 			usuarioPj = new Usuario();
-			
+
 			usuarioPj.setDataAtualSenha(Calendar.getInstance().getTime());
 			usuarioPj.setEmpresa(juridica);
 			usuarioPj.setPessoa(juridica);
 			usuarioPj.setLogin(juridica.getEmail());
 
 			String senha = "" + Calendar.getInstance().getTimeInMillis();
-
 			String senhaCript = new BCryptPasswordEncoder().encode(senha);
 
 			usuarioPj.setSenha(senhaCript);
 
 			usuarioPj = usuarioRepository.save(usuarioPj);
 
-			usuarioRepository.insereAcessoPj(usuarioPj.getId());
+			usuarioRepository.insereAcessoUserPj(usuarioPj.getId());
+			usuarioRepository.insereAcessoUser(usuarioPj.getId(), "ROLE_ADMIN");
 
-			juridica = pessoaRepository.save(juridica);
-             
-			
-			/*
 			StringBuilder mensagemHtml = new StringBuilder();
-			
-			mensagemHtml.append("<b>Segue abaixo os dados de acesso</b>");
-			mensagemHtml.append("<b>Login : </b>"+juridica.getEmail()+"</b><br/>");
+
+			mensagemHtml.append("<b>Segue abaixo os dados de acesso</b><br/>");
+			mensagemHtml.append("<b>Login : </b>" + juridica.getEmail() + "</b><br/>");
 			mensagemHtml.append("<b>Senha : </b>").append(senha).append("<br/><br/>");
 			mensagemHtml.append("Obrigado!");
-	
 
 			try {
 
-				serviceSendEmail.enviarEmailHtml("Acesso Gerado Java Web",mensagemHtml.toString() ,juridica.getEmail());
-                
+				serviceSendEmail.enviarEmailHtml("Acesso Gerado Java Web", mensagemHtml.toString(),
+						juridica.getEmail());
+
 			} catch (Exception e) {
-				
-			}*/
+
+			}
 
 		}
 
@@ -105,7 +99,7 @@ public class PessoaUserService {
 	}
 
 	public PessoaFisica save(PessoaFisica pFisica) {
-		
+
 		pFisica = pessoaFisicaRepository.save(pFisica);
 
 		return pFisica;
