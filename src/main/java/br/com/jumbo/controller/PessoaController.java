@@ -21,6 +21,8 @@ import br.com.jumbo.repository.PessoaFisicaRepository;
 import br.com.jumbo.repository.PessoaRepository;
 import br.com.jumbo.service.PessoaUserService;
 import br.com.jumbo.util.ValidaCNPJ;
+import br.com.jumbo.util.ValidaCPF;
+
 
 /**
  * @author João Paulo
@@ -72,14 +74,22 @@ public class PessoaController {
 	@PostMapping(value = "**/salvarPessoaFisica")
 	public ResponseEntity<PessoaFisica> salvarPessoaFisica(@RequestBody PessoaFisica pessoaFisica)
 			throws ExceptionJumboSistemas {
-
 		if (pessoaFisica == null) {
-			throw new ExceptionJumboSistemas("Pessoa Física não pode ser NULL. ");
+			throw new ExceptionJumboSistemas("Pessoa fisica não pode ser NULL");
 		}
-
-		PessoaFisica pess = pessoaUserService.save(pessoaFisica);
-
-		return new ResponseEntity<PessoaFisica>(pess, HttpStatus.OK);
+		
+		if (pessoaFisica.getId() == null && pessoaRepository.existeCpfCadastrado(pessoaFisica.getCpf()) != null) {
+			throw new ExceptionJumboSistemas("Já existe CPF cadastrado com o número: " + pessoaFisica.getCpf());
+		}
+		
+		
+		if (!ValidaCPF.isCPF(pessoaFisica.getCpf())) {
+			throw new ExceptionJumboSistemas("CPF : " + pessoaFisica.getCpf() + " está inválido.");
+		}
+		
+		pessoaFisica = pessoaUserService.salvarPessoaFisica(pessoaFisica);
+		
+		return new ResponseEntity<PessoaFisica>(pessoaFisica, HttpStatus.OK);
 	}
 
 	@ResponseBody
@@ -91,5 +101,7 @@ public class PessoaController {
 		return new ResponseEntity<List<PessoaFisica>>(pessFis, HttpStatus.OK);
 
 	}
+
+
 
 }

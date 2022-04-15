@@ -25,4 +25,7 @@ public interface PessoaRepository extends CrudRepository<PessoaJuridica, Long> {
 	@Query(value = "select pj from PessoaJuridica pj where pj.inscEstadual = ?1")
 	public Object existeInsEstadualCadastrado(String inscEstadual);
 
+	@Query(value = "select pf from PessoaFisica pf where pf.cpf = ?1")
+	public PessoaFisica existeCpfCadastrado(String cpf);
+
 }

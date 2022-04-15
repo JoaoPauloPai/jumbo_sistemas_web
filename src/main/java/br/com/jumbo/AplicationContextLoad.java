@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
  * @author João Paulo
  *
  *         1 de fev. de 2022 21:39:20
+ *         testando o repositório
  */
 @Component
 public class AplicationContextLoad implements ApplicationContextAware {

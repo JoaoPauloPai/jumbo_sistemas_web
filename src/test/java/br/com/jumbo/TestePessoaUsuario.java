@@ -13,12 +13,9 @@ import org.springframework.context.annotation.Profile;
 import br.com.jumbo.controller.PessoaController;
 import br.com.jumbo.enums.TipoEndereco;
 import br.com.jumbo.model.Endereco;
-import br.com.jumbo.model.Pessoa;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.PessoaJuridica;
-import br.com.jumbo.repository.PessoaFisicaRepository;
 import br.com.jumbo.repository.PessoaRepository;
-import br.com.jumbo.service.PessoaUserService;
 import junit.framework.TestCase;
 
 /**
@@ -32,17 +29,20 @@ public class TestePessoaUsuario extends TestCase {
 
 	@Autowired
 	private PessoaController pessoaController;
+	
+	@Autowired
+	private PessoaRepository pessoaRepository;
 
 	@Test
-	public void testCadPessoaFisica() throws ExceptionJumboSistemas {
+	public void testCadPessoaJuridica() throws ExceptionJumboSistemas {
 
-		PessoaFisica pessoaFisica = new PessoaFisica();
 
-		/*
-		 * PessoaJuridica pessoaJuridica = new PessoaJuridica();
-		 * 
-		 * pessoaJuridica.setCnpj("" + Calendar.getInstance().getTimeInMillis() + 2);
-		 * pessoaJuridica.setNome("Empresa Teste Matriz3");
+
+		
+		 PessoaJuridica pessoaJuridica = new PessoaJuridica();
+		 
+		 pessoaJuridica.setCnpj("" + Calendar.getInstance().getTimeInMillis() + 2);
+		 /* pessoaJuridica.setNome("Empresa Teste Matriz3");
 		 * pessoaJuridica.setEmail("empresatesteunit01@gmail.com3");
 		 * pessoaJuridica.setTelefone("6536832009");
 		 * pessoaJuridica.setInscEstadual("65556565656665");
@@ -81,14 +81,59 @@ public class TestePessoaUsuario extends TestCase {
 		 * 
 		 * assertEquals(2, pessoaJuridica.getEnderecos().size());
 		 */
+	}
+		@Test
+		public void testCadPessoaFisica() throws ExceptionJumboSistemas {
+			
+			PessoaJuridica pessoaJuridica =  pessoaRepository.existeCnpjCadastrado("08905412000182");
+			
 
-		pessoaFisica.setCpf("7669117445456456");
-		pessoaFisica.setNome("João Paulo Gomes da Silva teste");
-		pessoaFisica.setEmail("joaopaulopai99@gmail.com teste");
-		pessoaFisica.setTelefone("6599920-7437");
-		//pessoaFisica.setEmpresa();
+			PessoaFisica pessoaFisica = new PessoaFisica();
+			pessoaFisica.setCpf("713.482.980-49");
+			pessoaFisica.setNome("Joao Paulo Gomes");
+			pessoaFisica.setEmail("joaopaulopai99@gmail.com");
+			pessoaFisica.setTelefone("45999795800");
+			pessoaFisica.setEmpresa(pessoaJuridica);
+			
+			Endereco endereco1 = new Endereco();
+			endereco1.setBairro("Jd Dias");
+			endereco1.setCep("556556565");
+			endereco1.setComplemento("Casa cinza");
+			endereco1.setNumero("389");
+			endereco1.setPessoa(pessoaFisica);
+			endereco1.setRuaLogra("Av. são joao sexto");
+			endereco1.setTipoEndereco(TipoEndereco.COBRANCA);
+			endereco1.setUf("PR");
+			endereco1.setCidade("Curitiba");
+			endereco1.setEmpresa(pessoaJuridica);
+			
+			
+			Endereco endereco2 = new Endereco();
+			endereco2.setBairro("Jd Maracana");
+			endereco2.setCep("7878778");
+			endereco2.setComplemento("Andar 4");
+			endereco2.setNumero("555");
+			endereco2.setPessoa(pessoaFisica);
+			endereco2.setRuaLogra("Av. maringá");
+			endereco2.setTipoEndereco(TipoEndereco.ENTREGA);
+			endereco2.setUf("PR");
+			endereco2.setCidade("Curitiba");
+			endereco2.setEmpresa(pessoaJuridica);
+			
+			pessoaFisica.getEnderecos().add(endereco2);
+			pessoaFisica.getEnderecos().add(endereco1);
 
-		pessoaController.salvarPessoaFisica(pessoaFisica).getBody();
+			pessoaFisica = pessoaController.salvarPessoaFisica(pessoaFisica).getBody();
+			
+			assertEquals(true, pessoaFisica.getId() > 0 );
+			
+			for (Endereco endereco : pessoaFisica.getEnderecos()) {
+				assertEquals(true, endereco.getId() > 0);
+			}
+			
+			assertEquals(2, pessoaFisica.getEnderecos().size());
+
+		
 
 	}
 }
