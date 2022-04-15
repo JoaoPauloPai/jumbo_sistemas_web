@@ -17,6 +17,6 @@ import br.com.jumbo.model.Endereco;
  */
 @Repository
 @Transactional
-public interface EndereçoRepository extends JpaRepository<Endereco, Long>{
+public interface EnderecoRepository extends JpaRepository<Endereco, Long>{
 
 }

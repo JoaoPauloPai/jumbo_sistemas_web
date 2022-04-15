@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.model.Endereco;
-import br.com.jumbo.repository.EndereçoRepository;
+import br.com.jumbo.repository.EnderecoRepository;
 import br.com.jumbo.service.EnderecoService;
 
 /**
@@ -31,7 +31,7 @@ public class EnderecoController {
 	private EnderecoService enderecoService;
 	
 	@Autowired
-	private EndereçoRepository endereçoRepository;
+	private EnderecoRepository endereçoRepository;
 
 	
 	@ResponseBody

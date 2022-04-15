@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.jumbo.model.Endereco;
-import br.com.jumbo.repository.EndereçoRepository;
+import br.com.jumbo.repository.EnderecoRepository;
 
 /**
  * @author João Paulo
@@ -19,7 +19,7 @@ import br.com.jumbo.repository.EndereçoRepository;
 public class EnderecoService {
 	
 	@Autowired
-	EndereçoRepository endereçoRepository;
+	EnderecoRepository endereçoRepository;
 	
 	public Endereco save(Endereco endereco) {
 		

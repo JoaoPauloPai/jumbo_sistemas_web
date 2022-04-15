@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.PessoaJuridica;
 import br.com.jumbo.model.Usuario;
+import br.com.jumbo.model.dto.CepDTO;
 import br.com.jumbo.repository.PessoaFisicaRepository;
 import br.com.jumbo.repository.PessoaRepository;
 import br.com.jumbo.repository.UsuarioRepository;
@@ -158,6 +160,10 @@ public class PessoaUserService {
 				
 				return pessoaFisica;
 			}
+	
+	public CepDTO consultaCep(String cep) {
+		return new RestTemplate().getForEntity("https://viacep.com.br/ws/" + cep + "/json/", CepDTO.class).getBody();
+	}
 	}
 
 

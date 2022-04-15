@@ -59,7 +59,7 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
 			for (ObjectError objectError : list) {
 				msg += objectError.getDefaultMessage() + "\n";
 			}
-		}if(ex instanceof HttpMessageNotReadableException) {
+		}else if(ex instanceof HttpMessageNotReadableException) {
 			
 			msg = "Não tem mensagem envindo para o BODY, corpo da requesição.";
 			
@@ -85,11 +85,9 @@ public class ControleExcecoes extends ResponseEntityExceptionHandler {
 		
 		if (ex instanceof DataIntegrityViolationException) {
 			msg = "Erro de integridade no banco: " +  ((DataIntegrityViolationException) ex).getCause().getCause().getMessage();
-		}else
-		if (ex instanceof ConstraintViolationException) {
+		}else if (ex instanceof ConstraintViolationException) {
 			msg = "Erro de chave estrangeira: " + ((ConstraintViolationException) ex).getCause().getCause().getMessage();
-		}else
-		if (ex instanceof SQLException) {
+		}else if (ex instanceof SQLException) {
 			msg = "Erro de SQL do Banco: " + ((SQLException) ex).getCause().getCause().getMessage();
 		}else {
 			msg = ex.getMessage();
