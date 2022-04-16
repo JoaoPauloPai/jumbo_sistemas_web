@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class JumboSistemasWebApplication implements AsyncConfigurer{
 
 	public static void main(String[] args) {
-
+          /*Converte a  senha, DEIXA CRIPTOGRAFADA*/
 		 //System.out.println("senha : "+ new BCryptPasswordEncoder().encode("1234"));
 
 		SpringApplication.run(JumboSistemasWebApplication.class, args);
