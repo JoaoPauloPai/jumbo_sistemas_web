@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +51,9 @@ public class PessoaController {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
 
 	@ResponseBody
 	@GetMapping(value = "**/consultaCep/{cep}")
@@ -58,6 +62,36 @@ public class PessoaController {
 	  return new ResponseEntity<CepDTO>(pessoaUserService.consultaCep(cep), HttpStatus.OK);
 		
 	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/consultaPfNome/{nome}")
+	public ResponseEntity<List<PessoaFisica>> consultaPfNome(@PathVariable("nome") String nome) {
+		
+		List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
+		
+		jdbcTemplate.execute("begin; update tabela_acesso_end_potin set qtd_acesso_end_point = qtd_acesso_end_point + 1 where nome_end_point = 'END-POINT-NOME-PESSOA-FISICA'; commit;");
+		
+		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/consultaPfCpf/{cpf}")
+	public ResponseEntity<List<PessoaFisica>> consultaPfCpf(@PathVariable("cpf") String cpf) {
+		
+		List<PessoaFisica> fisicas = pessoaFisicaRepository.busacarPessoaFisicaPorCpf(cpf);
+		
+		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/consultaPjNome/{nome}")
+	public ResponseEntity<List<PessoaJuridica>> consultaPjNome(@PathVariable("nome") String nome) {
+		
+		List<PessoaJuridica> fisicas = pessoaRepository.pesquisaPjPorNome(nome.trim().toUpperCase());
+		
+		return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
+	}
+	
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarPessoaJuridica")
@@ -149,6 +183,17 @@ public class PessoaController {
 		
 		return new ResponseEntity<PessoaFisica>(pessoaFisica, HttpStatus.OK);
 	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/listaPessoaJuridica")
+	public ResponseEntity<List<PessoaJuridica>> listaPessoaJuridica() {
+
+		List<PessoaJuridica> pessJur = (List<PessoaJuridica>) pessoaRepository.findAll();
+
+		return new ResponseEntity<List<PessoaJuridica>>(pessJur, HttpStatus.OK);
+
+	}
+
 
 	@ResponseBody
 	@GetMapping(value = "**/listaPessoaFisica")
@@ -159,7 +204,6 @@ public class PessoaController {
 		return new ResponseEntity<List<PessoaFisica>>(pessFis, HttpStatus.OK);
 
 	}
-
 
 
 }

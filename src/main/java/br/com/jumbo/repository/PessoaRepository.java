@@ -3,6 +3,8 @@
  */
 package br.com.jumbo.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -27,5 +29,9 @@ public interface PessoaRepository extends CrudRepository<PessoaJuridica, Long> {
 
 	@Query(value = "select pf from PessoaFisica pf where pf.cpf = ?1")
 	public PessoaFisica existeCpfCadastrado(String cpf);
+
+	
+	@Query(value = "select pj from PessoaJuridica pj where upper(trim(pj.nome)) like %?1%")
+	public List<PessoaJuridica> pesquisaPjPorNome(String upperCase);
 
 }

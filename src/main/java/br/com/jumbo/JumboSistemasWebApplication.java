@@ -29,28 +29,28 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = { "br.*" })
 @EnableJpaRepositories(basePackages = "br.com.jumbo.repository")
 @EnableTransactionManagement
-public class JumboSistemasWebApplication implements AsyncConfigurer{
+public class JumboSistemasWebApplication implements AsyncConfigurer {
 
 	public static void main(String[] args) {
-          /*Converte a  senha, DEIXA CRIPTOGRAFADA*/
-		 //System.out.println("senha : "+ new BCryptPasswordEncoder().encode("1234"));
+		/* Converte a senha, DEIXA CRIPTOGRAFADA */
+		// System.out.println("senha : "+ new BCryptPasswordEncoder().encode("1234"));
 
 		SpringApplication.run(JumboSistemasWebApplication.class, args);
-		
-		
 
 	}
-	
+
 	@Override
 	@Bean
 	public Executor getAsyncExecutor() {
+
 		ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-				executor.setCorePoolSize(10);
-				executor.setMaxPoolSize(20);
-				executor.setQueueCapacity(500);
-				executor.setThreadNamePrefix("Assyncrono Thread");
-				executor.initialize();
-		
+
+		executor.setCorePoolSize(10);
+		executor.setMaxPoolSize(20);
+		executor.setQueueCapacity(500);
+		executor.setThreadNamePrefix("Assyncrono Thread");
+		executor.initialize();
+
 		return executor;
 	}
 

@@ -3,7 +3,6 @@ package br.com.jumbo.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,11 +35,6 @@ public abstract class Pessoa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
 	private Long id;
 
-	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "empresa_id", nullable = true, 
-	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
-	private Pessoa empresa;
-
 	@Size(min = 4, message = "O Nome deve conter no minimo 4 Letras!")
 	@NotBlank(message = "Nome deve ser Informado!")
 	@NotNull(message = "Nome deve ser Informado!")
@@ -57,6 +51,16 @@ public abstract class Pessoa implements Serializable {
 	@Column
 	private String tipoPessoa;
 
+
+
+	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Endereco> enderecos = new ArrayList<Endereco>();
+	
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = true, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private Pessoa empresa;
+
 	public void setTipoPessoa(String tipoPessoa) {
 		this.tipoPessoa = tipoPessoa;
 	}
@@ -64,10 +68,7 @@ public abstract class Pessoa implements Serializable {
 	public String getTipoPessoa() {
 		return tipoPessoa;
 	}
-
-	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private List<Endereco> enderecos = new ArrayList<Endereco>();
-
+	
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}
@@ -121,12 +122,7 @@ public abstract class Pessoa implements Serializable {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -136,7 +132,12 @@ public abstract class Pessoa implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Pessoa other = (Pessoa) obj;
-		return Objects.equals(id, other.id);
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

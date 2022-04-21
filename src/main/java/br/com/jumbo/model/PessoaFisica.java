@@ -1,7 +1,6 @@
 package br.com.jumbo.model;
 
 import java.util.Date;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,9 +41,6 @@ public class PessoaFisica extends Pessoa {
 		this.dataNascimento = dataNascimento;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(cpf);
-	}
+
 
 }
