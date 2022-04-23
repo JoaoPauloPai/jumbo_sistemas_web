@@ -1,1 +1,3 @@
 Atualizar todas as classes Controller
+Criei tabela 'acesso_end_point' em 23/04/22
+tabela para controles de acesso aos End-Points

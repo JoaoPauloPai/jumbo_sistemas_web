@@ -69,7 +69,7 @@ public class PessoaController {
 		
 		List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
 		
-		jdbcTemplate.execute("begin; update tabela_acesso_end_potin set qtd_acesso_end_point = qtd_acesso_end_point + 1 where nome_end_point = 'CONSULTA-PF-NOME'; commit;");
+		jdbcTemplate.execute("begin; update acesso_end_point set qntd_acesso = qntd_acesso + 1 where nome_end_point = 'CONSULTA-PF-NOME'; commit;");
 		
 		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
 	}
