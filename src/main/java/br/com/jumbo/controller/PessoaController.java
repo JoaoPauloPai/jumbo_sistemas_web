@@ -27,9 +27,9 @@ import br.com.jumbo.repository.EnderecoRepository;
 import br.com.jumbo.repository.PessoaFisicaRepository;
 import br.com.jumbo.repository.PessoaRepository;
 import br.com.jumbo.service.PessoaUserService;
+import br.com.jumbo.service.ServiceContagemAcessoApi;
 import br.com.jumbo.util.ValidaCNPJ;
 import br.com.jumbo.util.ValidaCPF;
-
 
 /**
  * @author João Paulo
@@ -47,71 +47,69 @@ public class PessoaController {
 
 	@Autowired
 	private PessoaFisicaRepository pessoaFisicaRepository;
-	
+
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	
 	@Autowired
-	private JdbcTemplate jdbcTemplate;
-	
+	private ServiceContagemAcessoApi serviceContagemAcessoApi;
 
 	@ResponseBody
 	@GetMapping(value = "**/consultaCep/{cep}")
-	public ResponseEntity<CepDTO> consultaCep(@PathVariable("cep") String cep){
-		
-	  return new ResponseEntity<CepDTO>(pessoaUserService.consultaCep(cep), HttpStatus.OK);
-		
+	public ResponseEntity<CepDTO> consultaCep(@PathVariable("cep") String cep) {
+
+		return new ResponseEntity<CepDTO>(pessoaUserService.consultaCep(cep), HttpStatus.OK);
+
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaPfNome/{nome}")
 	public ResponseEntity<List<PessoaFisica>> consultaPfNome(@PathVariable("nome") String nome) {
-		
+
 		List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
-		
-		jdbcTemplate.execute("begin; update acesso_end_point set qntd_acesso = qntd_acesso + 1 where nome_end_point = 'CONSULTA-PF-NOME'; commit;");
-		
+
+		serviceContagemAcessoApi.atualizaAcessoEndPointPf();
+
 		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaPfCpf/{cpf}")
 	public ResponseEntity<List<PessoaFisica>> consultaPfCpf(@PathVariable("cpf") String cpf) {
-		
+
 		List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPessoaFisicaPorCpf(cpf);
-		
+
 		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaPjNome/{nome}")
 	public ResponseEntity<List<PessoaJuridica>> consultaPjNome(@PathVariable("nome") String nome) {
-		
+
 		List<PessoaJuridica> fisicas = pessoaRepository.pesquisaPjPorNome(nome.trim().toUpperCase());
-		
+
 		return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaCnpjPj/{cnp}")
 	public ResponseEntity<List<PessoaJuridica>> consultaCnpjPj(@PathVariable("cnpj") String cnpj) {
-		
+
 		List<PessoaJuridica> fisicas = pessoaRepository.existeCnpjCadastradoList(cnpj.trim().toUpperCase());
-		
+
 		return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
 	}
-	
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarPessoaJuridica")
 	public ResponseEntity<PessoaJuridica> salvarPessoaJuridica(@RequestBody @Valid PessoaJuridica pessoaJuridica)
 			throws ExceptionJumboSistemas {
-		
+
 		/*
-		if (pessoaJuridica.getNome() == null || pessoaJuridica.getNome().trim().isEmpty()) {
-			throw new ExceptionJumboSistemas("Informe o campo de nome");
-		}*/
-		
+		 * if (pessoaJuridica.getNome() == null ||
+		 * pessoaJuridica.getNome().trim().isEmpty()) { throw new
+		 * ExceptionJumboSistemas("Informe o campo de nome"); }
+		 */
 
 		if (pessoaJuridica == null) {
 			throw new ExceptionJumboSistemas("Pessoa Jurídica não pode ser null");
@@ -131,30 +129,30 @@ public class PessoaController {
 			throw new ExceptionJumboSistemas("Cnpj " + pessoaJuridica.getCnpj() + "Está inváliudo.");
 
 		}
-		
+
 		if (pessoaJuridica.getId() == null || pessoaJuridica.getId() <= 0) {
-			
+
 			for (int p = 0; p < pessoaJuridica.getEnderecos().size(); p++) {
-				
+
 				CepDTO cepDTO = pessoaUserService.consultaCep(pessoaJuridica.getEnderecos().get(p).getCep());
-				
+
 				pessoaJuridica.getEnderecos().get(p).setBairro(cepDTO.getBairro());
 				pessoaJuridica.getEnderecos().get(p).setCidade(cepDTO.getLocalidade());
 				pessoaJuridica.getEnderecos().get(p).setComplemento(cepDTO.getComplemento());
 				pessoaJuridica.getEnderecos().get(p).setRuaLogra(cepDTO.getLogradouro());
 				pessoaJuridica.getEnderecos().get(p).setUf(cepDTO.getUf());
-				
+
 			}
-		}else {
-			
+		} else {
+
 			for (int p = 0; p < pessoaJuridica.getEnderecos().size(); p++) {
-				
-				Endereco enderecoTemp =  enderecoRepository.findById(pessoaJuridica.getEnderecos().get(p).getId()).get();
-				
+
+				Endereco enderecoTemp = enderecoRepository.findById(pessoaJuridica.getEnderecos().get(p).getId()).get();
+
 				if (!enderecoTemp.getCep().equals(pessoaJuridica.getEnderecos().get(p).getCep())) {
-					
+
 					CepDTO cepDTO = pessoaUserService.consultaCep(pessoaJuridica.getEnderecos().get(p).getCep());
-					
+
 					pessoaJuridica.getEnderecos().get(p).setBairro(cepDTO.getBairro());
 					pessoaJuridica.getEnderecos().get(p).setCidade(cepDTO.getLocalidade());
 					pessoaJuridica.getEnderecos().get(p).setComplemento(cepDTO.getComplemento());
@@ -176,23 +174,20 @@ public class PessoaController {
 		if (pessoaFisica == null) {
 			throw new ExceptionJumboSistemas("Pessoa fisica não pode ser NULL");
 		}
-		
+
 		if (pessoaFisica.getId() == null && pessoaRepository.existeCpfCadastrado(pessoaFisica.getCpf()) != null) {
 			throw new ExceptionJumboSistemas("Já existe CPF cadastrado com o número: " + pessoaFisica.getCpf());
 		}
-		
-		
+
 		if (!ValidaCPF.isCPF(pessoaFisica.getCpf())) {
 			throw new ExceptionJumboSistemas("CPF : " + pessoaFisica.getCpf() + " está inválido.");
 		}
-		
-		
-		
+
 		pessoaFisica = pessoaUserService.salvarPessoaFisica(pessoaFisica);
-		
+
 		return new ResponseEntity<PessoaFisica>(pessoaFisica, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/listaPessoaJuridica")
 	public ResponseEntity<List<PessoaJuridica>> listaPessoaJuridica() {
@@ -203,7 +198,6 @@ public class PessoaController {
 
 	}
 
-
 	@ResponseBody
 	@GetMapping(value = "**/listaPessoaFisica")
 	public ResponseEntity<List<PessoaFisica>> listaPessoaFisica() {
@@ -213,6 +207,5 @@ public class PessoaController {
 		return new ResponseEntity<List<PessoaFisica>>(pessFis, HttpStatus.OK);
 
 	}
-
 
 }
