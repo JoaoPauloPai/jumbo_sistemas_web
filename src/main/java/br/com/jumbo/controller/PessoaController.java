@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
+import br.com.jumbo.enums.TipoPessoa;
 import br.com.jumbo.model.Endereco;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.PessoaJuridica;
 import br.com.jumbo.model.dto.CepDTO;
+import br.com.jumbo.model.dto.ConsultaCnpjDto;
 import br.com.jumbo.repository.EnderecoRepository;
 import br.com.jumbo.repository.PessoaFisicaRepository;
 import br.com.jumbo.repository.PessoaRepository;
@@ -50,7 +52,7 @@ public class PessoaController {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
-	
+
 	@Autowired
 	private ServiceContagemAcessoApi serviceContagemAcessoApi;
 
@@ -59,6 +61,14 @@ public class PessoaController {
 	public ResponseEntity<CepDTO> consultaCep(@PathVariable("cep") String cep) {
 
 		return new ResponseEntity<CepDTO>(pessoaUserService.consultaCep(cep), HttpStatus.OK);
+
+	}
+
+	@ResponseBody
+	@GetMapping(value = "**/consultaCnpjReceitaWs/{cnpj}")
+	public ResponseEntity<ConsultaCnpjDto> consultaCnpjReceitaWs(@PathVariable("cnpj") String cnpj) {
+
+		return new ResponseEntity<ConsultaCnpjDto>(pessoaUserService.consultaCnpjReceitaWS(cnpj), HttpStatus.OK);
 
 	}
 
@@ -113,6 +123,9 @@ public class PessoaController {
 
 		if (pessoaJuridica == null) {
 			throw new ExceptionJumboSistemas("Pessoa Jurídica não pode ser null");
+		}
+		if (pessoaJuridica.getTipoPessoa() == null) {
+			throw new ExceptionJumboSistemas("Informe o Tipo Pessoa. ");
 		}
 
 		if (pessoaJuridica.getId() == null && pessoaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
@@ -173,6 +186,9 @@ public class PessoaController {
 			throws ExceptionJumboSistemas {
 		if (pessoaFisica == null) {
 			throw new ExceptionJumboSistemas("Pessoa fisica não pode ser NULL");
+		}
+		if (pessoaFisica.getTipoPessoa() == null) {
+			pessoaFisica.setTipoPessoa(TipoPessoa.FISICA.name());
 		}
 
 		if (pessoaFisica.getId() == null && pessoaRepository.existeCpfCadastrado(pessoaFisica.getCpf()) != null) {

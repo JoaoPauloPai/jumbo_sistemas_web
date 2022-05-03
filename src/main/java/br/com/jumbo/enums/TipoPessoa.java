@@ -10,7 +10,9 @@ package br.com.jumbo.enums;
  */
 public enum TipoPessoa {
 
-	JURIDICA("Jurídica"), JURIDICA_FORNECEDOR("Jurídica e Fornecedor"), FISICA("Física");
+	JURIDICA("Jurídica"), 
+	JURIDICA_FORNECEDOR("Jurídica e Fornecedor"),
+	FISICA("Física");
 
 	private String descricao;
 

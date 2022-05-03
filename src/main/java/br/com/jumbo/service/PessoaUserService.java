@@ -15,6 +15,7 @@ import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.PessoaJuridica;
 import br.com.jumbo.model.Usuario;
 import br.com.jumbo.model.dto.CepDTO;
+import br.com.jumbo.model.dto.ConsultaCnpjDto;
 import br.com.jumbo.repository.PessoaFisicaRepository;
 import br.com.jumbo.repository.PessoaRepository;
 import br.com.jumbo.repository.UsuarioRepository;
@@ -163,6 +164,10 @@ public class PessoaUserService {
 	
 	public CepDTO consultaCep(String cep) {
 		return new RestTemplate().getForEntity("https://viacep.com.br/ws/" + cep + "/json/", CepDTO.class).getBody();
+	}
+
+	public ConsultaCnpjDto consultaCnpjReceitaWS(String cnpj) {
+		return new RestTemplate().getForEntity("https://receitaws.com.br/v1/cnpj/" + cnpj, ConsultaCnpjDto.class).getBody();
 	}
 	}
 
