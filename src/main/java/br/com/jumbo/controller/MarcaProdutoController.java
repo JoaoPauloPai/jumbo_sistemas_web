@@ -10,10 +10,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.jumbo.ExceptionJumboSistemas;
+import br.com.jumbo.model.CategoriaProduto;
 import br.com.jumbo.model.MarcaProduto;
+import br.com.jumbo.model.dto.CategoriaProdutoDto;
 import br.com.jumbo.repository.MarcaProdutoRepository;
 import br.com.jumbo.service.MarcaProdutoSevice;
 
@@ -42,5 +47,26 @@ public class MarcaProdutoController {
 		return new ResponseEntity<List<MarcaProduto>>(marcprod, HttpStatus.OK);
 	}
 	
+	@ResponseBody
+	@PostMapping(value = "**/salvarMarcaProduto")
+	public ResponseEntity<MarcaProduto> salvarMarcaProduto(@RequestBody MarcaProduto marcaProduto)
+			throws ExceptionJumboSistemas {
+		
+		if (marcaProduto.getEmpresa() == null || (marcaProduto.getEmpresa().getId() == null)) {
+			throw new ExceptionJumboSistemas("A empresa deve ser informada.");
+		}
+		
+		
+		if (marcaProduto.getId() <= 0 && 
+				marcaProdutoRepository.existeDescricao(marcaProduto.getNomeDesc())) {
+			throw new ExceptionJumboSistemas("Não pode cadastar categoria com mesmo nome.");
+		}
+		
+		MarcaProduto marcaSalva = marcaProdutoSevice.save(marcaProduto);
+		
+		return new ResponseEntity<MarcaProduto>(marcaSalva, HttpStatus.OK);
+	}
+	}
+	
 
-}
+

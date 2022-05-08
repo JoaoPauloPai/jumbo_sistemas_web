@@ -26,5 +26,11 @@ public interface PessoaFisicaRepository extends CrudRepository<PessoaFisica, Lon
 
 	@Query(value = "select pf from PessoaFisica pf where upper(trim(pf.cpf)) like %?1%")
 	public List<PessoaFisica> pesquisaPessoaFisicaPorCpf(String cpf);
+	
+	@Query(value = "select pf from PessoaFisica pf where pf.cpf = ?1")
+	public PessoaFisica existeCpfCadastrado(String cpf);
+
+	@Query(value = "select pf from PessoaFisica pf where pf.cpf = ?1")
+	public List<PessoaFisica> existeCpfCadastradoList(String cpf);
 
 }

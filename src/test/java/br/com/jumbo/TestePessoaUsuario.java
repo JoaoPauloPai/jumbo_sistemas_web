@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 
-import br.com.jumbo.controller.PessoaController;
+import br.com.jumbo.controller.PessoaFisicaController;
+import br.com.jumbo.controller.PessoaJuridicaController;
 import br.com.jumbo.enums.TipoEndereco;
 import br.com.jumbo.model.Endereco;
 import br.com.jumbo.model.PessoaFisica;
@@ -28,7 +29,10 @@ import junit.framework.TestCase;
 public class TestePessoaUsuario extends TestCase {
 
 	@Autowired
-	private PessoaController pessoaController;
+	private PessoaJuridicaController pessoaController;
+	
+	@Autowired
+	private PessoaFisicaController pessoaFisicaController;
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
@@ -123,7 +127,7 @@ public class TestePessoaUsuario extends TestCase {
 			pessoaFisica.getEnderecos().add(endereco2);
 			pessoaFisica.getEnderecos().add(endereco1);
 
-			pessoaFisica = pessoaController.salvarPessoaFisica(pessoaFisica).getBody();
+			pessoaFisica = pessoaFisicaController.salvarPessoaFisica(pessoaFisica).getBody();
 			
 			assertEquals(true, pessoaFisica.getId() > 0 );
 			
