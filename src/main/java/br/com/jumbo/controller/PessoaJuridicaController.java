@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import br.com.jumbo.model.PessoaJuridica;
 import br.com.jumbo.model.dto.CepDTO;
 import br.com.jumbo.model.dto.ConsultaCnpjDto;
 import br.com.jumbo.repository.EnderecoRepository;
+import br.com.jumbo.repository.PessoaJuridicaRepository;
 import br.com.jumbo.repository.PessoaRepository;
 import br.com.jumbo.service.PessoaUserService;
 import br.com.jumbo.util.ValidaCNPJ;
@@ -39,7 +41,7 @@ public class PessoaJuridicaController {
 	private PessoaUserService pessoaUserService;
 
 	@Autowired
-	private PessoaRepository pessoaRepository;
+	private PessoaJuridicaRepository pessoaJuridicaRepository;
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
@@ -64,7 +66,7 @@ public class PessoaJuridicaController {
 	@GetMapping(value = "**/consultaPjNome/{nome}")
 	public ResponseEntity<List<PessoaJuridica>> consultaPjNome(@PathVariable("nome") String nome) {
 
-		List<PessoaJuridica> fisicas = pessoaRepository.pesquisaPjPorNome(nome.trim().toUpperCase());
+		List<PessoaJuridica> fisicas = pessoaJuridicaRepository.pesquisaPjPorNome(nome.trim().toUpperCase());
 
 		return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
 	}
@@ -73,7 +75,7 @@ public class PessoaJuridicaController {
 	@GetMapping(value = "**/consultaCnpjPj/{cnp}")
 	public ResponseEntity<List<PessoaJuridica>> consultaCnpjPj(@PathVariable("cnpj") String cnpj) {
 
-		List<PessoaJuridica> fisicas = pessoaRepository.existeCnpjCadastradoList(cnpj.trim().toUpperCase());
+		List<PessoaJuridica> fisicas = pessoaJuridicaRepository.existeCnpjCadastradoList(cnpj.trim().toUpperCase());
 
 		return new ResponseEntity<List<PessoaJuridica>>(fisicas, HttpStatus.OK);
 	}
@@ -83,11 +85,6 @@ public class PessoaJuridicaController {
 	public ResponseEntity<PessoaJuridica> salvarPessoaJuridica(@RequestBody @Valid PessoaJuridica pessoaJuridica)
 			throws ExceptionJumboSistemas {
 
-		/*
-		 * if (pessoaJuridica.getNome() == null ||
-		 * pessoaJuridica.getNome().trim().isEmpty()) { throw new
-		 * ExceptionJumboSistemas("Informe o campo de nome"); }
-		 */
 
 		if (pessoaJuridica == null) {
 			throw new ExceptionJumboSistemas("Pessoa Jurídica não pode ser null");
@@ -96,12 +93,12 @@ public class PessoaJuridicaController {
 			throw new ExceptionJumboSistemas("Informe o Tipo Pessoa. ");
 		}
 
-		if (pessoaJuridica.getId() == null && pessoaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
+		if (pessoaJuridica.getId() == null && pessoaJuridicaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
 			throw new ExceptionJumboSistemas("Ja existe cnpj com o número: " + pessoaJuridica.getCnpj());
 		}
 
 		if (pessoaJuridica.getId() == null
-				&& pessoaRepository.existeInsEstadualCadastrado(pessoaJuridica.getInscEstadual()) != null) {
+				&& pessoaJuridicaRepository.existeInsEstadualCadastrado(pessoaJuridica.getInscEstadual()) != null) {
 			throw new ExceptionJumboSistemas(
 					"Já existe Inscrição estadual cadastrado com o número: " + pessoaJuridica.getInscEstadual());
 		}
@@ -152,10 +149,19 @@ public class PessoaJuridicaController {
 	@GetMapping(value = "**/listaPessoaJuridica")
 	public ResponseEntity<List<PessoaJuridica>> listaPessoaJuridica() {
 
-		List<PessoaJuridica> pessJur = (List<PessoaJuridica>) pessoaRepository.findAll();
+		List<PessoaJuridica> pessJur = (List<PessoaJuridica>) pessoaJuridicaRepository.findAll();
 
 		return new ResponseEntity<List<PessoaJuridica>>(pessJur, HttpStatus.OK);
 
+	}
+	
+	@ResponseBody
+	@DeleteMapping(value = "**/deletePjPorId/{id}")
+	public ResponseEntity<?> deletePjPorId(@PathVariable("id") Long id) {
+
+		pessoaJuridicaRepository.deleteById(id);
+
+		return new ResponseEntity("Pj deletado por Id com sucesso!", HttpStatus.OK);
 	}
 
 }

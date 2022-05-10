@@ -101,15 +101,6 @@ public class PessoaUserService {
 		return juridica;
 	}
 
-	public PessoaFisica save(PessoaFisica pFisica) {
-
-		pFisica = pessoaFisicaRepository.save(pFisica);
-
-		return pFisica;
-	}
-
-
-
 	
 	public CepDTO consultaCep(String cep) {
 		return new RestTemplate().getForEntity("https://viacep.com.br/ws/" + cep + "/json/", CepDTO.class).getBody();

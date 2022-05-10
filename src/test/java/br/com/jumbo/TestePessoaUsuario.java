@@ -16,6 +16,7 @@ import br.com.jumbo.enums.TipoEndereco;
 import br.com.jumbo.model.Endereco;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.PessoaJuridica;
+import br.com.jumbo.repository.PessoaJuridicaRepository;
 import br.com.jumbo.repository.PessoaRepository;
 import junit.framework.TestCase;
 
@@ -35,7 +36,7 @@ public class TestePessoaUsuario extends TestCase {
 	private PessoaFisicaController pessoaFisicaController;
 	
 	@Autowired
-	private PessoaRepository pessoaRepository;
+	private PessoaJuridicaRepository pessoaJuridicaRepository;
 
 	@Test
 	public void testCadPessoaJuridica() throws ExceptionJumboSistemas {
@@ -89,7 +90,7 @@ public class TestePessoaUsuario extends TestCase {
 		@Test
 		public void testCadPessoaFisica() throws ExceptionJumboSistemas {
 			
-			PessoaJuridica pessoaJuridica =  pessoaRepository.existeCnpjCadastrado("08905412000182");
+			PessoaJuridica pessoaJuridica =  pessoaJuridicaRepository.existeCnpjCadastrado("08905412000182");
 			
 
 			PessoaFisica pessoaFisica = new PessoaFisica();
