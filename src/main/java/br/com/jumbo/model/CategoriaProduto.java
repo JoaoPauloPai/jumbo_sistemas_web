@@ -8,7 +8,6 @@ package br.com.jumbo.model;
  */
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
@@ -21,8 +20,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "categoria_produto")
@@ -49,11 +46,9 @@ public class CategoriaProduto implements Serializable {
 		return id;
 	}
 
-	/**
-	 * @param id the id to set
-	 */
+	
 	public void setId(Long id) {
-		id = id;
+		this.id = id;
 	}
 
 	/**
@@ -108,5 +103,6 @@ public class CategoriaProduto implements Serializable {
 			return false;
 		return true;
 	}
+	
 
 }

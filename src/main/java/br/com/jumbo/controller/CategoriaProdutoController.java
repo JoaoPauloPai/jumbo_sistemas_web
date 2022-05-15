@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.CategoriaProduto;
-import br.com.jumbo.model.MarcaProduto;
 import br.com.jumbo.model.dto.CategoriaProdutoDto;
 import br.com.jumbo.repository.CategoriaProdutoRepository;
 import br.com.jumbo.service.CategoriaProdutoService;
