@@ -1,7 +1,5 @@
 package br.com.jumbo.model;
 
-import java.util.Objects;
-
 /**
  * @author João Paulo
  *
@@ -66,13 +64,18 @@ public class Acesso implements GrantedAuthority {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
+		if (this == obj)
 			return true;
-		}
-		if (!(obj instanceof Acesso)) {
+		if (obj == null)
 			return false;
-		}
+		if (getClass() != obj.getClass())
+			return false;
 		Acesso other = (Acesso) obj;
-		return Objects.equals(id, other.id);
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 }

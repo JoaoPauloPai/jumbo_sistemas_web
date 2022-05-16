@@ -51,30 +51,21 @@ public class CategoriaProduto implements Serializable {
 		this.id = id;
 	}
 
-	/**
-	 * @return the nomeDesc
-	 */
+	
 	public String getNomeDesc() {
 		return nomeDesc;
 	}
 
-	/**
-	 * @param nomeDesc the nomeDesc to set
-	 */
 	public void setNomeDesc(String nomeDesc) {
 		this.nomeDesc = nomeDesc;
 	}
 
-	/**
-	 * @return the empresa
-	 */
+	
 	public PessoaJuridica getEmpresa() {
 		return empresa;
 	}
 
-	/**
-	 * @param empresa the empresa to set
-	 */
+	
 	public void setEmpresa(PessoaJuridica empresa) {
 		this.empresa = empresa;
 	}

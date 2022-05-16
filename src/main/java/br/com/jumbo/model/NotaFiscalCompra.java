@@ -26,62 +26,64 @@ public class NotaFiscalCompra implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_nota_fiscal_compra")
-	private long Id;
-
-	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
-	private Pessoa empresa;
-
+	private Long id;
+	
 	@Column(nullable = false)
 	private String numeroNota;
-
+	
 	@Column(nullable = false)
 	private String serieNota;
-
+	
+	
 	private String descricaoObs;
-
+	
 	@Column(nullable = false)
 	private BigDecimal valorTotal;
-
+	
 	private BigDecimal valorDesconto;
-
+	
 	@Column(nullable = false)
 	private BigDecimal valorIcms;
-
+	
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dataCompra;
-
+	
 	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+	@JoinColumn(name = "pessoa_id", nullable = false, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
-
+	
 	@ManyToOne
-	@JoinColumn(name = "conta_pagar_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "conta_pagar_fk"))
+	@JoinColumn(name = "conta_pagar_id", nullable = false, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "conta_pagar_fk"))
 	private ContaPagar contaPagar;
-
-	/**
-	 * @return the empresa
-	 */
+	
+	
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = false, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private Pessoa empresa;
+	
+	
+	
 	public Pessoa getEmpresa() {
 		return empresa;
 	}
 
-	/**
-	 * @param empresa the empresa to set
-	 */
 	public void setEmpresa(Pessoa empresa) {
 		this.empresa = empresa;
 	}
 
-	public long getId() {
-		return Id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setId(long id) {
-		Id = id;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNumeroNota() {
@@ -140,11 +142,6 @@ public class NotaFiscalCompra implements Serializable {
 		this.dataCompra = dataCompra;
 	}
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(Id);
-	}
-
 	public Pessoa getPessoa() {
 		return pessoa;
 	}
@@ -162,6 +159,14 @@ public class NotaFiscalCompra implements Serializable {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -170,7 +175,12 @@ public class NotaFiscalCompra implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		NotaFiscalCompra other = (NotaFiscalCompra) obj;
-		return Id == other.Id;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
-
+	
 }

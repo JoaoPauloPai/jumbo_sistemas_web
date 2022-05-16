@@ -94,15 +94,17 @@ public class CategoriaProdutoController {
 				&& categoriaProdutoRepository.existeCategoria(categoriaProduto.getNomeDesc())) {
 			throw new ExceptionJumboSistemas("Não pode cadastar categoria com mesmo nome.");
 		}
-
+	
+	
 		CategoriaProduto cateProduto = categoriaProdutoService.save(categoriaProduto);
 
 		CategoriaProdutoDto categoriaProdutoDto = new CategoriaProdutoDto();
 		categoriaProdutoDto.setId(cateProduto.getId());
 		categoriaProdutoDto.setNomeDesc(cateProduto.getNomeDesc());
 		categoriaProdutoDto.setEmpresa(cateProduto.getEmpresa().getId().toString());
-
+		
 		return new ResponseEntity<CategoriaProdutoDto>(categoriaProdutoDto, HttpStatus.OK);
-	}
 
+	
+	}
 }
