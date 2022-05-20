@@ -40,9 +40,9 @@ public class ContaPagar implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_conta_pagar")
 	private Long id;
 
-	@ManyToOne(targetEntity = Pessoa.class)
+	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
-	private Pessoa empresa;
+	private PessoaJuridica empresa;
 
 	@Column(nullable = false)
 	private String descricao;
@@ -63,13 +63,14 @@ public class ContaPagar implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dtPagamento;
 
-	@ManyToOne(targetEntity = Pessoa.class)
+	@ManyToOne(targetEntity = PessoaFisica.class)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
-	private Pessoa pessoa;
+	private PessoaFisica pessoa;
+	
 
-	@ManyToOne(targetEntity = Pessoa.class)
+	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "pessoa_forn_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_forn_fk"))
-	private Pessoa pessoa_fornecedor;
+	private PessoaJuridica pessoa_fornecedor;
 
 	/**
 	 * @return the empresa
@@ -81,7 +82,7 @@ public class ContaPagar implements Serializable {
 	/**
 	 * @param empresa the empresa to set
 	 */
-	public void setEmpresa(Pessoa empresa) {
+	public void setEmpresa(PessoaJuridica empresa) {
 		this.empresa = empresa;
 	}
 
@@ -113,7 +114,7 @@ public class ContaPagar implements Serializable {
 		return pessoa_fornecedor;
 	}
 
-	public void setPessoa_fornecedor(Pessoa pessoa_fornecedor) {
+	public void setPessoa_fornecedor(PessoaJuridica pessoa_fornecedor) {
 		this.pessoa_fornecedor = pessoa_fornecedor;
 	}
 
@@ -149,11 +150,11 @@ public class ContaPagar implements Serializable {
 		this.valorDesconto = valorDesconto;
 	}
 
-	public Pessoa getPessoa() {
+	public PessoaFisica getPessoa() {
 		return pessoa;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
+	public void setPessoa(PessoaFisica pessoa) {
 		this.pessoa = pessoa;
 	}
 

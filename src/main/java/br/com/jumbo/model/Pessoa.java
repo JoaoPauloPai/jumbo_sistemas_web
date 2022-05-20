@@ -35,52 +35,57 @@ public abstract class Pessoa implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
 	private Long id;
 
-	@Size(min = 4, message = "O Nome deve conter no minimo 4 Letras!")
-	@NotBlank(message = "Nome deve ser Informado!")
-	@NotNull(message = "Nome deve ser Informado!")
+	@Size(min = 4, message = "O nome deve ter no minimo 4 letras")
+	@NotBlank(message = "Nome deve ser informado")
+	@NotNull(message = "Nome deve ser informado")
 	@Column(nullable = false)
 	private String nome;
 
-	@Email(message = "E-mail deve ser informado!")
+	@Email
 	@Column(nullable = false)
 	private String email;
 
 	@Column(nullable = false)
 	private String telefone;
-
+	
 	@Column
-	private String tipoPessoa;
-
+	private String tipoPessoa; 
+	
 	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Endereco> enderecos = new ArrayList<Endereco>();
-
+	
+	
 	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "empresa_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	@JoinColumn(name = "empresa_id", nullable = true, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private Pessoa empresa;
 	
 	
-	public void setTipoPessoa(String tipoPessoa) {
-		this.tipoPessoa = tipoPessoa;
-	}
-
-	public String getTipoPessoa() {
-		return tipoPessoa;
-	}
-
-	public List<Endereco> getEnderecos() {
-		return enderecos;
-	}
-
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
-	}
-
+	
+	
 	public Pessoa getEmpresa() {
 		return empresa;
 	}
 
 	public void setEmpresa(Pessoa empresa) {
 		this.empresa = empresa;
+	}
+
+	public void setTipoPessoa(String tipoPessoa) {
+		this.tipoPessoa = tipoPessoa;
+	}
+	
+	public String getTipoPessoa() {
+		return tipoPessoa;
+	}
+	
+	
+	public void setEnderecos(List<Endereco> enderecos) {
+		this.enderecos = enderecos;
+	}
+	
+	public List<Endereco> getEnderecos() {
+		return enderecos;
 	}
 
 	public Long getId() {
@@ -113,6 +118,14 @@ public abstract class Pessoa implements Serializable {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override

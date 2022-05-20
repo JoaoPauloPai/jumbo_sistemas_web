@@ -3,6 +3,8 @@
  */
 package br.com.jumbo.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -23,6 +25,8 @@ public interface MarcaProdutoRepository extends JpaRepository<MarcaProduto, Long
 
 	@Query(nativeQuery = true, value = "select count(1) > 0 from marca_produto where upper(trim(nome_desc)) = upper(trim(?1))")
 	public boolean existeDescricao(String nomeDesc);
-	//boolean existeCategoria(String nomeDesc);
+
+	@Query("select a from MarcaProduto a where upper(trim(a.nomeDesc)) like %?1%")
+	List<MarcaProduto> buscarMarcaDesc(String desc);
 
 }

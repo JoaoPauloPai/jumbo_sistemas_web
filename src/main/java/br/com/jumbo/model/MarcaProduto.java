@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "marca_produto")
@@ -25,6 +27,7 @@ public class MarcaProduto implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_marca_produto")
 	private Long id;
 
+	@NotNull(message = "Informe o Nome ou Descricao da Marca")
 	@Column(nullable = false)
 	private String nomeDesc;
 
