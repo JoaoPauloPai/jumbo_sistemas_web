@@ -76,35 +76,21 @@ public class Produto implements Serializable {
 	private Boolean alertaQtdeEstoque = Boolean.FALSE;
 
 	private Integer qtdeClique = 0;
-	
+
 	@NotNull(message = "A Empresa responsável deve ser informada")
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
 
-
 	@NotNull(message = "A Categoria do Produto deve ser informada")
 	@ManyToOne(targetEntity = CategoriaProduto.class)
 	@JoinColumn(name = "categoria_produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "categoria_produto_id_fk"))
 	private CategoriaProduto categoriaProduto = new CategoriaProduto();
-/*
+
 	@NotNull(message = "A Marca do Produto deve ser informada")
 	@ManyToOne(targetEntity = MarcaProduto.class)
 	@JoinColumn(name = "marca_produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "marca_produto_id_fk"))
 	private MarcaProduto marcaProduto = new MarcaProduto();
-
-	@NotNull(message = "A Nota Item do Produto deve ser informada")
-	@ManyToOne(targetEntity = NotaItemProduto.class)
-	@JoinColumn(name = "nota_item_produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_item_produto_id_fk"))
-	private NotaItemProduto notaItemProduto = new NotaItemProduto();
-
-	public void setNotaItemProduto(NotaItemProduto notaItemProduto) {
-		this.notaItemProduto = notaItemProduto;
-	}
-
-	public NotaItemProduto getNotaItemProduto() {
-		return notaItemProduto;
-	}
 
 	public void setMarcaProduto(MarcaProduto marcaProduto) {
 		this.marcaProduto = marcaProduto;
@@ -113,10 +99,6 @@ public class Produto implements Serializable {
 	public MarcaProduto getMarcaProduto() {
 		return marcaProduto;
 	}
-	*/
-
-
-	
 
 	public PessoaJuridica getEmpresa() {
 		return empresa;
@@ -133,7 +115,6 @@ public class Produto implements Serializable {
 	public void setEmpresa(PessoaJuridica empresa) {
 		this.empresa = empresa;
 	}
-	
 
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
