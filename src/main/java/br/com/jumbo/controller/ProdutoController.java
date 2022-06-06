@@ -44,8 +44,9 @@ public class ProdutoController {
 				  throw new ExceptionJumboSistemas("Já existe Produto com a descrição: " + produto.getNome());
 			  }
 			}
-		//	if (!acessos.isEmpty()) {
-		//		throw new ExceptionJumboSistemas("Já existe Acesso com a descrição: " + acesso.getDescricao());
+		
+			//if (!acessos.isEmpty()) {
+			//	throw new ExceptionJumboSistemas("Já existe Acesso com a descrição: " + acesso.getDescricao());
 		//	}
 		
 		Produto produtoSalvo = produtoRepository.save(produto);

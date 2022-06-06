@@ -3,8 +3,6 @@
  */
 package br.com.jumbo.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +35,8 @@ public class NotaItemProdutoController {
 	public ResponseEntity<NotaItemProduto> salvarNotaItemProduto(@RequestBody @Valid NotaItemProduto notaItemProduto)
 			throws ExceptionJumboSistemas {
 
-		// if (notaItemProduto.getId() == null) {
+		
+		//if(notaItemProduto.getId() ==  ) {
 
 		if (notaItemProduto.getProduto() == null || notaItemProduto.getProduto().getId() <= 0) {
 			throw new ExceptionJumboSistemas("O produto deve ser informado.");
@@ -51,12 +50,12 @@ public class NotaItemProdutoController {
 			throw new ExceptionJumboSistemas("A empresa deve ser informada.");
 		}
 
-		List<NotaItemProduto> notaExistente = notaItemProdutoRepository.buscaNotaItemPorProdutoNota(
-				notaItemProduto.getProduto().getId(), notaItemProduto.getNotaFiscalCompra().getId());
+		//List<NotaItemProduto> notaExistente = notaItemProdutoRepository.buscaNotaItemPorProdutoNota(
+		//		notaItemProduto.getProduto().getId(), notaItemProduto.getNotaFiscalCompra().getId());
 
-		if (!notaExistente.isEmpty()) {
-			throw new ExceptionJumboSistemas("Já existe este produto cadastrado para esta nota.");
-		}
+	//	if (!notaExistente.isEmpty()) {
+		//	throw new ExceptionJumboSistemas("Já existe este produto cadastrado para esta nota.");
+	//	}
 
 		// }
 
