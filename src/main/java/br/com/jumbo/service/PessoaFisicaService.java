@@ -44,7 +44,6 @@ public class PessoaFisicaService {
 	}
 
 	public PessoaFisica salvarPessoaFisica(PessoaFisica pessoaFisica) {
-		// juridica = pesssoaRepository.save(juridica);
 
 		for (int i = 0; i < pessoaFisica.getEnderecos().size(); i++) {
 			pessoaFisica.getEnderecos().get(i).setPessoa(pessoaFisica);
@@ -96,5 +95,6 @@ public class PessoaFisicaService {
 
 		return pessoaFisica;
 	}
+	
 
 }

@@ -95,5 +95,14 @@ public class PessoaFisicaController {
 		return new ResponseEntity<List<PessoaFisica>>(pessFis, HttpStatus.OK);
 
 	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/consultaNomePJ/{nome}")
+	public ResponseEntity<List<PessoaFisica>> consultaNomePJ(@PathVariable("nome") String nome) {
+		
+		List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
+		
+		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
+	}
 
 }
