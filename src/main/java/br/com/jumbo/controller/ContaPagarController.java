@@ -11,13 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.jumbo.model.ContaPagar;
 import br.com.jumbo.ExceptionJumboSistemas;
+import br.com.jumbo.model.ContaPagar;
 import br.com.jumbo.repository.ContaPagarRepository;
 
 
@@ -63,6 +66,25 @@ public class ContaPagarController{
 		ContaPagar conPagarSalva = contaPagarRepository.save(contaPagar);
 		
 		return new ResponseEntity<ContaPagar>(conPagarSalva, HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/listaContaPagar")
+	public ResponseEntity<List<ContaPagar>>listaContaPagar() {
+
+		List<ContaPagar> contaPagar = contaPagarRepository.findAll();
+
+		return new ResponseEntity<List<ContaPagar>>(contaPagar, HttpStatus.OK);
+
+	}
+	
+	@ResponseBody
+	@DeleteMapping(value = "**/deleteContaPagarPorId/{id}")
+	public ResponseEntity<?> deleteContaPagarPorId(@PathVariable("id") Long id) {
+
+		contaPagarRepository.deleteById(id);
+
+		return new ResponseEntity("Conta-Pagar deletado por Id com sucesso!", HttpStatus.OK);
 	}
 	
 	

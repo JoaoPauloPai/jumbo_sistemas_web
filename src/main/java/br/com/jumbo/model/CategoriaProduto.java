@@ -46,12 +46,10 @@ public class CategoriaProduto implements Serializable {
 		return id;
 	}
 
-	
 	public void setId(Long id) {
 		this.id = id;
 	}
 
-	
 	public String getNomeDesc() {
 		return nomeDesc;
 	}
@@ -60,12 +58,10 @@ public class CategoriaProduto implements Serializable {
 		this.nomeDesc = nomeDesc;
 	}
 
-	
 	public PessoaJuridica getEmpresa() {
 		return empresa;
 	}
 
-	
 	public void setEmpresa(PessoaJuridica empresa) {
 		this.empresa = empresa;
 	}
@@ -94,6 +90,5 @@ public class CategoriaProduto implements Serializable {
 			return false;
 		return true;
 	}
-	
 
 }

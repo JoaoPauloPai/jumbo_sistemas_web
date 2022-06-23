@@ -108,4 +108,14 @@ public class MarcaProdutoController {
 		return new ResponseEntity<List<MarcaProduto>>(marcaProdutos,HttpStatus.OK);
 	}
 	
+	@ResponseBody
+	@GetMapping(value = "**/listaMarcaProduto")
+	public ResponseEntity<List<MarcaProduto>> listaMarcaProduto() {
+
+		List<MarcaProduto> prod = marcaProdutoRepository.findAll();
+
+		return new ResponseEntity<List<MarcaProduto>>(prod, HttpStatus.OK);
+
+	}
+	
 }

@@ -156,7 +156,7 @@ public class PessoaJuridicaController {
 	}
 	
 	@ResponseBody
-	@DeleteMapping(value = "**/deletePjPorId/{id}")
+	@DeleteMapping(value = "**/deletePessoaJuridicaPorId/{id}")
 	public ResponseEntity<?> deletePjPorId(@PathVariable("id") Long id) {
 
 		pessoaJuridicaRepository.deleteById(id);

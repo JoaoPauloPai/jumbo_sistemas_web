@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
+import br.com.jumbo.model.Acesso;
 import br.com.jumbo.model.NotaFiscalCompra;
 import br.com.jumbo.repository.NotaFiscalCompraRepository;
 
@@ -102,6 +103,16 @@ public class NotaFiscalCompraController {
 		List<NotaFiscalCompra> notaFiscalCompras = notaFiscalCompraRepository.buscaNotaDesc(desc.toUpperCase().trim());
 
 		return new ResponseEntity<List<NotaFiscalCompra>>(notaFiscalCompras, HttpStatus.OK);
+	}
+
+	@ResponseBody
+	@GetMapping(value = "**/listaNotaFiscalCompra")
+	public ResponseEntity<List<NotaFiscalCompra>> listaNotaFiscalCompra() {
+
+		List<NotaFiscalCompra> notaFiscaCompra = notaFiscalCompraRepository.findAll();
+
+		return new ResponseEntity<List<NotaFiscalCompra>>(notaFiscaCompra, HttpStatus.OK);
+
 	}
 
 }
