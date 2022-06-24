@@ -10,9 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.Endereco;
 import br.com.jumbo.repository.EnderecoRepository;
 import br.com.jumbo.service.EnderecoService;
@@ -32,6 +35,24 @@ public class EnderecoController {
 	
 	@Autowired
 	private EnderecoRepository endereçoRepository;
+
+	@ResponseBody
+	@PostMapping(value = "**/salvarEndereco")
+	public ResponseEntity<Endereco> salvarEndereco(@RequestBody Endereco endereco) throws ExceptionJumboSistemas {
+       
+		/*
+		if (acesso.getId() == null) {
+			List<Acesso> acessos = acessoRepository.buscaAcessoDesc(acesso.getDescricao().toUpperCase());
+
+			if (!acessos.isEmpty()) {
+				throw new ExceptionJumboSistemas("Já existe Acesso com a descrição: " + acesso.getDescricao());
+			}
+		}*/
+
+		Endereco enderecoSalvo = endereçoRepository.save(endereco);
+
+		return new ResponseEntity<Endereco>(endereco, HttpStatus.OK);
+	}
 
 	
 	@ResponseBody

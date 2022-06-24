@@ -1,7 +1,6 @@
 package br.com.jumbo.model;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
@@ -14,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "nota_item_produto")
@@ -24,8 +24,9 @@ public class NotaItemProduto implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_nota_item_produto")
-	private long Id;
+	private Long id;
 
+	//@Size(min = 1, message = "Informe a quantidade do produto")
 	@Column(nullable = false)
 	private Double quantidade;
 
@@ -36,31 +37,29 @@ public class NotaItemProduto implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
 	private Produto produto;
-
+	
+	
 	@ManyToOne(targetEntity = PessoaJuridica.class)
-	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	@JoinColumn(name = "empresa_id", nullable = false, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
+	
+	
 
-	/**
-	 * @return the empresa
-	 */
 	public PessoaJuridica getEmpresa() {
 		return empresa;
 	}
 
-	/**
-	 * @param empresa the empresa to set
-	 */
 	public void setEmpresa(PessoaJuridica empresa) {
 		this.empresa = empresa;
 	}
 
-	public long getId() {
-		return Id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setId(long id) {
-		Id = id;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Double getQuantidade() {
@@ -89,7 +88,10 @@ public class NotaItemProduto implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -101,7 +103,12 @@ public class NotaItemProduto implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		NotaItemProduto other = (NotaItemProduto) obj;
-		return Id == other.Id;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

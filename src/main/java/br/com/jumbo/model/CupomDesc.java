@@ -10,7 +10,6 @@ package br.com.jumbo.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
@@ -26,54 +25,51 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.apache.el.parser.AstFalse;
 
 @Entity
-@Table(name = "cup_desc")
-@SequenceGenerator(name = "seq_cup_desc", sequenceName = "seq_cup_desc", allocationSize = 1, initialValue = 1)
+@Table(name = "cupom_desc")
+@SequenceGenerator(name = "seq_cupom_desc", sequenceName = "seq_cupom_desc", allocationSize = 1, initialValue = 1)
 public class CupomDesc implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cup_desc")
-	private long Id;
-
-	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
-	private Pessoa empresa;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cupom_desc")
+	private Long id;
 
 	@Column(nullable = false)
 	private String codDesc;
 
 	private BigDecimal valorRealDesc;
 
-	private BigDecimal valorPercDesc;
+	private BigDecimal valorPorcentDesc;
 
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dataValidadeCupom;
+	
+	
+	@ManyToOne(targetEntity = PessoaJuridica.class)
+	@JoinColumn(name = "empresa_id", nullable = false, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private PessoaJuridica empresa;
+	
+	
 
-	/**
-	 * @return the empresa
-	 */
-	public Pessoa getEmpresa() {
+	public PessoaJuridica getEmpresa() {
 		return empresa;
 	}
 
-	/**
-	 * @param empresa the empresa to set
-	 */
-	public void setEmpresa(Pessoa empresa) {
+	public void setEmpresa(PessoaJuridica empresa) {
 		this.empresa = empresa;
 	}
 
-	public long getId() {
-		return Id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setId(long id) {
-		Id = id;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getCodDesc() {
@@ -92,12 +88,12 @@ public class CupomDesc implements Serializable {
 		this.valorRealDesc = valorRealDesc;
 	}
 
-	public BigDecimal getValorPercDesc() {
-		return valorPercDesc;
+	public BigDecimal getValorPorcentDesc() {
+		return valorPorcentDesc;
 	}
 
-	public void setValorPercDesc(BigDecimal valorPercDesc) {
-		this.valorPercDesc = valorPercDesc;
+	public void setValorPorcentDesc(BigDecimal valorPorcentDesc) {
+		this.valorPorcentDesc = valorPorcentDesc;
 	}
 
 	public Date getDataValidadeCupom() {
@@ -110,7 +106,10 @@ public class CupomDesc implements Serializable {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -122,7 +121,12 @@ public class CupomDesc implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		CupomDesc other = (CupomDesc) obj;
-		return Id == other.Id;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }
