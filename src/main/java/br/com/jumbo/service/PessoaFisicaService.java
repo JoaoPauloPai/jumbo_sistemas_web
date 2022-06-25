@@ -95,6 +95,5 @@ public class PessoaFisicaService {
 
 		return pessoaFisica;
 	}
-	
 
 }

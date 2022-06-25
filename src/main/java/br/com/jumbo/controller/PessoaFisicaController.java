@@ -64,6 +64,7 @@ public class PessoaFisicaController {
 	@PostMapping(value = "**/salvarPessoaFisica")
 	public ResponseEntity<PessoaFisica> salvarPessoaFisica(@RequestBody PessoaFisica pessoaFisica)
 			throws ExceptionJumboSistemas {
+		
 		if (pessoaFisica == null) {
 			throw new ExceptionJumboSistemas("Pessoa fisica não pode ser NULL");
 		}
@@ -85,6 +86,7 @@ public class PessoaFisicaController {
 
 		return new ResponseEntity<PessoaFisica>(pessoaFisica, HttpStatus.OK);
 	}
+	
 
 	@ResponseBody
 	@GetMapping(value = "**/listaPessoaFisica")

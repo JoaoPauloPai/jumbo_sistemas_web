@@ -16,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.jumbo.ExceptionJumboSistemas;
+import br.com.jumbo.model.Acesso;
 import br.com.jumbo.model.AvaliacaoProduto;
 import br.com.jumbo.repository.AvaliacaoProdutoRepository;
+import br.com.jumbo.repository.ProdutoRepository;
 
 /**
  * @author João Paulo
@@ -30,6 +33,23 @@ public class AvaliacaoProdutoController {
 
 	@Autowired
 	private AvaliacaoProdutoRepository avaliacaoProdutoRepository;
+	
+	@ResponseBody
+	@PostMapping(value = "**/salvarAvaliacaoProduto")
+	public ResponseEntity<AvaliacaoProduto> salvarSalvarAvalicaoProduto(@RequestBody AvaliacaoProduto avaliacaoProduto) throws ExceptionJumboSistemas {
+
+	//	if (acesso.getId() == null) {
+		//	List<Acesso> acessos = acessoRepository.buscaAcessoDesc(acesso.getDescricao().toUpperCase());
+
+		//	if (!acessos.isEmpty()) {
+			//	throw new ExceptionJumboSistemas("Já existe Acesso com a descrição: " + acesso.getDescricao());
+		//	}
+		
+		AvaliacaoProduto avaliacaoProdutoSalvo = avaliacaoProdutoRepository.save(avaliacaoProduto);
+
+		return new ResponseEntity<AvaliacaoProduto>(avaliacaoProdutoSalvo, HttpStatus.OK);
+	}
+		
 
 	@ResponseBody
 	@GetMapping(value = "**/listaAvaliacaoProduto")

@@ -5,6 +5,8 @@ package br.com.jumbo.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +42,7 @@ public class AcessoController {
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarAcesso")
-	public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) throws ExceptionJumboSistemas {
+	public ResponseEntity<Acesso> salvarAcesso(@RequestBody @Valid Acesso acesso) throws ExceptionJumboSistemas {
 
 		if (acesso.getId() == null) {
 			List<Acesso> acessos = acessoRepository.buscaAcessoDesc(acesso.getDescricao().toUpperCase());
