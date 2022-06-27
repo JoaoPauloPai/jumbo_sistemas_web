@@ -3,8 +3,8 @@ package br.com.jumbo.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
@@ -19,6 +19,10 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "vd_cp_loja_virt")
@@ -29,75 +33,103 @@ public class VendaCompraLojaVirtual implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_vd_cp_loja_virt")
-	private long Id;
+	private Long id;
 
+	@NotNull(message = "A pessoa compradora deve ser informado")
+	@ManyToOne(targetEntity = PessoaFisica.class,cascade = CascadeType.ALL)
+	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+	private PessoaFisica pessoa;
+
+	@NotNull(message = "O endereço de entrega deve ser informado")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "endereco_entrega_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_entrega_fk"))
+	private Endereco enderecoEntrega;
+
+	@NotNull(message = "O endereço de cobrança deve ser informado")
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "endereco_cobranca_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_cobranca_fk") )
+	private Endereco enderecoCobranca;
+
+	@Min(value = 1, message = "Valor total da venda é invalida")
 	@Column(nullable = false)
 	private BigDecimal valorTotal;
 
 	private BigDecimal valorDesconto;
 
-	@Column(nullable = false)
-	private BigDecimal valorFrete;
-
-	@Column(nullable = false)
-	private Integer diasEntrega;
-
-	@Column(nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date dataVenda;
-
-	@Column(nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date dataEntrega;
-
-	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
-	private Pessoa pessoa;
-
-	@ManyToOne
-	@JoinColumn(name = "endereco_entrega_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_entrega_fk"))
-	private Endereco enderecoEntrega;
-
-	@ManyToOne(targetEntity = Endereco.class)
-	@JoinColumn(name = "endereco_cobranca_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_cobranca_fk"))
-	private Endereco enderecoCobranca;
-
+	@NotNull(message = "A forma de pagamento deve ser informado")
 	@ManyToOne
 	@JoinColumn(name = "forma_pagamento_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "forma_pagamento_fk"))
 	private FormaPagamento formaPagamento;
 
-	@OneToOne
-	@JoinColumn(name = "nota_fiscal_venda_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_fiscal_venda_fk"))
+	@JsonIgnoreProperties(allowGetters = true)
+	@NotNull(message = "A nota fiscal deve ser informada")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "nota_fiscal_venda_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_fiscal_venda_fk"))
 	private NotaFiscalVenda notaFiscalVenda;
 
+	
 	@ManyToOne
-	@JoinColumn(name = "cupom_desc_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "cupom_desc_fk"))
-	private CupomDesc cupomDesc;
+	@JoinColumn(name = "cupom_desc_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "cupom_desc_fk"))
+	private CupomDesc cupDesc;
 
+	@Min(value = 5, message = "valor do frete é inválido")
+	@NotNull(message = "O valor do frete de ser informado")
+	@Column(nullable = false)
+	private BigDecimal valorFret;
+
+	@Min(value = 1, message = "Dia de entrega é inválido")
+	@Column(nullable = false)
+	private Integer diaEntrega;
+
+	@NotNull(message = "Data da venda deve ser informada")
+	@Column(nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date dataVenda;
+
+	@NotNull(message = "Data da entrega deve ser informada")
+	@Column(nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date dataEntrega;
+	
+	
+	@NotNull(message = "A empresa dona do registro deve ser informada")
 	@ManyToOne(targetEntity = PessoaJuridica.class)
-	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	@JoinColumn(name = "empresa_id", nullable = false, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
+	
+	
 
-	public long getId() {
-		return Id;
-	}
-
-	public void setId(long id) {
-		Id = id;
-	}
-
-	/**
-	 * @return the empresa
-	 */
 	public PessoaJuridica getEmpresa() {
 		return empresa;
 	}
 
-	/**
-	 * @param empresa the empresa to set
-	 */
 	public void setEmpresa(PessoaJuridica empresa) {
 		this.empresa = empresa;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public PessoaFisica getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(PessoaFisica pessoa) {
+		this.pessoa = pessoa;
+	}
+
+	public Endereco getEnderecoEntrega() {
+		return enderecoEntrega;
+	}
+
+	public void setEnderecoEntrega(Endereco enderecoEntrega) {
+		this.enderecoEntrega = enderecoEntrega;
 	}
 
 	public Endereco getEnderecoCobranca() {
@@ -124,20 +156,51 @@ public class VendaCompraLojaVirtual implements Serializable {
 		this.valorDesconto = valorDesconto;
 	}
 
-	public BigDecimal getValorFrete() {
-		return valorFrete;
+	public FormaPagamento getFormaPagamento() {
+		return formaPagamento;
 	}
 
-	public void setValorFrete(BigDecimal valorFrete) {
-		this.valorFrete = valorFrete;
+	public void setFormaPagamento(FormaPagamento formaPagamento) {
+		this.formaPagamento = formaPagamento;
 	}
 
-	public Integer getDiasEntrega() {
-		return diasEntrega;
+	public NotaFiscalVenda getNotaFiscalVenda() {
+		return notaFiscalVenda;
 	}
 
-	public void setDiasEntrega(Integer diasEntrega) {
-		this.diasEntrega = diasEntrega;
+	public void setNotaFiscalVenda(NotaFiscalVenda notaFiscalVenda) {
+		this.notaFiscalVenda = notaFiscalVenda;
+	}
+
+
+	/**
+	 * @return the cupDesc
+	 */
+	public CupomDesc getCupDesc() {
+		return cupDesc;
+	}
+
+	/**
+	 * @param cupDesc the cupDesc to set
+	 */
+	public void setCupDesc(CupomDesc cupDesc) {
+		this.cupDesc = cupDesc;
+	}
+
+	public BigDecimal getValorFret() {
+		return valorFret;
+	}
+
+	public void setValorFret(BigDecimal valorFret) {
+		this.valorFret = valorFret;
+	}
+
+	public Integer getDiaEntrega() {
+		return diaEntrega;
+	}
+
+	public void setDiaEntrega(Integer diaEntrega) {
+		this.diaEntrega = diaEntrega;
 	}
 
 	public Date getDataVenda() {
@@ -156,49 +219,12 @@ public class VendaCompraLojaVirtual implements Serializable {
 		this.dataEntrega = dataEntrega;
 	}
 
-	public Pessoa getPessoa() {
-		return pessoa;
-	}
-
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
-	}
-
-	public Endereco getEnderecoEntrega() {
-		return enderecoEntrega;
-	}
-
-	public void setEnderecoEntrega(Endereco enderecoEntrega) {
-		this.enderecoEntrega = enderecoEntrega;
-	}
-
-	public FormaPagamento getFormaPagamento() {
-		return formaPagamento;
-	}
-
-	public void setFormaPagamento(FormaPagamento formaPagamento) {
-		this.formaPagamento = formaPagamento;
-	}
-
-	public NotaFiscalVenda getNotaFiscalVenda() {
-		return notaFiscalVenda;
-	}
-
-	public void setNotaFiscalVenda(NotaFiscalVenda notaFiscalVenda) {
-		this.notaFiscalVenda = notaFiscalVenda;
-	}
-
-	public CupomDesc getCupomDesc() {
-		return cupomDesc;
-	}
-
-	public void setCupomDesc(CupomDesc cupomDesc) {
-		this.cupomDesc = cupomDesc;
-	}
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(Id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -210,7 +236,12 @@ public class VendaCompraLojaVirtual implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		VendaCompraLojaVirtual other = (VendaCompraLojaVirtual) obj;
-		return Id == other.Id;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }

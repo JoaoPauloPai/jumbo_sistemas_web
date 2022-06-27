@@ -5,6 +5,8 @@ package br.com.jumbo.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +40,7 @@ public class EnderecoController {
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarEndereco")
-	public ResponseEntity<Endereco> salvarEndereco(@RequestBody Endereco endereco) throws ExceptionJumboSistemas {
+	public ResponseEntity<Endereco> salvarEndereco(@RequestBody @Valid Endereco endereco) throws ExceptionJumboSistemas {
        
 		/*
 		if (acesso.getId() == null) {
@@ -51,7 +53,7 @@ public class EnderecoController {
 
 		Endereco enderecoSalvo = endereçoRepository.save(endereco);
 
-		return new ResponseEntity<Endereco>(endereco, HttpStatus.OK);
+		return new ResponseEntity<Endereco>(enderecoSalvo, HttpStatus.OK);
 	}
 
 	

@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -32,24 +33,30 @@ public class Endereco implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_endereco")
 	private Long id;
 
+	@NotNull(message = "A rua deve ser informada")
 	@Column(nullable = false)
 	private String ruaLogra;
 	
+	@NotNull(message = "O CEP deve ser Informado")
 	@Column(nullable = false)
 	private String cep;
 	
+	@NotNull(message = "O número deve ser informado")
 	@Column(nullable = false)
 	private String numero;
 	
 	
 	private String complemento;
 	
+	@NotNull(message = "O bairro deve ser informado")
 	@Column(nullable = false)
 	private String bairro;
 	
+	@NotNull(message = "UF deve ser informado")
 	@Column(nullable = false)
 	private String uf;
 	
+	@NotNull(message = "Cidade deve ser informada")
 	@Column(nullable = false)
 	private String cidade;
 
@@ -62,7 +69,7 @@ public class Endereco implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TipoEndereco tipoEndereco;
 	
-	
+	@NotNull(message = "A empresa deve ser informada")
 	@JsonIgnore
 	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, 
