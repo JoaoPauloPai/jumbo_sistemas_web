@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author João Paulo
@@ -36,50 +37,53 @@ public class Vendedor implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_vendedor")
 	private long id;
 
+
 	@ManyToOne(targetEntity = PessoaFisica.class)
-	@JoinColumn(name = "pessoa_id", nullable = false, 
-	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private PessoaFisica pessoa;
+
+	@NotNull(message = "A Empresa responsável deve ser informada")
+	@ManyToOne(targetEntity = Pessoa.class)
+	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private PessoaJuridica empresa;
 
 	@Min(value = 1, message = "Valor da comissão deve sder informada")
 	@Column(nullable = false)
 	private BigDecimal valorComissao;
 
-	/**
-	 * @return the pessoa
-	 */
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public PessoaFisica getPessoa() {
 		return pessoa;
 	}
 
-	/**
-	 * @param pessoa the pessoa to set
-	 */
 	public void setPessoa(PessoaFisica pessoa) {
 		this.pessoa = pessoa;
 	}
 
-	/**
-	 * @return the valorComissao
-	 */
+	public PessoaJuridica getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(PessoaJuridica empresa) {
+		this.empresa = empresa;
+	}
+
 	public BigDecimal getValorComissao() {
 		return valorComissao;
 	}
 
-	/**
-	 * @param valorComissao the valorComissao to set
-	 */
 	public void setValorComissao(BigDecimal valorComissao) {
 		this.valorComissao = valorComissao;
 	}
-
-	/**
-	 * @return the serialversionuid
-	 */
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

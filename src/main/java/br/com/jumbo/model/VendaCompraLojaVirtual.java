@@ -75,7 +75,7 @@ public class VendaCompraLojaVirtual implements Serializable {
 	@Min(value = 5, message = "valor do frete é inválido")
 	@NotNull(message = "O valor do frete de ser informado")
 	@Column(nullable = false)
-	private BigDecimal valorFret;
+	private BigDecimal valorFrete;
 
 	@Min(value = 1, message = "Dia de entrega é inválido")
 	@Column(nullable = false)
@@ -187,12 +187,12 @@ public class VendaCompraLojaVirtual implements Serializable {
 		this.cupDesc = cupDesc;
 	}
 
-	public BigDecimal getValorFret() {
-		return valorFret;
+	public BigDecimal getValorFrete() {
+		return valorFrete;
 	}
 
-	public void setValorFret(BigDecimal valorFret) {
-		this.valorFret = valorFret;
+	public void setValorFrete(BigDecimal valorFrete) {
+		this.valorFrete = valorFrete;
 	}
 
 	public Integer getDiaEntrega() {

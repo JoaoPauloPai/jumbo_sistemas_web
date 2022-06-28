@@ -63,16 +63,11 @@ public class Usuario implements UserDetails {
 			inverseJoinColumns = @JoinColumn(name = "acesso_id", unique = false, referencedColumnName = "id", table = "acesso", foreignKey = @ForeignKey(name = "aesso_fk", value = ConstraintMode.CONSTRAINT)))
 	private List<Acesso> acessos;
 
-	/**
-	 * @return the empresa
-	 */
 	public Pessoa getEmpresa() {
 		return empresa;
 	}
 
-	/**
-	 * @param empresa the empresa to set
-	 */
+
 	public void setEmpresa(Pessoa empresa) {
 		this.empresa = empresa;
 	}

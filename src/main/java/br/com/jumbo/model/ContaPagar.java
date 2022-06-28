@@ -72,16 +72,12 @@ public class ContaPagar implements Serializable {
 	@JoinColumn(name = "pessoa_forn_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_forn_fk"))
 	private PessoaJuridica pessoa_fornecedor;
 
-	/**
-	 * @return the empresa
-	 */
+
 	public Pessoa getEmpresa() {
 		return empresa;
 	}
 
-	/**
-	 * @param empresa the empresa to set
-	 */
+
 	public void setEmpresa(PessoaJuridica empresa) {
 		this.empresa = empresa;
 	}

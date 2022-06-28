@@ -28,15 +28,20 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceSendEmail {
 
-	// Servidor do email
+	/* Servidor do email */
 	private String userName = "empresatecnologia.sa@gmail.com";
 	private String senha = "marido@2021pai";
- 
-	/*Liberar o acesso do email*/
-	/* https://www.google.com/settings/security/lessecureapps*/
-	
+	/*
+	 * private String userName = "joaopaulopai99@gmail.com"; private String senha =
+	 * "marido@2021pai";
+	 */
+
+	/* Liberar o acesso do email */
+	/* https://www.google.com/settings/security/lessecureapps */
+
 	@Async
-	public void enviarEmailHtml(String assunto, String menssagem, String emailDestino) throws UnsupportedEncodingException, MessagingException {
+	public void enviarEmailHtml(String assunto, String menssagem, String emailDestino)
+			throws UnsupportedEncodingException, MessagingException {
 
 		Properties properties = new Properties();
 		properties.put("mail.smtp.ssl.trust", "*");
@@ -46,32 +51,30 @@ public class ServiceSendEmail {
 		properties.put("mail.smtp.port", "465");
 		properties.put("mail.smtp.socketFactory.port", "465");
 		properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		
 
 		Session session = Session.getInstance(properties, new Authenticator() {
-			
+
 			@Override
 			protected PasswordAuthentication getPasswordAuthentication() {
-				
-				return  new PasswordAuthentication(userName, senha);
-				
+
+				return new PasswordAuthentication(userName, senha);
+
 			}
 		});
 
-		 session.setDebug(true);
-		 
-		 Address[] toUser = InternetAddress.parse(emailDestino);
-		 
-		 Message message = new MimeMessage(session);
-		 
-		 message.setFrom(new InternetAddress(userName,"João Paulo - Projeto Web","UTF-8"));
-		 message.setRecipients(Message.RecipientType.TO, toUser);
-		 message.setSubject(assunto);
-		 message.setContent(menssagem, "text/html; charset=utf-8");
-		 
-		 
-		 Transport.send(message);
-		 
+		session.setDebug(true);
+
+		Address[] toUser = InternetAddress.parse(emailDestino);
+
+		Message message = new MimeMessage(session);
+
+		message.setFrom(new InternetAddress(userName, "João Paulo - Projeto Web", "UTF-8"));
+		message.setRecipients(Message.RecipientType.TO, toUser);
+		message.setSubject(assunto);
+		message.setContent(menssagem, "text/html; charset=utf-8");
+
+		Transport.send(message);
+
 	}
 
 }

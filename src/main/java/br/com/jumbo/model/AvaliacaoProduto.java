@@ -9,6 +9,7 @@ package br.com.jumbo.model;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
@@ -37,33 +38,31 @@ public class AvaliacaoProduto implements Serializable {
 	@Column(nullable = false)
 	private Integer nota;
 
-	@NotNull(message = "E obrigatório informar a descrução")
+	@NotNull(message = "E obrigatório informar a descrição")
 	@Column(nullable = false)
 	private String descricao;
 
-	@NotNull(message = "É obrigatório infamar o id da Pessoa")
-	@ManyToOne(targetEntity = Pessoa.class)
+	
+	@NotNull(message = "A pessoa  deve ser informado")
+	@ManyToOne(targetEntity = PessoaFisica.class)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
-	private Pessoa pessoa;
+	private PessoaFisica pessoa;
 
 	@ManyToOne
 	@JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
 	private Produto produto;
 
+	@NotNull(message = "A Empresa responsável deve ser informada")
 	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
 
-	/**
-	 * @return the empresa
-	 */
+	
 	public PessoaJuridica getEmpresa() {
 		return empresa;
 	}
 
-	/**
-	 * @param empresa the empresa to set
-	 */
+
 	public void setEmpresa(PessoaJuridica empresa) {
 		this.empresa = empresa;
 	}
@@ -92,11 +91,11 @@ public class AvaliacaoProduto implements Serializable {
 		this.nota = nota;
 	}
 
-	public Pessoa getPessoa() {
+	public PessoaFisica getPessoa() {
 		return pessoa;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
+	public void setPessoa(PessoaFisica pessoa) {
 		this.pessoa = pessoa;
 	}
 
