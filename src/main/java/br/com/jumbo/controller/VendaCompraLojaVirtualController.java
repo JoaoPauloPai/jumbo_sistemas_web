@@ -53,7 +53,52 @@ public class VendaCompraLojaVirtualController {
 	
 
 	@ResponseBody
-	@PostMapping(value = "**/salvarVendaLoja")
+	@PostMapping(value = "**/salvarVendaLoja2")
+	public ResponseEntity<VendaCompraLojaVirtualDTO> salvarVendaLoja2(@RequestBody @Valid VendaCompraLojaVirtual vendaCompraLojaVirtual) throws ExceptionJumboSistemas {
+		
+		
+		return new ResponseEntity<VendaCompraLojaVirtualDTO>( HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "**/salvarVendaLoja1")
+	public ResponseEntity<VendaCompraLojaVirtualDTO> salvarVendaLoja1(@RequestBody @Valid VendaCompraLojaVirtual vendaCompraLojaVirtual) throws ExceptionJumboSistemas {
+		
+		
+		
+		vendaCompraLojaVirtual.getPessoa().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaCompraLojaVirtual.getPessoa()).getBody();
+		vendaCompraLojaVirtual.setPessoa(pessoaFisica);
+		
+		vendaCompraLojaVirtual.getEnderecoCobranca().setPessoa(pessoaFisica);
+		vendaCompraLojaVirtual.getEnderecoCobranca().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+		Endereco enderecoCobranca = enderecoRepository.save(vendaCompraLojaVirtual.getEnderecoCobranca());
+		vendaCompraLojaVirtual.setEnderecoCobranca(enderecoCobranca);
+		
+		vendaCompraLojaVirtual.getEnderecoEntrega().setPessoa(pessoaFisica);
+		vendaCompraLojaVirtual.getEnderecoEntrega().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+		Endereco enderecoEntrega = enderecoRepository.save(vendaCompraLojaVirtual.getEnderecoEntrega());
+		vendaCompraLojaVirtual.setEnderecoEntrega(enderecoEntrega);
+		
+		vendaCompraLojaVirtual.getNotaFiscalVenda().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+		/*Salva primeiro a venda e todo os dados*/
+		vendaCompraLojaVirtual = vendaCompraLojaVirtualRepository.saveAndFlush(vendaCompraLojaVirtual);
+		
+		/*Associa a venda gravada no banco com a nota fiscal*/
+		vendaCompraLojaVirtual.getNotaFiscalVenda().setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
+		
+		/*Persiste novamente as nota fiscal novamente pra ficar amarrada na venda*/
+		notaFiscalVendaRepository.saveAndFlush(vendaCompraLojaVirtual.getNotaFiscalVenda());
+		
+		VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
+		compraLojaVirtualDTO.setValorTotal(vendaCompraLojaVirtual.getValorTotal());
+		
+		return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.OK);
+	}
+	
+
+	@ResponseBody
+	@PostMapping(value = "**/salvarVendaLoja11")
 	public ResponseEntity<VendaCompraLojaVirtualDTO> salvarVendaLoja(
 			@RequestBody @Valid VendaCompraLojaVirtual vendaCompraLojaVirtual) throws ExceptionJumboSistemas {
 

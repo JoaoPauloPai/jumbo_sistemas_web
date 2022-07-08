@@ -1,7 +1,6 @@
 package br.com.jumbo.model;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
@@ -25,11 +24,7 @@ public class NotaFiscalVenda implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_nota_fiscal_venda")
-	private long Id;
-
-	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
-	private Pessoa empresa;
+	private Long id;
 
 	@Column(nullable = false)
 	private String numero;
@@ -41,14 +36,18 @@ public class NotaFiscalVenda implements Serializable {
 	private String tipo;
 
 	@Column(columnDefinition = "text", nullable = false)
-	private String XML;
+	private String xml;
 
 	@Column(columnDefinition = "text", nullable = false)
-	private String PDF;
+	private String pdf;
 
 	@OneToOne
-	@JoinColumn(name = "venda_compra_loja_virt_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_compra_loja_virt_fk"))
+	@JoinColumn(name = "venda_compra_loja_virt_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_compra_loja_virt_fk"))
 	private VendaCompraLojaVirtual vendaCompraLojaVirtual;
+
+	@ManyToOne(targetEntity = PessoaJuridica.class)
+	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	private PessoaJuridica empresa;
 
 	public VendaCompraLojaVirtual getVendaCompraLojaVirtual() {
 		return vendaCompraLojaVirtual;
@@ -58,26 +57,20 @@ public class NotaFiscalVenda implements Serializable {
 		this.vendaCompraLojaVirtual = vendaCompraLojaVirtual;
 	}
 
-	/**
-	 * @return the empresa
-	 */
-	public Pessoa getEmpresa() {
+	public PessoaJuridica getEmpresa() {
 		return empresa;
 	}
 
-	/**
-	 * @param empresa the empresa to set
-	 */
-	public void setEmpresa(Pessoa empresa) {
+	public void setEmpresa(PessoaJuridica empresa) {
 		this.empresa = empresa;
 	}
 
-	public long getId() {
-		return Id;
+	public Long getId() {
+		return id;
 	}
 
-	public void setId(long id) {
-		Id = id;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getNumero() {
@@ -104,25 +97,28 @@ public class NotaFiscalVenda implements Serializable {
 		this.tipo = tipo;
 	}
 
-	public String getXML() {
-		return XML;
+	public String getXml() {
+		return xml;
 	}
 
-	public void setXML(String xML) {
-		XML = xML;
+	public void setXml(String xml) {
+		this.xml = xml;
 	}
 
-	public String getPDF() {
-		return PDF;
+	public String getPdf() {
+		return pdf;
 	}
 
-	public void setPDF(String pDF) {
-		PDF = pDF;
+	public void setPdf(String pdf) {
+		this.pdf = pdf;
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(Id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -134,7 +130,12 @@ public class NotaFiscalVenda implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		NotaFiscalVenda other = (NotaFiscalVenda) obj;
-		return Id == other.Id;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
 
 }
