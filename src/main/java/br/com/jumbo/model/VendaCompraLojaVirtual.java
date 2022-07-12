@@ -188,16 +188,10 @@ public class VendaCompraLojaVirtual implements Serializable {
 	}
 
 
-	/**
-	 * @return the cupDesc
-	 */
 	public CupomDesc getCupDesc() {
 		return cupDesc;
 	}
 
-	/**
-	 * @param cupDesc the cupDesc to set
-	 */
 	public void setCupDesc(CupomDesc cupDesc) {
 		this.cupDesc = cupDesc;
 	}
