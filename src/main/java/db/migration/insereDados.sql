@@ -1,3 +1,6 @@
+
+
+
 /*Insere dados Pessoa Juridica*/
 INSERT INTO public.pessoa_juridica(
             id, email, nome, telefone, tipo_pessoa, empresa_id, categoria, 
