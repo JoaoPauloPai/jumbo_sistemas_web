@@ -24,6 +24,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author João Paulo
  *
@@ -42,39 +44,39 @@ public class VendaBalcaoLoja implements Serializable {
 	private Long id;
 	
 	@NotNull(message = "A pessoa compradora deve ser informado")
-//	@ManyToOne(targetEntity = PessoaFisica.class,cascade = CascadeType.ALL)
-	//@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+	@ManyToOne(targetEntity = PessoaFisica.class,cascade = CascadeType.ALL)
+	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private PessoaFisica pessoa;
 	
 	
-	
+
 	@NotNull(message = "Vendedor deve ser informado")
 	@ManyToOne(targetEntity = Vendedor.class)
-	//@JoinColumn(name = "vendedor_id", nullable = false, 
-//	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "vendedor_id_fk"))
+	@JoinColumn(name = "vendedor_id", nullable = false, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "vendedor_id_fk"))
 	private Long vendedor;
 	
 
 	@NotNull(message = "O valor da venda deve ser informado")
-	//@Column(nullable = false)
+	@Column(nullable = false)
 	private BigDecimal valorTotal;
 	
 	private BigDecimal valorDesconto;
 	
 	@NotNull(message = "A forma de pagamento deve ser informado")
 	@ManyToOne
-//	@JoinColumn(name = "forma_pagamento_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "forma_pagamento_fk"))
+	@JoinColumn(name = "forma_pagamento_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "forma_pagamento_fk"))
 	private FormaPagamento formaPagamento;
 		
 	@NotNull(message = "Data-Venda deve ser informada")
-//	@Column(nullable = false)
+	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dataVenda;
 	
 	@NotNull(message = "A empresa dona do registro deve ser informada")
 	@ManyToOne(targetEntity = PessoaJuridica.class)
-	//@JoinColumn(name = "empresa_id", nullable = false, 
-	//foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	@JoinColumn(name = "empresa_id", nullable = false, 
+	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
 
 	public Long getId() {

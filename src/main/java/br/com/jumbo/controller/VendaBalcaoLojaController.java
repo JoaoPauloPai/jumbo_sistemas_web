@@ -35,15 +35,15 @@ public class VendaBalcaoLojaController {
 	
 	@ResponseBody
 	@PostMapping(value = "**/salvarVendaBalcaoLoja")
-	public ResponseEntity<VendaCompraLojaVirtualDTO> salvarVendaBalcaoLoja(
+	public ResponseEntity<VendaBalcaoLoja> salvarVendaBalcaoLoja(
 			@RequestBody @Valid VendaBalcaoLoja vendaBalcaoLoja) throws ExceptionJumboSistemas {
 
         
-	     vendaBalcaoLoja	= vendaBalcaoLojaRepository.saveAndFlush(vendaBalcaoLoja);
+	     VendaBalcaoLoja vendaBalcao	= vendaBalcaoLojaRepository.saveAndFlush(vendaBalcaoLoja);
 		
-		VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
-		compraLojaVirtualDTO.setValorTotal(vendaBalcaoLoja.getValorTotal());
+		//VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
+		//compraLojaVirtualDTO.setValorTotal(vendaBalcaoLoja.getValorTotal());
 		
-		return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.OK);
+		return new ResponseEntity<VendaBalcaoLoja>(vendaBalcao, HttpStatus.OK);
 	}
 }

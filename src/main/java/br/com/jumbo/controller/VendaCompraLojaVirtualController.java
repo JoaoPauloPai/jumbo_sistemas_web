@@ -56,11 +56,9 @@ public class VendaCompraLojaVirtualController {
 
 	@Autowired
 	private StatusRastreioRepository statusRastreioRepository;
-	
+
 	@Autowired
 	private vendaLojaVirtualServise vendaLojaVirtualServise;
-	
-	
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarVendaLoja")
@@ -68,7 +66,8 @@ public class VendaCompraLojaVirtualController {
 			@RequestBody @Valid VendaCompraLojaVirtual vendaCompraLojaVirtual) throws ExceptionJumboSistemas {
 
 		vendaCompraLojaVirtual.getPessoa().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
-		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaCompraLojaVirtual.getPessoa()).getBody();
+		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaCompraLojaVirtual.getPessoa())
+				.getBody();
 		vendaCompraLojaVirtual.setPessoa(pessoaFisica);
 
 		vendaCompraLojaVirtual.getEnderecoCobranca().setPessoa(pessoaFisica);
@@ -88,9 +87,9 @@ public class VendaCompraLojaVirtualController {
 			vendaCompraLojaVirtual.getItemVendaLojas().get(i).setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
 		}
 
-		/*Salva primeiro a venda e todo os dados*/
+		/* Salva primeiro a venda e todo os dados */
 		vendaCompraLojaVirtual = vendaCompraLojaVirtualRepository.saveAndFlush(vendaCompraLojaVirtual);
-		
+
 		StatusRastreio statusRastreio = new StatusRastreio();
 		statusRastreio.setCentroDistribuicao("Loja Local");
 		statusRastreio.setCidade("Local");
@@ -98,13 +97,13 @@ public class VendaCompraLojaVirtualController {
 		statusRastreio.setEstado("Local");
 		statusRastreio.setStatus("Inicio Compra");
 		statusRastreio.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
-		
+
 		statusRastreioRepository.save(statusRastreio);
 
-		/*Associa a venda gravada no banco com a nota fiscal*/
+		/* Associa a venda gravada no banco com a nota fiscal */
 		vendaCompraLojaVirtual.getNotaFiscalVenda().setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
 
-		/*Persiste novamente as nota fiscal novamente pra ficar amarrada na venda*/
+		/* Persiste novamente as nota fiscal novamente pra ficar amarrada na venda */
 		notaFiscalVendaRepository.saveAndFlush(vendaCompraLojaVirtual.getNotaFiscalVenda());
 
 		VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
@@ -129,45 +128,69 @@ public class VendaCompraLojaVirtualController {
 
 		return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.OK);
 	}
-	
 
-	
+	@ResponseBody
+	@GetMapping(value = "**/consultaVendaId/{id}")
+	public ResponseEntity<VendaCompraLojaVirtualDTO> consultaVendaId(@PathVariable("id") Long idVenda) {
 
+		VendaCompraLojaVirtual vendaLojaVirtual = vendaCompraLojaVirtualRepository.findByIdExclusao(idVenda);
 
-	
+		if (vendaLojaVirtual == null) {
+			vendaLojaVirtual = new VendaCompraLojaVirtual();
+		}
+
+		VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
+
+		compraLojaVirtualDTO.setValorTotal(vendaLojaVirtual.getValorTotal());
+		compraLojaVirtualDTO.setPessoa(vendaLojaVirtual.getPessoa());
+
+		compraLojaVirtualDTO.setEntrega(vendaLojaVirtual.getEnderecoEntrega());
+		compraLojaVirtualDTO.setCobranca(vendaLojaVirtual.getEnderecoCobranca());
+
+		compraLojaVirtualDTO.setValorDesc(vendaLojaVirtual.getValorDesconto());
+		compraLojaVirtualDTO.setValorFrete(vendaLojaVirtual.getValorFrete());
+		compraLojaVirtualDTO.setId(vendaLojaVirtual.getId());
+
+		for (ItemVendaLoja item : vendaLojaVirtual.getItemVendaLojas()) {
+
+			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+			itemVendaDTO.setQuantidade(item.getQuantidade());
+			itemVendaDTO.setProduto(item.getProduto());
+
+			compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
+		}
+
+		return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.OK);
+	}
+
 	@ResponseBody
 	@PutMapping(value = "**/ativaRegistroVendaBanco/{idVenda}")
 	public ResponseEntity<String> ativaRegistroVendaBanco(@PathVariable(value = "idVenda") Long idVenda) {
-		
+
 		vendaLojaVirtualServise.ativaRegistroVendaBanco(idVenda);
-		
-		return new ResponseEntity<String>("Venda ativada com sucesso!.",HttpStatus.OK);
-		
+
+		return new ResponseEntity<String>("Venda ativada com sucesso!.", HttpStatus.OK);
+
 	}
-	
+
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteVendaTotalBanco/{idVenda}")
 	public ResponseEntity<String> deleteVendaTotalBanco(@PathVariable(value = "idVenda") Long idVenda) {
-		
+
 		vendaLojaVirtualServise.exclusaoTotalVendaBanco(idVenda);
-		
-		return new ResponseEntity<String>("Venda excluida com sucesso.",HttpStatus.OK);
-		
+
+		return new ResponseEntity<String>("Venda excluida com sucesso.", HttpStatus.OK);
+
 	}
-	
-	
+
 	@ResponseBody
-	@DeleteMapping(value = "**/deleteVendaTotalBanco2/{idVenda}")
+	@DeleteMapping(value = "**/deleteVendaTotalBanco2/{idVenda}")//Boolean
 	public ResponseEntity<String> deleteVendaTotalBanco2(@PathVariable(value = "idVenda") Long idVenda) {
-		
+
 		vendaLojaVirtualServise.exclusaoTotalVendaBanco2(idVenda);
-		
-		return new ResponseEntity<String>("Venda excluida logicamente com sucesso!.",HttpStatus.OK);
-		
+
+		return new ResponseEntity<String>("Venda excluida logicamente com sucesso!", HttpStatus.OK);
+
 	}
+
 }
-
-	
-
-
-

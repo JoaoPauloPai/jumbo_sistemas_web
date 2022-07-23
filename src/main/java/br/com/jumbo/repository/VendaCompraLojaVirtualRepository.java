@@ -21,6 +21,13 @@ import br.com.jumbo.model.VendaCompraLojaVirtual;
 public interface VendaCompraLojaVirtualRepository extends JpaRepository<VendaCompraLojaVirtual, Long>{
 
 
+    @Query(value="select a from VendaCompraLojaVirtual a where a.id = ?1 and a.excluido = false")
+	VendaCompraLojaVirtual findByIdExclusao(Long id);
+
+
+
+
+
 	
 
 
