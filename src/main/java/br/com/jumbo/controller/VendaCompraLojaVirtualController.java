@@ -3,9 +3,6 @@
  */
 package br.com.jumbo.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,6 +125,7 @@ public class VendaCompraLojaVirtualController {
 
 		return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.OK);
 	}
+	
 
 	@ResponseBody
 	@GetMapping(value = "**/consultaVendaId/{id}")
@@ -142,7 +140,7 @@ public class VendaCompraLojaVirtualController {
 		VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
 
 		compraLojaVirtualDTO.setValorTotal(vendaLojaVirtual.getValorTotal());
-		compraLojaVirtualDTO.setPessoa(vendaLojaVirtual.getPessoa());
+	//	compraLojaVirtualDTO.setPessoa(vendaLojaVirtual.getPessoa());
 
 		compraLojaVirtualDTO.setEntrega(vendaLojaVirtual.getEnderecoEntrega());
 		compraLojaVirtualDTO.setCobranca(vendaLojaVirtual.getEnderecoCobranca());
@@ -154,8 +152,8 @@ public class VendaCompraLojaVirtualController {
 		for (ItemVendaLoja item : vendaLojaVirtual.getItemVendaLojas()) {
 
 			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
-			itemVendaDTO.setQuantidade(item.getQuantidade());
-			itemVendaDTO.setProduto(item.getProduto());
+		//	itemVendaDTO.setQuantidade(item.getQuantidade());
+		//	itemVendaDTO.setProduto(item.getProduto());
 
 			compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
 		}
