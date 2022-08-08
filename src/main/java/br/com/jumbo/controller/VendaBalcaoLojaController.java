@@ -38,8 +38,12 @@ public class VendaBalcaoLojaController {
 	public ResponseEntity<VendaBalcaoLoja> salvarVendaBalcaoLoja(
 			@RequestBody @Valid VendaBalcaoLoja vendaBalcaoLoja) throws ExceptionJumboSistemas {
 
+		vendaBalcaoLoja.getPessoa().setEmpresa(vendaBalcaoLoja.getEmpresa());
         
-	     VendaBalcaoLoja vendaBalcao	= vendaBalcaoLojaRepository.saveAndFlush(vendaBalcaoLoja);
+	    
+		
+		VendaBalcaoLoja vendaBalcao	= vendaBalcaoLojaRepository.saveAndFlush(vendaBalcaoLoja);
+	    
 		
 		//VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
 		//compraLojaVirtualDTO.setValorTotal(vendaBalcaoLoja.getValorTotal());

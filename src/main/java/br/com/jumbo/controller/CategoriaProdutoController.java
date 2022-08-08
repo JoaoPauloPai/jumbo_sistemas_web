@@ -71,12 +71,13 @@ public class CategoriaProdutoController {
 	}
 
 	@ResponseBody /* Poder dar um retorno da API */
-	@PostMapping(value = "**/deleteCategoriaProduto") /* Mapeando a url para receber JSON */
+	@PostMapping(value = "**/deleteCategoriaProduto") 
 	public ResponseEntity<?> deleteCategoriaProduto(
-			@RequestBody CategoriaProduto categoriaProduto) { /* Recebe o JSON e converte pra Objeto */
+			@RequestBody CategoriaProduto categoriaProduto, long id) throws ExceptionJumboSistemas{
 
 		if (categoriaProdutoRepository.findById(categoriaProduto.getId()).isPresent() == false) {
-			return new ResponseEntity("Categoria já foi removida", HttpStatus.OK);
+			throw new ExceptionJumboSistemas("O Código: " + id +", da categoria do produto não foi encotrado no banco de dados");
+			//return new ResponseEntity("O Código :" + id +"da categoria do produto não foi encotrado no banco de dados", HttpStatus.OK);
 		}
 
 		categoriaProdutoRepository.deleteById(categoriaProduto.getId());

@@ -49,7 +49,7 @@ public class VendaBalcaoLoja implements Serializable {
 	private PessoaFisica pessoa;
 	
 	
-
+@JsonIgnore
 	@NotNull(message = "Vendedor deve ser informado")
 	@ManyToOne(targetEntity = Vendedor.class)
 	@JoinColumn(name = "vendedor_id", nullable = false, 

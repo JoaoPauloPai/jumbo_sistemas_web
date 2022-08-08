@@ -152,8 +152,8 @@ public class VendaCompraLojaVirtualController {
 		for (ItemVendaLoja item : vendaLojaVirtual.getItemVendaLojas()) {
 
 			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
-		//	itemVendaDTO.setQuantidade(item.getQuantidade());
-		//	itemVendaDTO.setProduto(item.getProduto());
+		//	itemVendaDTO.setQuantidade(item.getQuantidade()); erro
+		//	itemVendaDTO.setProduto(item.getProduto());  erro
 
 			compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
 		}
