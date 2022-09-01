@@ -3,10 +3,13 @@
  */
 package br.com.jumbo.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
+import br.com.jumbo.enums.StatusContaReceber;
+import br.com.jumbo.model.ContaReceber;
 import br.com.jumbo.model.Endereco;
 import br.com.jumbo.model.ItemVendaLoja;
 import br.com.jumbo.model.PessoaFisica;
@@ -29,10 +34,12 @@ import br.com.jumbo.model.StatusRastreio;
 import br.com.jumbo.model.VendaCompraLojaVirtual;
 import br.com.jumbo.model.dto.ItemVendaDTO;
 import br.com.jumbo.model.dto.VendaCompraLojaVirtualDTO;
+import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.repository.EnderecoRepository;
 import br.com.jumbo.repository.NotaFiscalVendaRepository;
 import br.com.jumbo.repository.StatusRastreioRepository;
 import br.com.jumbo.repository.VendaCompraLojaVirtualRepository;
+import br.com.jumbo.service.ServiceSendEmail;
 import br.com.jumbo.service.vendaLojaVirtualServise;
 
 /**
@@ -60,15 +67,20 @@ public class VendaCompraLojaVirtualController {
 
 	@Autowired
 	private vendaLojaVirtualServise vendaLojaVirtualServise;
+	
+	@Autowired
+	private ContaReceberRepository contaReceberRepository;
+	
+	@Autowired
+	private ServiceSendEmail serviceSendEmail;
 
 	@ResponseBody
-	@PostMapping(value = "**/salvarVendaLoja")
-	public ResponseEntity<VendaCompraLojaVirtualDTO> salvarVendaLoja(
-			@RequestBody @Valid VendaCompraLojaVirtual vendaCompraLojaVirtual) throws ExceptionJumboSistemas {
+	@PostMapping(value = "**/salvarVendaLoja1")
+	public ResponseEntity<VendaCompraLojaVirtualDTO> salvarVendaLoja1(
+			@RequestBody @Valid VendaCompraLojaVirtual vendaCompraLojaVirtual) throws ExceptionJumboSistemas, UnsupportedEncodingException, MessagingException {
 
 		vendaCompraLojaVirtual.getPessoa().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
-		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaCompraLojaVirtual.getPessoa())
-				.getBody();
+		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaCompraLojaVirtual.getPessoa()).getBody();
 		vendaCompraLojaVirtual.setPessoa(pessoaFisica);
 
 		vendaCompraLojaVirtual.getEnderecoCobranca().setPessoa(pessoaFisica);
@@ -90,7 +102,7 @@ public class VendaCompraLojaVirtualController {
 
 		/* Salva primeiro a venda e todo os dados */
 		vendaCompraLojaVirtual = vendaCompraLojaVirtualRepository.saveAndFlush(vendaCompraLojaVirtual);
-
+		
 		StatusRastreio statusRastreio = new StatusRastreio();
 		statusRastreio.setCentroDistribuicao("Loja Local");
 		statusRastreio.setCidade("Local");
@@ -98,7 +110,7 @@ public class VendaCompraLojaVirtualController {
 		statusRastreio.setEstado("Local");
 		statusRastreio.setStatus("Inicio Compra");
 		statusRastreio.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
-
+		
 		statusRastreioRepository.save(statusRastreio);
 
 		/* Associa a venda gravada no banco com a nota fiscal */
@@ -126,11 +138,36 @@ public class VendaCompraLojaVirtualController {
 
 			compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
 		}
+		
+		
+	    ContaReceber contaReceber = new ContaReceber(); 
+		contaReceber.setDescricao("Venda da loja virtual nº: " + vendaCompraLojaVirtual.getId());
+		contaReceber.setDtPagamento(Calendar.getInstance().getTime());
+		contaReceber.setDtVencimento(Calendar.getInstance().getTime());
+		contaReceber.setEmpresa(vendaCompraLojaVirtual.getEmpresa());
+		contaReceber.setPessoa(vendaCompraLojaVirtual.getPessoa());
+		contaReceber.setStatus(StatusContaReceber.QUITADA);
+		contaReceber.setValorDesconto(vendaCompraLojaVirtual.getValorDesconto());
+		contaReceber.setValorTotal(vendaCompraLojaVirtual.getValorTotal());
+		
+		contaReceberRepository.saveAndFlush(contaReceber);
+	    
+		/*Emil para o comprador*/
+		StringBuilder msgemail = new StringBuilder();
+		msgemail.append("Olá, ").append(pessoaFisica.getNome()).append("</br>");
+		msgemail.append("Você realizou a compra de nº: ").append(vendaCompraLojaVirtual.getId()).append("</br>");
+		msgemail.append("Na loja ").append(vendaCompraLojaVirtual.getEmpresa().getNomeFantasia());
+		/*assunto, msg, destino*/
+		serviceSendEmail.enviarEmailHtml("Compra Realizada", msgemail.toString(), pessoaFisica.getEmail());
+		
+		/*Email para o vendedor*/
+		msgemail = new StringBuilder();
+		msgemail.append("Você realizou uma venda, nº " ).append(vendaCompraLojaVirtual.getId());
+		serviceSendEmail.enviarEmailHtml("Venda Realizada", msgemail.toString(), vendaCompraLojaVirtual.getEmpresa().getEmail());
 
 		return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.OK);
 	}
 	
-
 	@ResponseBody
 	@GetMapping(value = "**/consultaVendaId/{id}")
 	public ResponseEntity<VendaCompraLojaVirtualDTO> consultaVendaId(@PathVariable("id") Long idVenda) {
