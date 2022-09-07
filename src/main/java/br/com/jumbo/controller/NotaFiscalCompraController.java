@@ -43,6 +43,15 @@ public class NotaFiscalCompraController {
 
 		if (notaFiscalCompra.getId() == null) {
 
+			if (notaFiscalCompra.getNumeroNota() != null) {
+				boolean existe = notaFiscalCompraRepository
+						.existeNotaComMesmoNumero(notaFiscalCompra.getNumeroNota().toUpperCase().trim());
+				if (existe) {
+					throw new ExceptionJumboSistemas(
+							"Já existe nota de compra com esse número : " + notaFiscalCompra.getNumeroNota());
+				}
+			}
+
 			if (notaFiscalCompra.getDescricaoObs() != null) {
 				boolean existe = notaFiscalCompraRepository
 						.existeNotaComDescricao(notaFiscalCompra.getDescricaoObs().toUpperCase().trim());

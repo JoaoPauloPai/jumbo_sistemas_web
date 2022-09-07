@@ -19,6 +19,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "nota_fiscal_compra")
@@ -32,6 +33,8 @@ public class NotaFiscalCompra implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_nota_fiscal_compra")
 	private Long id;
 	
+
+	@Size(min = 3, message = "Numero da nota deve conter 3 caracteres mínimo.")
 	@NotNull(message = "Informe o número da nota")
 	@Column(nullable = false)
 	private String numeroNota;
