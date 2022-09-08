@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.enums.TipoPessoa;
 import br.com.jumbo.model.PessoaFisica;
+import br.com.jumbo.model.Usuario;
 import br.com.jumbo.repository.PessoaFisicaRepository;
 import br.com.jumbo.service.PessoaFisicaService;
 import br.com.jumbo.service.ServiceContagemAcessoApi;
@@ -79,6 +80,8 @@ public class PessoaFisicaController {
 		if (!ValidaCPF.isCPF(pessoaFisica.getCpf())) {
 			throw new ExceptionJumboSistemas("CPF : " + pessoaFisica.getCpf() + " está inválido.");
 		}
+		//pessoaFisica.getEmpresa().setEmpresa(usuario.);
+	//	vendaCompraLojaVirtual.getPessoa().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
 
 		pessoaFisica = pessoaFisicaService.salvarPessoaFisica(pessoaFisica);
 		

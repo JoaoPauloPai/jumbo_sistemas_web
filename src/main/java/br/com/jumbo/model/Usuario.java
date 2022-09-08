@@ -67,7 +67,6 @@ public class Usuario implements UserDetails {
 		return empresa;
 	}
 
-
 	public void setEmpresa(Pessoa empresa) {
 		this.empresa = empresa;
 	}

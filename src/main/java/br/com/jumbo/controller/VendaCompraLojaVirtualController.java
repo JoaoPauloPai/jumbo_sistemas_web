@@ -67,20 +67,22 @@ public class VendaCompraLojaVirtualController {
 
 	@Autowired
 	private vendaLojaVirtualServise vendaLojaVirtualServise;
-	
+
 	@Autowired
 	private ContaReceberRepository contaReceberRepository;
-	
+
 	@Autowired
 	private ServiceSendEmail serviceSendEmail;
 
 	@ResponseBody
-	@PostMapping(value = "**/salvarVendaLoja1")
-	public ResponseEntity<VendaCompraLojaVirtualDTO> salvarVendaLoja1(
-			@RequestBody @Valid VendaCompraLojaVirtual vendaCompraLojaVirtual) throws ExceptionJumboSistemas, UnsupportedEncodingException, MessagingException {
+	@PostMapping(value = "**/salvarVendaLoja")
+	public ResponseEntity<VendaCompraLojaVirtualDTO> salvarVendaLoja(
+			@RequestBody @Valid VendaCompraLojaVirtual vendaCompraLojaVirtual)
+			throws ExceptionJumboSistemas, UnsupportedEncodingException, MessagingException {
 
 		vendaCompraLojaVirtual.getPessoa().setEmpresa(vendaCompraLojaVirtual.getEmpresa());
-		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaCompraLojaVirtual.getPessoa()).getBody();
+		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaCompraLojaVirtual.getPessoa())
+				.getBody();
 		vendaCompraLojaVirtual.setPessoa(pessoaFisica);
 
 		vendaCompraLojaVirtual.getEnderecoCobranca().setPessoa(pessoaFisica);
@@ -102,7 +104,7 @@ public class VendaCompraLojaVirtualController {
 
 		/* Salva primeiro a venda e todo os dados */
 		vendaCompraLojaVirtual = vendaCompraLojaVirtualRepository.saveAndFlush(vendaCompraLojaVirtual);
-		
+
 		StatusRastreio statusRastreio = new StatusRastreio();
 		statusRastreio.setCentroDistribuicao("Loja Local");
 		statusRastreio.setCidade("Local");
@@ -110,7 +112,7 @@ public class VendaCompraLojaVirtualController {
 		statusRastreio.setEstado("Local");
 		statusRastreio.setStatus("Inicio Compra");
 		statusRastreio.setVendaCompraLojaVirtual(vendaCompraLojaVirtual);
-		
+
 		statusRastreioRepository.save(statusRastreio);
 
 		/* Associa a venda gravada no banco com a nota fiscal */
@@ -138,9 +140,8 @@ public class VendaCompraLojaVirtualController {
 
 			compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
 		}
-		
-		
-	    ContaReceber contaReceber = new ContaReceber(); 
+
+		ContaReceber contaReceber = new ContaReceber();
 		contaReceber.setDescricao("Venda da loja virtual nº: " + vendaCompraLojaVirtual.getId());
 		contaReceber.setDtPagamento(Calendar.getInstance().getTime());
 		contaReceber.setDtVencimento(Calendar.getInstance().getTime());
@@ -149,25 +150,26 @@ public class VendaCompraLojaVirtualController {
 		contaReceber.setStatus(StatusContaReceber.QUITADA);
 		contaReceber.setValorDesconto(vendaCompraLojaVirtual.getValorDesconto());
 		contaReceber.setValorTotal(vendaCompraLojaVirtual.getValorTotal());
-		
+
 		contaReceberRepository.saveAndFlush(contaReceber);
-	    
-		/*Emil para o comprador*/
+
+		/* Emil para o comprador */
 		StringBuilder msgemail = new StringBuilder();
 		msgemail.append("Olá, ").append(pessoaFisica.getNome()).append("</br>");
 		msgemail.append("Você realizou a compra de nº: ").append(vendaCompraLojaVirtual.getId()).append("</br>");
 		msgemail.append("Na loja ").append(vendaCompraLojaVirtual.getEmpresa().getNomeFantasia());
-		/*assunto, msg, destino*/
+		/* assunto, msg, destino */
 		serviceSendEmail.enviarEmailHtml("Compra Realizada", msgemail.toString(), pessoaFisica.getEmail());
-		
-		/*Email para o vendedor*/
+
+		/* Email para o vendedor */
 		msgemail = new StringBuilder();
-		msgemail.append("Você realizou uma venda, nº " ).append(vendaCompraLojaVirtual.getId());
-		serviceSendEmail.enviarEmailHtml("Venda Realizada", msgemail.toString(), vendaCompraLojaVirtual.getEmpresa().getEmail());
+		msgemail.append("Você realizou uma venda, nº ").append(vendaCompraLojaVirtual.getId());
+		serviceSendEmail.enviarEmailHtml("Venda Realizada", msgemail.toString(),
+				vendaCompraLojaVirtual.getEmpresa().getEmail());
 
 		return new ResponseEntity<VendaCompraLojaVirtualDTO>(compraLojaVirtualDTO, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaVendaId/{id}")
 	public ResponseEntity<VendaCompraLojaVirtualDTO> consultaVendaId(@PathVariable("id") Long idVenda) {
@@ -181,7 +183,7 @@ public class VendaCompraLojaVirtualController {
 		VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
 
 		compraLojaVirtualDTO.setValorTotal(vendaLojaVirtual.getValorTotal());
-	//	compraLojaVirtualDTO.setPessoa(vendaLojaVirtual.getPessoa());
+		compraLojaVirtualDTO.setPessoa(vendaLojaVirtual.getPessoa());
 
 		compraLojaVirtualDTO.setEntrega(vendaLojaVirtual.getEnderecoEntrega());
 		compraLojaVirtualDTO.setCobranca(vendaLojaVirtual.getEnderecoCobranca());
@@ -193,8 +195,8 @@ public class VendaCompraLojaVirtualController {
 		for (ItemVendaLoja item : vendaLojaVirtual.getItemVendaLojas()) {
 
 			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
-		//	itemVendaDTO.setQuantidade(item.getQuantidade()); erro
-		//	itemVendaDTO.setProduto(item.getProduto());  erro
+			itemVendaDTO.setQuantidade(item.getQuantidade());
+			itemVendaDTO.setProduto(item.getProduto());
 
 			compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
 		}
@@ -223,7 +225,7 @@ public class VendaCompraLojaVirtualController {
 	}
 
 	@ResponseBody
-	@DeleteMapping(value = "**/deleteVendaTotalBanco2/{idVenda}")//Boolean
+	@DeleteMapping(value = "**/deleteVendaTotalBanco2/{idVenda}") // Boolean
 	public ResponseEntity<String> deleteVendaTotalBanco2(@PathVariable(value = "idVenda") Long idVenda) {
 
 		vendaLojaVirtualServise.exclusaoTotalVendaBanco2(idVenda);
@@ -231,58 +233,51 @@ public class VendaCompraLojaVirtualController {
 		return new ResponseEntity<String>("Venda excluida logicamente com sucesso!", HttpStatus.OK);
 
 	}
-	
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaVendaDinamicaFaixaData/{data1}/{data2}")
-	public ResponseEntity<List<VendaCompraLojaVirtualDTO>> 
-	                            consultaVendaDinamicaFaixaData(
-	                            		@PathVariable("data1") String data1,
-	                            		@PathVariable("data2") String data2) throws ParseException{
-		
+	public ResponseEntity<List<VendaCompraLojaVirtualDTO>> consultaVendaDinamicaFaixaData(
+			@PathVariable("data1") String data1, @PathVariable("data2") String data2) throws ParseException {
+
 		List<VendaCompraLojaVirtual> compraLojaVirtual = null;
-		
-		
+
 		compraLojaVirtual = vendaLojaVirtualServise.consultaVendaFaixaData(data1, data2);
-		
-		
+
 		if (compraLojaVirtual == null) {
 			compraLojaVirtual = new ArrayList<VendaCompraLojaVirtual>();
 		}
-		
-		
-		
-         List<VendaCompraLojaVirtualDTO> compraLojaVirtualDTOList = new ArrayList<VendaCompraLojaVirtualDTO>();
-		
+
+		List<VendaCompraLojaVirtualDTO> compraLojaVirtualDTOList = new ArrayList<VendaCompraLojaVirtualDTO>();
+
 		for (VendaCompraLojaVirtual vcl : compraLojaVirtual) {
-			
+
 			VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
-	
+
 			compraLojaVirtualDTO.setValorTotal(vcl.getValorTotal());
 			compraLojaVirtualDTO.setPessoa(vcl.getPessoa());
-	
+
 			compraLojaVirtualDTO.setEntrega(vcl.getEnderecoEntrega());
 			compraLojaVirtualDTO.setCobranca(vcl.getEnderecoCobranca());
-	
+
 			compraLojaVirtualDTO.setValorDesc(vcl.getValorDesconto());
 			compraLojaVirtualDTO.setValorFrete(vcl.getValorFrete());
 			compraLojaVirtualDTO.setId(vcl.getId());
 
 			for (ItemVendaLoja item : vcl.getItemVendaLojas()) {
-	
+
 				ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
 				itemVendaDTO.setQuantidade(item.getQuantidade());
 				itemVendaDTO.setProduto(item.getProduto());
-	
+
 				compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
 			}
-			
+
 			compraLojaVirtualDTOList.add(compraLojaVirtualDTO);
-		
+
 		}
 
 		return new ResponseEntity<List<VendaCompraLojaVirtualDTO>>(compraLojaVirtualDTOList, HttpStatus.OK);
-		
+
 	}
 
 }

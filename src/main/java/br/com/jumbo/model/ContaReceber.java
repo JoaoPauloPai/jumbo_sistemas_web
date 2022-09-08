@@ -26,13 +26,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import br.com.jumbo.enums.StatusContaReceber;
 
 @Entity
 @Table(name = "conta_receber")
 @SequenceGenerator(name = "seq_conta_receber", sequenceName = "seq_conta_receber", initialValue = 1, allocationSize = 1)
-public abstract class ContaReceber implements Serializable {
+public class ContaReceber implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -40,6 +41,7 @@ public abstract class ContaReceber implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_conta_receber")
 	private Long id;
 
+	@NotNull(message = "A descrição da conta deve ser informado")
 	@Column(nullable = false)
 	private String descricao;
 
@@ -64,21 +66,15 @@ public abstract class ContaReceber implements Serializable {
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
 
-	@ManyToOne(targetEntity = Pessoa.class)
+	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
-	private Pessoa empresa;
+	private PessoaJuridica empresa;
 
-	/**
-	 * @return the empresa
-	 */
-	public Pessoa getEmpresa() {
+	public PessoaJuridica getEmpresa() {
 		return empresa;
 	}
 
-	/**
-	 * @param empresa the empresa to set
-	 */
-	public void setEmpresa(Pessoa empresa) {
+	public void setEmpresa(PessoaJuridica empresa) {
 		this.empresa = empresa;
 	}
 
