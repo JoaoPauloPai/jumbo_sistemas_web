@@ -79,6 +79,15 @@ public class ContaPagarController{
 	}
 	
 	@ResponseBody
+	@GetMapping(value = "**/buscaContaPargarDesc/{desc}")
+	public ResponseEntity<List<ContaPagar>> buscaContaPagarDesc(@PathVariable("desc") String desc) {
+
+		List<ContaPagar> contaPagarDesc = contaPagarRepository.buscaContaPagarDesc(desc.toUpperCase());
+
+		return new ResponseEntity<List<ContaPagar>>(contaPagarDesc, HttpStatus.OK);
+	}
+	
+	@ResponseBody
 	@DeleteMapping(value = "**/deleteContaPagarPorId/{id}")
 	public ResponseEntity<?> deleteContaPagarPorId(@PathVariable("id") Long id) {
 
@@ -86,8 +95,7 @@ public class ContaPagarController{
 
 		return new ResponseEntity("Conta-Pagar deletado por Id com sucesso!", HttpStatus.OK);
 	}
-	
-	
+		
 }
 
 
