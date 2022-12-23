@@ -1,6 +1,4 @@
 
-
-
 /*Insere dados Pessoa Juridica*/
 INSERT INTO public.pessoa_juridica(
             id, email, nome, telefone, tipo_pessoa, empresa_id, categoria, 
@@ -24,3 +22,9 @@ INSERT INTO public.pessoa_juridica(
             INSERT INTO public.usuario(
             id, data_atual_senha, login, senha, empresa_id, pessoa_id)
     VALUES (1, '2021-12-20', 'admin','$2a$10$/3oD53zwfw1iGAgqFMmaJ.GHmkR/cL5TTOvf6Qi9sNdt5K7MJq4Ka' , '1', '1');
+    
+      /*Insere Usuario-Acesso*/
+    INSERT INTO public.usuarios_acesso(
+            usuario_id, acesso_id)
+    VALUES (1, '500'),
+            (1,'501');
