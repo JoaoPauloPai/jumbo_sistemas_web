@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
+import br.com.jumbo.model.PessoaFisica;
+import br.com.jumbo.model.Produto;
 import br.com.jumbo.model.Vendedor;
 import br.com.jumbo.repository.VendedorRepository;
 
@@ -34,20 +36,21 @@ public class VendedorController {
 
 	@Autowired
 	private VendedorRepository vendedorRepository;
+	
+
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarVendedor")
 	public ResponseEntity<Vendedor> salvarVendedor(@RequestBody @Valid Vendedor vendedor)
 			throws ExceptionJumboSistemas {
-             /*
-		if (vendedor.getId() <= 0) {
-			List<Vendedor> vendedores = vendedorRepository.buscaVendedoPessoaId(vendedor.getPessoa().getId().longValue());
-
-			if (!vendedores.isEmpty()) {
-				throw new ExceptionJumboSistemas("Já existe Vendedor com o id pessoa: " + vendedor.getPessoa());
+		
+		if (vendedor.getPessoa().getId() != null) {
+			  List<Vendedor> vendedores  = vendedorRepository.buscarPorPessoa(vendedor.getPessoa().getId(), vendedor.getEmpresa().getId());
+			  if (!vendedores.isEmpty()) {
+				  throw new ExceptionJumboSistemas("Já existe Vendedor cadastrado com a pessoa  codigo : " + vendedor.getPessoa().getId());
+			  }
 			}
-
-		}*/
+	
 
 		Vendedor vendedorSalvo = vendedorRepository.save(vendedor);
 		
@@ -67,10 +70,10 @@ public class VendedorController {
 	@GetMapping(value = "**/listaVendedor")
 	public ResponseEntity<List<Vendedor>> listaVendedor() {
 
-		List<Vendedor> vendedorSalvo = vendedorRepository.findAll();
+		List<Vendedor> vendLista = vendedorRepository.findAll();
 
-		return new ResponseEntity<List<Vendedor>>(vendedorSalvo, HttpStatus.OK);
+		return new ResponseEntity<List<Vendedor>>(vendLista, HttpStatus.OK);
 
 	}
-
+	
 }
