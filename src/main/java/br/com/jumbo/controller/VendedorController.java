@@ -76,4 +76,17 @@ public class VendedorController {
 
 	}
 	
+	@ResponseBody
+	@GetMapping(value = "**/buscaVendedorPorId/{id}")
+	public ResponseEntity<Vendedor> buscaVendedorPorId(@PathVariable("id") Long id) throws ExceptionJumboSistemas{ 
+		
+		Vendedor vendedor = vendedorRepository.findById(id).orElse(null);
+		
+		if (vendedor == null) {
+			throw new ExceptionJumboSistemas("Não encontrou Vendedor com código: " + id);
+		}
+		
+		return new ResponseEntity<Vendedor>(vendedor,HttpStatus.OK);
+	}
+	
 }

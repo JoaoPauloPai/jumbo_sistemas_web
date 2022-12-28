@@ -49,12 +49,12 @@ public class VendaBalcaoLoja implements Serializable {
 	private PessoaFisica pessoa;
 	
 	
-@JsonIgnore
 	@NotNull(message = "Vendedor deve ser informado")
 	@ManyToOne(targetEntity = Vendedor.class)
 	@JoinColumn(name = "vendedor_id", nullable = false, 
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "vendedor_id_fk"))
-	private Long vendedor;
+	private Vendedor vendedor;
+	//private Long vendedor;
 	
 
 	@NotNull(message = "O valor da venda deve ser informado")
@@ -95,11 +95,12 @@ public class VendaBalcaoLoja implements Serializable {
 		this.pessoa = pessoa;
 	}
 
-	public Long getVendedor() {
+
+	public Vendedor getVendedor() {
 		return vendedor;
 	}
 
-	public void setVendedor(Long vendedor) {
+	public void setVendedor(Vendedor vendedor) {
 		this.vendedor = vendedor;
 	}
 
