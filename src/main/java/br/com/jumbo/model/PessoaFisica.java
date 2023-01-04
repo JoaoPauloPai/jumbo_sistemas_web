@@ -15,13 +15,12 @@ import org.hibernate.validator.constraints.br.CPF;
 @Table(name = "pessoa_fisica")
 @PrimaryKeyJoinColumn(name = "id")
 public class PessoaFisica extends Pessoa {
-
 	private static final long serialVersionUID = 1L;
-	
-	@CPF(message = "CPF está inválido!")
+
+	@CPF(message = "CPF está inválido")
 	@Column(nullable = false)
 	private String cpf;
-	
+
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 
@@ -40,7 +39,4 @@ public class PessoaFisica extends Pessoa {
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
-
-
-
 }

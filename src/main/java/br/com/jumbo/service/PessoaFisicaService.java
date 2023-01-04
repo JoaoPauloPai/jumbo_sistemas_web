@@ -52,30 +52,30 @@ public class PessoaFisicaService {
 
 		pessoaFisica = pessoaFisicaRepository.save(pessoaFisica);
 
-		Usuario usuarioPj = usuarioRepository.findUserByPessoa(pessoaFisica.getId(), pessoaFisica.getEmail());
+		Usuario usuarioPf = usuarioRepository.findUserByPessoa(pessoaFisica.getId(), pessoaFisica.getEmail());
 
-		if (usuarioPj == null) {
+		if (usuarioPf == null) {
 
 			String constraint = usuarioRepository.consultaConstraintAcesso();
 			if (constraint != null) {
 				jdbcTemplate.execute("begin; alter table usuarios_acesso drop constraint " + constraint + "; commit;");
 			}
 
-			usuarioPj = new Usuario();
-			usuarioPj.setDataAtualSenha(Calendar.getInstance().getTime());
-			usuarioPj.setEmpresa(pessoaFisica.getEmpresa());
-			usuarioPj.setPessoa(pessoaFisica);
-			usuarioPj.setLogin(pessoaFisica.getEmail());
+			usuarioPf = new Usuario();
+			usuarioPf.setDataAtualSenha(Calendar.getInstance().getTime());
+			usuarioPf.setEmpresa(pessoaFisica.getEmpresa());
+			usuarioPf.setPessoa(pessoaFisica);
+			usuarioPf.setLogin(pessoaFisica.getEmail());
 
 			String senha = "" + Calendar.getInstance().getTimeInMillis();
 			String senhaCript = new BCryptPasswordEncoder().encode(senha);
 
-			usuarioPj.setSenha(senhaCript);
+			usuarioPf.setSenha(senhaCript);
 
-			usuarioPj = usuarioRepository.save(usuarioPj);
+			usuarioPf = usuarioRepository.save(usuarioPf);
 
-			usuarioRepository.insereAcessoUserPj(usuarioPj.getId());
-			usuarioRepository.insereAcessoUser(usuarioPj.getId(), "ROLE_ADMIN");
+			usuarioRepository.insereAcessoUserPj(usuarioPf.getId());
+			usuarioRepository.insereAcessoUser(usuarioPf.getId(), "ROLE_ADMIN");
 
 			StringBuilder menssagemHtml = new StringBuilder();
 
