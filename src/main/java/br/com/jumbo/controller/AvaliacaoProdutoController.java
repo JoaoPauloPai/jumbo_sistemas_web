@@ -38,20 +38,47 @@ public class AvaliacaoProdutoController {
 	private AvaliacaoProdutoRepository avaliacaoProdutoRepository;
 	
 	@ResponseBody
-	@PostMapping(value = "**/salvarAvaliacaoProduto")
-	public ResponseEntity<AvaliacaoProduto> salvarSalvarAvalicaoProduto(@RequestBody @Valid AvaliacaoProduto avaliacaoProduto) throws ExceptionJumboSistemas {
-
-	//	if (acesso.getId() == null) {
-		//	List<Acesso> acessos = acessoRepository.buscaAcessoDesc(acesso.getDescricao().toUpperCase());
-
-		//	if (!acessos.isEmpty()) {
-			//	throw new ExceptionJumboSistemas("Já existe Acesso com a descrição: " + acesso.getDescricao());
-		//	}
+	@PostMapping(value = "**/salvaAvaliacaoProduto")
+	public ResponseEntity<AvaliacaoProduto> savalAvaliacaoProduto(@RequestBody @Valid AvaliacaoProduto avaliacaoProduto) throws ExceptionJumboSistemas{
 		
-		AvaliacaoProduto avaliacaoProdutoSalvo = avaliacaoProdutoRepository.save(avaliacaoProduto);
-
-		return new ResponseEntity<AvaliacaoProduto>(avaliacaoProdutoSalvo, HttpStatus.OK);
+		if (avaliacaoProduto.getEmpresa() == null || (avaliacaoProduto.getEmpresa() != null && avaliacaoProduto.getEmpresa().getId() <= 0)) {
+			 throw new ExceptionJumboSistemas("Informa a empresa dona do registro");
+		}
+		
+		
+		if(avaliacaoProduto.getProduto() == null || (avaliacaoProduto.getProduto() != null && avaliacaoProduto.getProduto().getId() <= 0)) {
+			 throw new ExceptionJumboSistemas("A avaliação deve conter o produto associado.");
+		}
+		
+		
+		if(avaliacaoProduto.getPessoa() == null || (avaliacaoProduto.getPessoa() != null && avaliacaoProduto.getPessoa().getId() <= 0)) {
+			 throw new ExceptionJumboSistemas("A avaliação deve conter a pessoa ou cliente associado.");
+		}
+		
+		avaliacaoProduto = avaliacaoProdutoRepository.saveAndFlush(avaliacaoProduto);
+		
+		return new ResponseEntity<AvaliacaoProduto>(avaliacaoProduto, HttpStatus.OK);
+		
 	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/avaliacaoProduto/{idProduto}")
+	public ResponseEntity<List<AvaliacaoProduto>> avaliacaoProduto(@PathVariable("idProduto") Long idProduto) { 
+		
+		List<AvaliacaoProduto> avaliacaoProdutos = avaliacaoProdutoRepository.avaliacaoProduto(idProduto);
+		
+		return new ResponseEntity<List<AvaliacaoProduto>>(avaliacaoProdutos,HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/avaliacaoProdutoPorPessoa/{idPessoa}")
+	public ResponseEntity<List<AvaliacaoProduto>> avaliacaoPessoa(@PathVariable("idPessoa") Long idPessoa) { 
+		
+		List<AvaliacaoProduto> avaliacaoProdutos = avaliacaoProdutoRepository.avaliacaoPessoa(idPessoa);
+		
+		return new ResponseEntity<List<AvaliacaoProduto>>(avaliacaoProdutos,HttpStatus.OK);
+	}
+	
 		
 
 	@ResponseBody

@@ -67,7 +67,7 @@ public class ImagemProdutoController {
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteImagemObjeto")
 	public ResponseEntity<?> deleteImagemProdutoPorId(@RequestBody ImagemProduto imagemProduto) {
-		imagemProduto.setId(10);
+		
 		if(!imagemProdutoRepository.existsById(imagemProduto.getId())) {
 			return new ResponseEntity<String>("Imagem já foi removida ou não existe com esse id: " + imagemProduto.getId(), HttpStatus.OK);
 		}
