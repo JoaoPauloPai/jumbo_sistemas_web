@@ -21,6 +21,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -35,6 +37,8 @@ public class AvaliacaoProduto implements Serializable {
 	private Long id;
 
 	@NotNull(message = "Informe a nota")
+	@Min(value = 1, message = "A nota deve ser pelo menos 1")
+	@Max(value = 10, message = "A nota deve ser pelo menos 10")
 	@Column(nullable = false)
 	private Integer nota;
 
