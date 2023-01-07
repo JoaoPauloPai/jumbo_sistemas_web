@@ -24,7 +24,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import br.com.jumbo.enums.TipoEndereco;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -49,19 +49,31 @@ public abstract class Pessoa implements Serializable {
 
 	@Column(nullable = false)
 	private String telefone;
-	
+
 	@Column
-	private String tipoPessoa; 
-	
+	private String tipoPessoa;
+
 	@OneToMany(mappedBy = "pessoa", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Endereco> enderecos = new ArrayList<Endereco>();
-	
-	
+
 	@ManyToOne(targetEntity = Pessoa.class)
-	@JoinColumn(name = "empresa_id", nullable = true, 
-	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	@JoinColumn(name = "empresa_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private Pessoa empresa;
-	
+
+	public Endereco enderecoEntrega() {
+
+		Endereco enderecoReturn = null;
+
+		for (Endereco endereco : enderecos) {
+			if (endereco.getTipoEndereco().name().equals(TipoEndereco.ENTREGA.name())) {
+				enderecoReturn = endereco;
+				break;
+			}
+		}
+
+		return enderecoReturn;
+	}
+
 	public Pessoa getEmpresa() {
 		return empresa;
 	}
@@ -73,16 +85,15 @@ public abstract class Pessoa implements Serializable {
 	public void setTipoPessoa(String tipoPessoa) {
 		this.tipoPessoa = tipoPessoa;
 	}
-	
+
 	public String getTipoPessoa() {
 		return tipoPessoa;
 	}
-	
-	
+
 	public void setEnderecos(List<Endereco> enderecos) {
 		this.enderecos = enderecos;
 	}
-	
+
 	public List<Endereco> getEnderecos() {
 		return enderecos;
 	}

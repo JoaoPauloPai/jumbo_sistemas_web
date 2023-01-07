@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
-import br.com.jumbo.model.Acesso;
-import br.com.jumbo.model.CategoriaProduto;
 import br.com.jumbo.model.MarcaProduto;
-import br.com.jumbo.model.dto.CategoriaProdutoDto;
 import br.com.jumbo.repository.MarcaProdutoRepository;
 import br.com.jumbo.service.MarcaProdutoSevice;
 

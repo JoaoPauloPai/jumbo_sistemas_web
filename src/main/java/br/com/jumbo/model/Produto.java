@@ -75,6 +75,8 @@ public class Produto implements Serializable {
 	private Integer QtdEstoque = 0;
 
 	private Integer QtdeAlertaEstoque = 0;
+	
+	private String localizacao;
 
 	private String linkYoutube;
 
@@ -100,6 +102,16 @@ public class Produto implements Serializable {
 	@OneToMany(mappedBy = "produto", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<ImagemProduto> imagens = new ArrayList<ImagemProduto>();
 	
+	
+	
+	public String getLocalizacao() {
+		return localizacao;
+	}
+
+	public void setLocalizacao(String localizacao) {
+		this.localizacao = localizacao;
+	}
+
 	public void setImagens(List<ImagemProduto> imagens) {
 		this.imagens = imagens;
 	}

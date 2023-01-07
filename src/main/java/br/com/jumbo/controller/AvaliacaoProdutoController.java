@@ -62,6 +62,15 @@ public class AvaliacaoProdutoController {
 	}
 	
 	@ResponseBody
+	@DeleteMapping(value = "**/deleteAvalicaoPessoa/{idAvaliacao}")
+	public ResponseEntity<?> deleteAvalicaoPessoa(@PathVariable("idAvaliacao") Long idAvaliacao) { 
+		
+		avaliacaoProdutoRepository.deleteById(idAvaliacao);
+		
+		return new ResponseEntity<String>("Avaliacao Removida",HttpStatus.OK);
+	}
+	
+	@ResponseBody
 	@GetMapping(value = "**/avaliacaoProduto/{idProduto}")
 	public ResponseEntity<List<AvaliacaoProduto>> avaliacaoProduto(@PathVariable("idProduto") Long idProduto) { 
 		
