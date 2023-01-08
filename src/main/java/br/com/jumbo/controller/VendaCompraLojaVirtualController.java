@@ -75,8 +75,8 @@ public class VendaCompraLojaVirtualController {
 	private ServiceSendEmail serviceSendEmail;
 
 	@ResponseBody
-	@PostMapping(value = "**/salvarVendaLoja")
-	public ResponseEntity<VendaCompraLojaVirtualDTO> salvarVendaLoja(
+	@PostMapping(value = "**/salvarVendaOnLine")
+	public ResponseEntity<VendaCompraLojaVirtualDTO> salvarVendaOnLine(
 			@RequestBody @Valid VendaCompraLojaVirtual vendaCompraLojaVirtual)
 			throws ExceptionJumboSistemas, UnsupportedEncodingException, MessagingException {
 
