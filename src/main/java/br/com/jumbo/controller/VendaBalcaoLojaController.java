@@ -3,6 +3,8 @@
  */
 package br.com.jumbo.controller;
 
+import java.util.Calendar;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
+import br.com.jumbo.enums.StatusContaReceber;
+import br.com.jumbo.model.ContaReceber;
+import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.VendaBalcaoLoja;
-import br.com.jumbo.model.VendaCompraLojaVirtual;
-import br.com.jumbo.model.dto.VendaCompraLojaVirtualDTO;
+import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.repository.VendaBalcaoLojaRepository;
 
 /**
@@ -31,7 +35,13 @@ import br.com.jumbo.repository.VendaBalcaoLojaRepository;
 public class VendaBalcaoLojaController {
 	
 	@Autowired
+	private PessoaFisicaController pessoaFisicaController;
+	
+	@Autowired
 	VendaBalcaoLojaRepository vendaBalcaoLojaRepository;
+	
+	@Autowired
+	ContaReceberRepository contaReceberRepository;
 	
 	@ResponseBody
 	@PostMapping(value = "**/salvarVendaBalcaoLoja")
@@ -39,11 +49,29 @@ public class VendaBalcaoLojaController {
 			@RequestBody @Valid VendaBalcaoLoja vendaBalcaoLoja) throws ExceptionJumboSistemas {
 
 		vendaBalcaoLoja.getPessoa().setEmpresa(vendaBalcaoLoja.getEmpresa());
-        
-	    
+		
+		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaBalcaoLoja.getPessoa())
+				.getBody();
+		vendaBalcaoLoja.setPessoa(pessoaFisica);
 		
 		VendaBalcaoLoja vendaBalcao	= vendaBalcaoLojaRepository.saveAndFlush(vendaBalcaoLoja);
+		
+		ContaReceber contaReceber = new ContaReceber();
+		contaReceber.setDescricao("Venda Balcão loja  nº: " + vendaBalcaoLoja.getId());
+		contaReceber.setDtPagamento(Calendar.getInstance().getTime());
+		contaReceber.setDtVencimento(Calendar.getInstance().getTime());
+		contaReceber.setEmpresa(vendaBalcaoLoja.getEmpresa());
+		contaReceber.setPessoa(vendaBalcaoLoja.getPessoa());
+		contaReceber.setStatus(StatusContaReceber.QUITADA);
+		contaReceber.setValorDesconto(vendaBalcaoLoja.getValorDesconto());
+		contaReceber.setValorTotal(vendaBalcaoLoja.getValorTotal());
+		
+		contaReceberRepository.saveAndFlush(contaReceber);
+		
+	//	VendaBalcaoLoja vendaBalcao2	= vendaBalcaoLojaRepository.saveAndFlush(vendaBalcaoLoja);
 	    
+	
+
 		
 		//VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
 		//compraLojaVirtualDTO.setValorTotal(vendaBalcaoLoja.getValorTotal());
