@@ -29,6 +29,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import br.com.jumbo.enums.StatusContaReceber;
+import br.com.jumbo.enums.TipoVendaContaReceber;
 
 @Entity
 @Table(name = "conta_receber")
@@ -69,6 +70,20 @@ public class ContaReceber implements Serializable {
 	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private TipoVendaContaReceber tipo_venda;
+	
+	
+
+	public TipoVendaContaReceber getTipo_venda() {
+		return tipo_venda;
+	}
+
+	public void setTipo_venda(TipoVendaContaReceber tipo_venda) {
+		this.tipo_venda = tipo_venda;
+	}
 
 	public PessoaJuridica getEmpresa() {
 		return empresa;

@@ -5,6 +5,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import br.com.jumbo.enums.StatusContaReceber;
+import br.com.jumbo.enums.StatusItemVendaLoja;
 
 @Entity
 @Table(name = "item_venda_loja")
@@ -43,6 +48,12 @@ public class ItemVendaLoja implements Serializable {
 	private PessoaJuridica empresa;
 	
 	
+	//@Column(nullable = false)
+	//@Enumerated(EnumType.STRING)
+	//private StatusItemVendaLoja status_venda;
+	
+	
+
 
 	public PessoaJuridica getEmpresa() {
 		return empresa;

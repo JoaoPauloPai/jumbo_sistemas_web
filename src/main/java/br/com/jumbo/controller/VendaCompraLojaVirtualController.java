@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.enums.StatusContaReceber;
+import br.com.jumbo.enums.TipoVendaContaReceber;
 import br.com.jumbo.model.ContaReceber;
 import br.com.jumbo.model.Endereco;
 import br.com.jumbo.model.ItemVendaLoja;
@@ -138,6 +139,9 @@ public class VendaCompraLojaVirtualController {
 			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
 			itemVendaDTO.setQuantidade(item.getQuantidade());
 			itemVendaDTO.setProduto(item.getProduto());
+			
+			//itemVendaDTO.setStatus("VENDA_SITE");
+		
 
 			compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
 		}
@@ -151,6 +155,7 @@ public class VendaCompraLojaVirtualController {
 		contaReceber.setStatus(StatusContaReceber.QUITADA);
 		contaReceber.setValorDesconto(vendaCompraLojaVirtual.getValorDesconto());
 		contaReceber.setValorTotal(vendaCompraLojaVirtual.getValorTotal());
+		contaReceber.setTipo_venda(TipoVendaContaReceber.SITE);
 
 		contaReceberRepository.saveAndFlush(contaReceber);
 

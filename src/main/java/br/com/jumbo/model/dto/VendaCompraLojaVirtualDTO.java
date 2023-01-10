@@ -40,7 +40,10 @@ public class VendaCompraLojaVirtualDTO {
 	public List<ItemVendaDTO> getItemVendaLoja() {
 		return itemVendaLoja;
 	}
+	
+	
 
+	
 	public void setId(Long id) {
 		this.id = id;
 	}

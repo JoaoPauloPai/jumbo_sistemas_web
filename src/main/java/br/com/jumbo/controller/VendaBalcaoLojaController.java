@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.enums.StatusContaReceber;
+import br.com.jumbo.enums.TipoVendaContaReceber;
 import br.com.jumbo.model.ContaReceber;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.VendaBalcaoLoja;
@@ -65,16 +66,10 @@ public class VendaBalcaoLojaController {
 		contaReceber.setStatus(StatusContaReceber.QUITADA);
 		contaReceber.setValorDesconto(vendaBalcaoLoja.getValorDesconto());
 		contaReceber.setValorTotal(vendaBalcaoLoja.getValorTotal());
+		contaReceber.setTipo_venda(TipoVendaContaReceber.BALCAO);
 		
 		contaReceberRepository.saveAndFlush(contaReceber);
 		
-	//	VendaBalcaoLoja vendaBalcao2	= vendaBalcaoLojaRepository.saveAndFlush(vendaBalcaoLoja);
-	    
-	
-
-		
-		//VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
-		//compraLojaVirtualDTO.setValorTotal(vendaBalcaoLoja.getValorTotal());
 		
 		return new ResponseEntity<VendaBalcaoLoja>(vendaBalcao, HttpStatus.OK);
 	}
