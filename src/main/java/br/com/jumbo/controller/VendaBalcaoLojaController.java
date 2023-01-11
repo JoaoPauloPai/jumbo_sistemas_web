@@ -20,8 +20,11 @@ import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.enums.StatusContaReceber;
 import br.com.jumbo.enums.TipoVendaContaReceber;
 import br.com.jumbo.model.ContaReceber;
+import br.com.jumbo.model.ItemVendaLoja;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.VendaBalcaoLoja;
+import br.com.jumbo.model.dto.ItemVendaDTO;
+import br.com.jumbo.model.dto.VendaCompraLojaVirtualDTO;
 import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.repository.VendaBalcaoLojaRepository;
 
@@ -54,6 +57,20 @@ public class VendaBalcaoLojaController {
 		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaBalcaoLoja.getPessoa())
 				.getBody();
 		vendaBalcaoLoja.setPessoa(pessoaFisica);
+		
+	//	VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
+
+	//	for (ItemVendaLoja item : vendaBalcaoLoja.getItemVendaLojas()) {
+
+			//ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+			//itemVendaDTO.setQuantidade(item.getQuantidade());
+			//itemVendaDTO.setProduto(item.getProduto());
+			
+			//itemVendaDTO.setStatus("VENDA_SITE");
+		
+
+		//	compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
+		//}
 		
 		VendaBalcaoLoja vendaBalcao	= vendaBalcaoLojaRepository.saveAndFlush(vendaBalcaoLoja);
 		

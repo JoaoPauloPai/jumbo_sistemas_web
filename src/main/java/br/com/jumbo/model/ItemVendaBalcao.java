@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package br.com.jumbo.model;
 
 import java.io.Serializable;
@@ -14,15 +17,21 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+/**
+ * @author João Paulo
+ *
+ * 10 de jan. de 2023
+ * 11:20:01
+ */
 @Entity
-@Table(name = "item_venda_loja")
-@SequenceGenerator(name = "seq_item_venda_loja", sequenceName = "seq_item_venda_loja", allocationSize = 1, initialValue = 1)
-public class ItemVendaLoja implements Serializable {
-
+@Table(name = "item_venda_balcao")
+@SequenceGenerator(name = "seq_item_venda_balcao", sequenceName = "seq_item_venda_balcao", allocationSize = 1, initialValue = 1)
+public class ItemVendaBalcao implements Serializable{
+	
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_item_venda_loja")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_item_venda_balcao")
 	private Long id;
 
 	@Column(nullable = false)
@@ -33,24 +42,12 @@ public class ItemVendaLoja implements Serializable {
 	private Produto produto;
 
 	@ManyToOne
-	@JoinColumn(name = "venda_compraLoja_virtu_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_compraLoja_virtu_fk"))
-	private VendaCompraLojaVirtual vendaCompraLojaVirtual;
+	@JoinColumn(name = "venda_balcao_loja_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_balcao_loja_fk"))
+	private VendaBalcaoLoja vendaBalcaoLoja;
 
 	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
-
-	// @Column(nullable = false)
-	// @Enumerated(EnumType.STRING)
-	// private StatusItemVendaLoja status_venda;
-
-	public PessoaJuridica getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(PessoaJuridica empresa) {
-		this.empresa = empresa;
-	}
 
 	public Long getId() {
 		return id;
@@ -76,14 +73,22 @@ public class ItemVendaLoja implements Serializable {
 		this.produto = produto;
 	}
 
-	public VendaCompraLojaVirtual getVendaCompraLojaVirtual() {
-		return vendaCompraLojaVirtual;
+	public VendaBalcaoLoja getVendaBalcaoLoja() {
+		return vendaBalcaoLoja;
 	}
 
-	public void setVendaCompraLojaVirtual(VendaCompraLojaVirtual vendaCompraLojaVirtual) {
-		this.vendaCompraLojaVirtual = vendaCompraLojaVirtual;
+	public void setVendaBalcaoLoja(VendaBalcaoLoja vendaBalcaoLoja) {
+		this.vendaBalcaoLoja = vendaBalcaoLoja;
 	}
 
+	public PessoaJuridica getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(PessoaJuridica empresa) {
+		this.empresa = empresa;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -100,7 +105,7 @@ public class ItemVendaLoja implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ItemVendaLoja other = (ItemVendaLoja) obj;
+		ItemVendaBalcao other = (ItemVendaBalcao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
