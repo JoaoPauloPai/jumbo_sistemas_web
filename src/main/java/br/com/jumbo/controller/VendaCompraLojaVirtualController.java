@@ -133,15 +133,13 @@ public class VendaCompraLojaVirtualController {
 		compraLojaVirtualDTO.setValorDesc(vendaCompraLojaVirtual.getValorDesconto());
 		compraLojaVirtualDTO.setValorFrete(vendaCompraLojaVirtual.getValorFrete());
 		compraLojaVirtualDTO.setId(vendaCompraLojaVirtual.getId());
-
+		
+	
 		for (ItemVendaLoja item : vendaCompraLojaVirtual.getItemVendaLojas()) {
 
 			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
 			itemVendaDTO.setQuantidade(item.getQuantidade());
 			itemVendaDTO.setProduto(item.getProduto());
-			
-			//itemVendaDTO.setStatus("VENDA_SITE");
-		
 
 			compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
 		}
@@ -161,9 +159,10 @@ public class VendaCompraLojaVirtualController {
 
 		/* Emil para o comprador */
 		StringBuilder msgemail = new StringBuilder();
-		msgemail.append("Olá, ").append(pessoaFisica.getNome()).append("</br>");
-		msgemail.append("Você realizou a compra de nº: ").append(vendaCompraLojaVirtual.getId()).append("</br>");
-		msgemail.append("Na loja ").append(vendaCompraLojaVirtual.getEmpresa().getNomeFantasia());
+		msgemail.append("Olá, ").append(pessoaFisica.getNome()).append("<br/>");
+		msgemail.append("Você realizou a compra de nº: ").append(vendaCompraLojaVirtual.getId()).append("<br/>");
+		msgemail.append("Na loja ").append(vendaCompraLojaVirtual.getEmpresa().getNomeFantasia()).append("<br/>");
+		msgemail.append("Agradecemos por nos escolher");
 		/* assunto, msg, destino */
 		serviceSendEmail.enviarEmailHtml("Compra Realizada", msgemail.toString(), pessoaFisica.getEmail());
 

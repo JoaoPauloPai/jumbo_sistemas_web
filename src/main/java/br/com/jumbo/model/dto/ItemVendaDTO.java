@@ -17,18 +17,7 @@ public class ItemVendaDTO {
 
 	private Produto produto;
 
-	private String status;
-
 	
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
-	}
-
 	public Double getQuantidade() {
 		return quantidade;
 	}
