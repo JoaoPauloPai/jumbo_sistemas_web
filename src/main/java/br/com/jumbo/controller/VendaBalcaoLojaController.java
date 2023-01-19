@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,10 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.enums.StatusContaReceber;
 import br.com.jumbo.enums.TipoVendaContaReceber;
+import br.com.jumbo.model.Acesso;
 import br.com.jumbo.model.ContaReceber;
 import br.com.jumbo.model.ItemVendaLoja;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.VendaBalcaoLoja;
+import br.com.jumbo.model.VendaCompraLojaVirtual;
 import br.com.jumbo.model.dto.ItemVendaDTO;
 import br.com.jumbo.model.dto.VendaCompraLojaVirtualDTO;
 import br.com.jumbo.repository.ContaReceberRepository;
@@ -89,5 +93,60 @@ public class VendaBalcaoLojaController {
 		
 		
 		return new ResponseEntity<VendaBalcaoLoja>(vendaBalcao, HttpStatus.OK);
+	}
+	
+//	@ResponseBody
+//	@GetMapping(value = "**/consultaVendaBalcaoId/{id}")
+	/**public ResponseEntity<VendaCompraLojaVirtualDTO> 
+	consultaVendaId(@PathVariable(name = "id") Long idVenda) {
+
+		//VendaBalcaoLoja vendaBalcaoLoja = vendaBalcaoLojaRepository.findByIdExclusao(idVenda);
+		
+		VendaBalcaoLoja vendaBalcaoLoja = vendaBalcaoLojaRepository.findById(idVenda).orElse(null);
+
+		if (vendaLojaVirtual == null) {
+			vendaLojaVirtual = new VendaCompraLojaVirtual();
+		}
+
+		VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
+
+		compraLojaVirtualDTO.setValorTotal(vendaLojaVirtual.getValorTotal());
+		compraLojaVirtualDTO.setPessoa(vendaLojaVirtual.getPessoa());
+
+		compraLojaVirtualDTO.setEntrega(vendaLojaVirtual.getEnderecoEntrega());
+		compraLojaVirtualDTO.setCobranca(vendaLojaVirtual.getEnderecoCobranca());
+
+		compraLojaVirtualDTO.setValorDesc(vendaLojaVirtual.getValorDesconto());
+		compraLojaVirtualDTO.setValorFrete(vendaLojaVirtual.getValorFrete());
+		compraLojaVirtualDTO.setId(vendaLojaVirtual.getId());
+
+		for (ItemVendaLoja item : vendaLojaVirtual.getItemVendaLojas()) {
+
+			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+			itemVendaDTO.setQuantidade(item.getQuantidade());
+			itemVendaDTO.setProduto(item.getProduto());
+
+			compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
+		}
+		return new ResponseEntity<VendaBalcaoLoja>(vendaBalcaoLoja, HttpStatus.OK);
+		
+		
+	}**/
+
+	
+	@ResponseBody
+	@GetMapping(value = "**/consultaVendaBalcaoId/{id}")
+	public ResponseEntity<VendaBalcaoLoja> consultaVendaBalcaoId(@PathVariable(name = "id") long id) throws ExceptionJumboSistemas {
+		
+		
+		VendaBalcaoLoja vendaBalcao = vendaBalcaoLojaRepository.findById(id).orElse(null);
+
+		if (vendaBalcao == null) {
+
+			throw new ExceptionJumboSistemas("Não encotrado Venda com código " + id);
+		}
+
+		return new ResponseEntity<VendaBalcaoLoja>(vendaBalcao, HttpStatus.OK);
+
 	}
 }
