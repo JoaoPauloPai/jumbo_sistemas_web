@@ -29,14 +29,14 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name = "vd_cp_loja_virt")
-@SequenceGenerator(name = "seq_vd_cp_loja_virt", sequenceName = "seq_vd_cp_loja_virt", allocationSize = 1, initialValue = 1)
-public class VendaCompraLojaVirtual implements Serializable {
+@Table(name = "venda_site_loja")
+@SequenceGenerator(name = "seq_venda_site_loja", sequenceName = "seq_venda_site_loja", allocationSize = 1, initialValue = 1)
+public class VendaSiteLoja implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_vd_cp_loja_virt")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_venda_site_loja")
 	private Long id;
 
 	@NotNull(message = "A pessoa compradora deve ser informado")
@@ -102,7 +102,7 @@ public class VendaCompraLojaVirtual implements Serializable {
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
 
-	@OneToMany(mappedBy = "vendaCompraLojaVirtual", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "vendaSiteLoja", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItemVendaLoja> itemVendaLojas = new ArrayList<ItemVendaLoja>();
 	
 	private Boolean excluido = Boolean.FALSE;
@@ -252,7 +252,7 @@ public class VendaCompraLojaVirtual implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		VendaCompraLojaVirtual other = (VendaCompraLojaVirtual) obj;
+		VendaSiteLoja other = (VendaSiteLoja) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

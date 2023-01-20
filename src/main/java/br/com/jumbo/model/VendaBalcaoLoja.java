@@ -74,15 +74,19 @@ public class VendaBalcaoLoja implements Serializable {
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
 
-	//@NotNull(message = "O Item venda deve ser informado")
-	//@OneToMany(mappedBy = " vendaBalcaoLoja", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	//private List<ItemVendaBalcao> itemVendaBalcaos = new ArrayList<ItemVendaBalcao>();
+	
+	@OneToMany(mappedBy = "vendaBalcaoLoja", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<ItemVendaBalcao> itemVendasBalcao = new ArrayList<ItemVendaBalcao>();
+
 	
 	
+	public List<ItemVendaBalcao> getItemVendasBalcao() {
+		return itemVendasBalcao;
+	}
 
-
-
-
+	public void setItemVendasBalcao(List<ItemVendaBalcao> itemVendasBalcao) {
+		this.itemVendasBalcao = itemVendasBalcao;
+	}
 
 	public Long getId() {
 		return id;

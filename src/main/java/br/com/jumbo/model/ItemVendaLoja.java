@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "item_venda_loja")
@@ -25,6 +26,7 @@ public class ItemVendaLoja implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_item_venda_loja")
 	private Long id;
 
+	@NotNull(message = "A Quantidade de Itens deve ser informada")
 	@Column(nullable = false)
 	private Double quantidade;
 
@@ -34,7 +36,7 @@ public class ItemVendaLoja implements Serializable {
 
 	@ManyToOne
 	@JoinColumn(name = "venda_compraLoja_virtu_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_compraLoja_virtu_fk"))
-	private VendaCompraLojaVirtual vendaCompraLojaVirtual;
+	private VendaSiteLoja vendaSiteLoja;
 
 	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
@@ -72,14 +74,15 @@ public class ItemVendaLoja implements Serializable {
 		this.produto = produto;
 	}
 
-	public VendaCompraLojaVirtual getVendaCompraLojaVirtual() {
-		return vendaCompraLojaVirtual;
+
+	public VendaSiteLoja getVendaSiteLoja() {
+		return vendaSiteLoja;
 	}
-	
-	public void setVendaCompraLojaVirtual(VendaCompraLojaVirtual vendaCompraLojaVirtual) {
-		this.vendaCompraLojaVirtual = vendaCompraLojaVirtual;
+
+	public void setVendaSiteLoja(VendaSiteLoja vendaSiteLoja) {
+		this.vendaSiteLoja = vendaSiteLoja;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -87,7 +90,7 @@ public class ItemVendaLoja implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

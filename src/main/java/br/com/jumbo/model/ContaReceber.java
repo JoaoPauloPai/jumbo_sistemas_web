@@ -22,6 +22,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -74,8 +75,17 @@ public class ContaReceber implements Serializable {
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TipoVendaContaReceber tipo_venda;
-	
-	
+
+	@Column(nullable = false)
+	private Long vendaId;
+
+	public Long getVendaId() {
+		return vendaId;
+	}
+
+	public void setVendaId(Long vendaId) {
+		this.vendaId = vendaId;
+	}
 
 	public TipoVendaContaReceber getTipo_venda() {
 		return tipo_venda;

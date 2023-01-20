@@ -15,7 +15,7 @@ import br.com.jumbo.model.Pessoa;
  *
  *         25 de jun. de 2022 16:04:07
  */
-public class VendaCompraLojaVirtualDTO {
+public class VendaSiteLojaDTO {
 
 	private Long id;
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,14 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.enums.StatusContaReceber;
 import br.com.jumbo.enums.TipoVendaContaReceber;
-import br.com.jumbo.model.Acesso;
 import br.com.jumbo.model.ContaReceber;
+import br.com.jumbo.model.ItemVendaBalcao;
 import br.com.jumbo.model.ItemVendaLoja;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.VendaBalcaoLoja;
-import br.com.jumbo.model.VendaCompraLojaVirtual;
+import br.com.jumbo.model.dto.ItemVendaBalcaoDTO;
 import br.com.jumbo.model.dto.ItemVendaDTO;
-import br.com.jumbo.model.dto.VendaCompraLojaVirtualDTO;
+import br.com.jumbo.model.dto.VendaBalcaoLojaDto;
 import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.repository.VendaBalcaoLojaRepository;
 
@@ -62,19 +63,30 @@ public class VendaBalcaoLojaController {
 				.getBody();
 		vendaBalcaoLoja.setPessoa(pessoaFisica);
 		
-	//	VendaCompraLojaVirtualDTO compraLojaVirtualDTO = new VendaCompraLojaVirtualDTO();
+	VendaBalcaoLojaDto vendaBalcaoLojaDTO = new VendaBalcaoLojaDto();
 
-	//	for (ItemVendaLoja item : vendaBalcaoLoja.getItemVendaLojas()) {
+		for (ItemVendaBalcao item : vendaBalcaoLoja.getItemVendasBalcao()) {
 
-			//ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
-			//itemVendaDTO.setQuantidade(item.getQuantidade());
-			//itemVendaDTO.setProduto(item.getProduto());
+			ItemVendaDTO itemVendaBalcaoDTO = new ItemVendaDTO();
+			itemVendaBalcaoDTO.setQuantidade(item.getQuantidade());
+			itemVendaBalcaoDTO.setProduto(item.getProduto());
+		item.setVendaBalcaoLoja(vendaBalcaoLoja);
 			
-			//itemVendaDTO.setStatus("VENDA_SITE");
-		
+			//itemVendaBalcaoDTO.setStatus("BALCAO");
+			
 
-		//	compraLojaVirtualDTO.getItemVendaLoja().add(itemVendaDTO);
-		//}
+		//	for (ItemVendaLoja item : vendaSiteLoja.getItemVendaLojas()) {
+
+			//	ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+			//	itemVendaDTO.setQuantidade(item.getQuantidade());
+			//	itemVendaDTO.setProduto(item.getProduto());
+
+			//	vendaSiteLojaDTO.getItemVendaLoja().add(itemVendaDTO);
+			//}
+		
+			vendaBalcaoLojaDTO.getItemVenda().add(itemVendaBalcaoDTO);
+		
+		}	
 		
 		VendaBalcaoLoja vendaBalcao	= vendaBalcaoLojaRepository.saveAndFlush(vendaBalcaoLoja);
 		
@@ -88,6 +100,7 @@ public class VendaBalcaoLojaController {
 		contaReceber.setValorDesconto(vendaBalcaoLoja.getValorDesconto());
 		contaReceber.setValorTotal(vendaBalcaoLoja.getValorTotal());
 		contaReceber.setTipo_venda(TipoVendaContaReceber.BALCAO);
+		contaReceber.setVendaId(vendaBalcaoLoja.getId());
 		
 		contaReceberRepository.saveAndFlush(contaReceber);
 		
@@ -148,5 +161,14 @@ public class VendaBalcaoLojaController {
 
 		return new ResponseEntity<VendaBalcaoLoja>(vendaBalcao, HttpStatus.OK);
 
+	}
+	
+	@ResponseBody
+	@DeleteMapping(value = "**/deleteVendaBalcaoPorId/{id}")
+	public ResponseEntity<?> deleteVendaBalcaoPorId(@PathVariable("id") Long id) {
+
+		vendaBalcaoLojaRepository.deleteById(id);
+
+		return new ResponseEntity("Acesso deletado por Id com sucesso!", HttpStatus.OK);
 	}
 }

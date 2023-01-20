@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import br.com.jumbo.model.VendaCompraLojaVirtual;
-import br.com.jumbo.repository.VendaCompraLojaVirtualRepository;
+import br.com.jumbo.model.VendaSiteLoja;
+import br.com.jumbo.repository.VendaSiteLojaRepository;
 
 /**
  * @author João Paulo
@@ -22,13 +22,13 @@ import br.com.jumbo.repository.VendaCompraLojaVirtualRepository;
  * 20:47:18
  */
 @Service
-public class vendaLojaVirtualServise {
+public class VendaSitelojaServise {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
 	@Autowired
-	private VendaCompraLojaVirtualRepository vendaCompraLojaVirtualRepository;
+	private VendaSiteLojaRepository vendaSiteLojaRepository;
 	
 	
 	public void exclusaoTotalVendaBanco2(Long idVenda) {
@@ -56,7 +56,7 @@ public class vendaLojaVirtualServise {
 		
 	}
 
-	public List<VendaCompraLojaVirtual> consultaVendaFaixaData(String data1, String data2) throws ParseException{
+	public List<VendaSiteLoja> consultaVendaFaixaData(String data1, String data2) throws ParseException{
 		
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -64,7 +64,7 @@ public class vendaLojaVirtualServise {
 		Date date1 = dateFormat.parse(data1);
 		Date date2 = dateFormat.parse(data2);
 	
-		return vendaCompraLojaVirtualRepository.consultaVendaFaixaData(date1, date2);
+		return vendaSiteLojaRepository.consultaVendaFaixaData(date1, date2);
 		
 	}
 

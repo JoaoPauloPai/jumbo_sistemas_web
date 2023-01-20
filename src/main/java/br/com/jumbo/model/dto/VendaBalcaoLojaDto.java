@@ -26,7 +26,7 @@ public class VendaBalcaoLojaDto {
 	private Pessoa pessoa;
 
 
-	private List<ItemVendaDTO> itemVendaLoja = new ArrayList<ItemVendaDTO>();
+	private List<ItemVendaDTO> itemVenda = new ArrayList<ItemVendaDTO>();
 
 
 	public Long getId() {
@@ -69,14 +69,19 @@ public class VendaBalcaoLojaDto {
 	}
 
 
-	public List<ItemVendaDTO> getItemVendaLoja() {
-		return itemVendaLoja;
+	public List<ItemVendaDTO> getItemVenda() {
+		return itemVenda;
 	}
 
 
-	public void setItemVendaLoja(List<ItemVendaDTO> itemVendaLoja) {
-		this.itemVendaLoja = itemVendaLoja;
+	public void setItemVenda(List<ItemVendaDTO> itemVenda) {
+		this.itemVenda = itemVenda;
 	}
+
+
+	
+
+
 	
 	
 	
