@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.CategoriaProduto;
-import br.com.jumbo.model.MarcaProduto;
 import br.com.jumbo.model.dto.CategoriaProdutoDto;
 import br.com.jumbo.repository.CategoriaProdutoRepository;
 import br.com.jumbo.service.CategoriaProdutoService;
@@ -71,21 +70,22 @@ public class CategoriaProdutoController {
 	}
 
 	@ResponseBody /* Poder dar um retorno da API */
-	@PostMapping(value = "**/deleteCategoriaProduto") 
-	public ResponseEntity<?> deleteCategoriaProduto(
-			@RequestBody CategoriaProduto categoriaProduto, long id) throws ExceptionJumboSistemas{
+	@PostMapping(value = "**/deleteCategoriaProduto")
+	public ResponseEntity<?> deleteCategoriaProduto(@RequestBody CategoriaProduto categoriaProduto)
+			throws ExceptionJumboSistemas {
 
 		if (categoriaProdutoRepository.findById(categoriaProduto.getId()).isPresent() == false) {
-			throw new ExceptionJumboSistemas("O Código: " + id +", da categoria do produto não foi encotrado no banco de dados");
-			//return new ResponseEntity("O Código :" + id +"da categoria do produto não foi encotrado no banco de dados", HttpStatus.OK);
+			throw new ExceptionJumboSistemas("O Código: " + categoriaProduto.getId()
+					+ ", da categoria do produto não foi encotrado no banco de dados");
+
 		}
 
 		categoriaProdutoRepository.deleteById(categoriaProduto.getId());
 
-		return new ResponseEntity("Categoria Removida", HttpStatus.OK);
+		return new ResponseEntity("Categoria Produto Removida", HttpStatus.OK);
 	}
 
-	/*Este End Point Esta Gerando erro com o produto DTO*/
+	/* Este End Point Esta Gerando erro com o produto DTO */
 	@ResponseBody
 	@PostMapping(value = "**/salvarCategoriaProduto2")
 	public ResponseEntity<CategoriaProdutoDto> salvarCategoriaProduto2(@RequestBody CategoriaProduto categoriaProduto)
@@ -99,25 +99,24 @@ public class CategoriaProdutoController {
 				&& categoriaProdutoRepository.existeCategoria(categoriaProduto.getNomeDesc())) {
 			throw new ExceptionJumboSistemas("Não pode cadastar categoria com mesmo nome.");
 		}
-	
-	
+
 		CategoriaProduto cateProduto = categoriaProdutoService.save(categoriaProduto);
 
 		CategoriaProdutoDto categoriaProdutoDto = new CategoriaProdutoDto();
 		categoriaProdutoDto.setId(cateProduto.getId());
 		categoriaProdutoDto.setNomeDesc(cateProduto.getNomeDesc());
 		categoriaProdutoDto.setEmpresa(cateProduto.getEmpresa().getId().toString());
-		
+
 		return new ResponseEntity<CategoriaProdutoDto>(categoriaProdutoDto, HttpStatus.OK);
 
-	
 	}
-	
-	@ResponseBody 
+
+	@ResponseBody
 	@PostMapping(value = "**/salvarCategoriaProduto")
-	public ResponseEntity<CategoriaProduto> salvarCategoriaProduto(@RequestBody @Valid CategoriaProduto categoriaProduto ) throws ExceptionJumboSistemas { /*Recebe o JSON e converte pra Objeto*/
-		
-	
+	public ResponseEntity<CategoriaProduto> salvarCategoriaProduto(
+			@RequestBody @Valid CategoriaProduto categoriaProduto)
+			throws ExceptionJumboSistemas { /* Recebe o JSON e converte pra Objeto */
+
 		if (categoriaProduto.getEmpresa() == null || (categoriaProduto.getEmpresa().getId() == null)) {
 			throw new ExceptionJumboSistemas("A empresa deve ser informada.");
 		}
@@ -126,9 +125,9 @@ public class CategoriaProdutoController {
 				&& categoriaProdutoRepository.existeCategoria(categoriaProduto.getNomeDesc())) {
 			throw new ExceptionJumboSistemas("Não pode cadastar categoria com mesmo nome.");
 		}
-		
+
 		CategoriaProduto categoriaProdutoSalvo = categoriaProdutoRepository.save(categoriaProduto);
-		
-		return new ResponseEntity<CategoriaProduto>(categoriaProduto, HttpStatus.OK);
+
+		return new ResponseEntity<CategoriaProduto>(categoriaProdutoSalvo, HttpStatus.OK);
 	}
 }

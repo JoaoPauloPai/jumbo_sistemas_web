@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -59,18 +58,26 @@ public class AcessoController {
 
 	@ResponseBody
 	@PostMapping(value = "**/deleteAcesso")
-	public ResponseEntity<?> deleteAcesso(@RequestBody Acesso acesso) {
+	public ResponseEntity<?> deleteAcesso(@RequestBody Acesso acesso) throws ExceptionJumboSistemas{
 
+		if(acessoRepository.findById(acesso.getId()).isPresent() == false) {
+			throw new ExceptionJumboSistemas("O Código: " + acesso.getId()
+			+ ", da categoria do produto não foi encotrado no banco de dados");
+		}
+		
 		acessoRepository.deleteById(acesso.getId());
 
 		return new ResponseEntity("Acesso deletado com sucesso!", HttpStatus.OK);
 	}
 
 	@ResponseBody
-	@DeleteMapping(value = "**/deleteAcessoPorId/{id}")
-	public ResponseEntity<?> deleteAcessoPorId(@PathVariable("id") Long id) {
+	@DeleteMapping(value = "**/deleteAcessoPorId/{id}") 
+	public ResponseEntity<?> deleteAcessoPorId(@PathVariable("id") Long id)throws ExceptionJumboSistemas {
 
+		
 		acessoRepository.deleteById(id);
+		
+		
 
 		return new ResponseEntity("Acesso deletado por Id com sucesso!", HttpStatus.OK);
 	}

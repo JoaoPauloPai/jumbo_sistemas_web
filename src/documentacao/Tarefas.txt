@@ -1,3 +1,44 @@
 Atualizar todas as classes Controller
 Criei tabela 'acesso_end_point' em 23/04/22
 tabela para controles de acesso aos End-Points
+
+Testar todos os End-Points Criados  21/01/23
+Acesso  - 
+http://localhost:8080/jumbo_sistemas_web/listaAcesso - ok
+http://localhost:8080/jumbo_sistemas_web/salvarAcesso - ok
+http://localhost:8080/jumbo_sistemas_web/buscaAcessoPorId/500 - ok
+http://localhost:8080/jumbo_sistemas_web/buscaAcessoDesc/com  - ok
+http://localhost:8080/jumbo_sistemas_web/deleteAcessoPorId/6 - ok "falta uma consulta no BD"
+http://localhost:8080/jumbo_sistemas_web/deleteAcesso - ok "falta uma consulta no BD"
+
+AvaliaçãoProduto
+http://localhost:8080/jumbo_sistemas_web/salvaAvaliacaoProduto - ok
+http://localhost:8080/jumbo_sistemas_web/deleteAvaliacaoProdutoPorId/8 - ok - Falta 
+
+MarcaProduto
+http://localhost:8080/jumbo_sistemas_web/listaMarcaProduto - ok
+http://localhost:8080/jumbo_sistemas_web/salvarMarcaProduto - OK
+http://localhost:8080/jumbo_sistemas_web/buscarMarcaProdutoPorDesc/LUBRAX - OK
+http://localhost:8080/jumbo_sistemas_web/buscarMarcaProduto/4 - OK
+http://localhost:8080/jumbo_sistemas_web/deleteMarcaProduto - OK   "Falta uma consulta p ver produto com a marca"
+
+CategoriaProduto
+http://localhost:8080/jumbo_sistemas_web/buscarCatgoriaPorDesc/IMPO - ok
+http://localhost:8080/jumbo_sistemas_web/listaCategoriaProduto - ok
+http://localhost:8080/jumbo_sistemas_web/salvarCategoriaProduto - ok
+http://localhost:8080/jumbo_sistemas_web/deleteCategoriaProduto/ - ok
+http://localhost:8080/jumbo_sistemas_web/buscaCatProdutoPorId/6?id=6  - ERRO 
+
+ContaPagar
+http://localhost:8080/jumbo_sistemas_web/listaContaPagar - ok
+http://localhost:8080/jumbo_sistemas_web/buscaContaPargarDesc/6 - ok
+http://localhost:8080/jumbo_sistemas_web/salvarContaPagar - ok
+http://localhost:8080/jumbo_sistemas_web/deleteContaPagarPorId/9 - ok
+http://localhost:8080/jumbo_sistemas_web/deleteContaPagar - ok 
+
+ContaReceber
+http://localhost:8080/jumbo_sistemas_web/listaContaReceber - ok
+
+
+
+

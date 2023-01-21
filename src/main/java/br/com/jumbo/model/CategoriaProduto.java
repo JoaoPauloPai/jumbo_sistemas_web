@@ -20,6 +20,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "categoria_produto")
@@ -32,6 +33,7 @@ public class CategoriaProduto implements Serializable {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_categoria_produto")
 	private Long id;
 
+	@NotNull(message = "Nome da cartegoria deve ser informado")
 	@Column(name = "nome_desc", nullable = false)
 	private String nomeDesc;
 
@@ -39,9 +41,7 @@ public class CategoriaProduto implements Serializable {
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa = new PessoaJuridica();
 
-	/**
-	 * @return the id
-	 */
+
 	public Long getId() {
 		return id;
 	}

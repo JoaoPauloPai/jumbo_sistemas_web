@@ -23,7 +23,6 @@ import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.ContaPagar;
 import br.com.jumbo.repository.ContaPagarRepository;
 
-
 /**
  * @author João Paulo
  *
@@ -31,53 +30,50 @@ import br.com.jumbo.repository.ContaPagarRepository;
  */
 @Controller
 @RestController
-public class ContaPagarController{
-	
-	
-	
+public class ContaPagarController {
+
 	@Autowired
 	ContaPagarRepository contaPagarRepository;
 
-	@PostMapping(value = "**/salvarContaPagar") 
-	public ResponseEntity<ContaPagar> salvarAcesso(@RequestBody @Valid ContaPagar contaPagar) throws ExceptionJumboSistemas { 
-		
+	@PostMapping(value = "**/salvarContaPagar")
+	public ResponseEntity<ContaPagar> salvarAcesso(@RequestBody @Valid ContaPagar contaPagar)
+			throws ExceptionJumboSistemas {
+
 		if (contaPagar.getEmpresa() == null || contaPagar.getEmpresa().getId() <= 0) {
 			throw new ExceptionJumboSistemas("Empresa responsável deve ser informada");
 		}
-		
 
 		if (contaPagar.getPessoa() == null || contaPagar.getPessoa().getId() <= 0) {
 			throw new ExceptionJumboSistemas("Pessoa responsável deve ser informada");
 		}
-		
+
 		if (contaPagar.getPessoa_fornecedor() == null || contaPagar.getPessoa_fornecedor().getId() <= 0) {
 			throw new ExceptionJumboSistemas("Fornecedor responsável deve ser informada");
 		}
-		
-		
+
 		if (contaPagar.getId() == null) {
-			List<ContaPagar> contaPagars = contaPagarRepository.buscaContaDesc(contaPagar.getDescricao().toUpperCase().trim());
-			if(!contaPagars.isEmpty()) {
+			List<ContaPagar> contaPagars = contaPagarRepository
+					.buscaContaDesc(contaPagar.getDescricao().toUpperCase().trim());
+			if (!contaPagars.isEmpty()) {
 				throw new ExceptionJumboSistemas("Já existe conta a pagar com a mesma descrição.");
 			}
 		}
-		
-		
+
 		ContaPagar conPagarSalva = contaPagarRepository.save(contaPagar);
-		
+
 		return new ResponseEntity<ContaPagar>(conPagarSalva, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/listaContaPagar")
-	public ResponseEntity<List<ContaPagar>>listaContaPagar() {
+	public ResponseEntity<List<ContaPagar>> listaContaPagar() {
 
 		List<ContaPagar> contaPagar = contaPagarRepository.findAll();
 
 		return new ResponseEntity<List<ContaPagar>>(contaPagar, HttpStatus.OK);
 
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/buscaContaPargarDesc/{desc}")
 	public ResponseEntity<List<ContaPagar>> buscaContaPagarDesc(@PathVariable("desc") String desc) {
@@ -86,7 +82,7 @@ public class ContaPagarController{
 
 		return new ResponseEntity<List<ContaPagar>>(contaPagarDesc, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteContaPagarPorId/{id}")
 	public ResponseEntity<?> deleteContaPagarPorId(@PathVariable("id") Long id) {
@@ -95,7 +91,20 @@ public class ContaPagarController{
 
 		return new ResponseEntity("Conta-Pagar deletado por Id com sucesso!", HttpStatus.OK);
 	}
-		
+
+	@ResponseBody /* Poder dar um retorno da API */
+	@PostMapping(value = "**/deleteContaPagar")
+	public ResponseEntity<?> deleteContaPagar(@RequestBody ContaPagar contaPagar) throws ExceptionJumboSistemas {
+
+		if (contaPagarRepository.findById(contaPagar.getId()).isPresent() == false) {
+			throw new ExceptionJumboSistemas("O Código: " + contaPagar.getId()
+					+ ", da categoria do produto não foi encotrado no banco de dados");
+
+		}
+
+		contaPagarRepository.deleteById(contaPagar.getId());
+
+		return new ResponseEntity("Conta Pagar Removida", HttpStatus.OK);
+	}
+
 }
-
-

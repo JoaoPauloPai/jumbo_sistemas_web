@@ -10,9 +10,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.jumbo.model.ContaPagar;
 import br.com.jumbo.model.ContaReceber;
 import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.service.ContaReceberService;
@@ -42,4 +44,13 @@ public class ContaReceberController {
 		return new ResponseEntity<List<ContaReceber>>(contarec, HttpStatus.OK);
 
 	}	
+	
+	@ResponseBody
+	@GetMapping(value = "**/buscaContaReceberDesc/{desc}")
+	public ResponseEntity<List<ContaReceber>> buscaContaReceberDesc(@PathVariable("desc") String desc) {
+
+		List<ContaReceber> contaReceberDesc = contaReceberRepository.buscaContaReceberTipo(desc.toUpperCase());
+
+		return new ResponseEntity<List<ContaReceber>>(contaReceberDesc, HttpStatus.OK);
+	}
 }

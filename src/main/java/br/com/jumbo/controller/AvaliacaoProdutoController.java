@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
-import br.com.jumbo.model.Acesso;
 import br.com.jumbo.model.AvaliacaoProduto;
 import br.com.jumbo.repository.AvaliacaoProdutoRepository;
 
