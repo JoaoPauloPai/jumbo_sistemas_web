@@ -41,10 +41,7 @@ public class ItemVendaBalcaoDTO {
 		return vendaBalcaoLoja;
 	}
 
-	public void setVendaBalcaoLoja(VendaBalcaoLoja vendaBalcaoLoja) {
-		this.vendaBalcaoLoja = vendaBalcaoLoja;
-	}
-	
+
 	
 	
 	

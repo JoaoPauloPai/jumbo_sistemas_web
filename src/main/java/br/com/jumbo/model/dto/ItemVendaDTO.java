@@ -4,6 +4,7 @@
 package br.com.jumbo.model.dto;
 
 import br.com.jumbo.model.Produto;
+import br.com.jumbo.model.VendaBalcaoLoja;
 
 /**
  * @author João Paulo
@@ -16,6 +17,8 @@ public class ItemVendaDTO {
 	
 
 	private Produto produto;
+	
+	private VendaBalcaoLoja vendaBalcaoLoja;
 
 	
 	public Double getQuantidade() {
@@ -32,6 +35,14 @@ public class ItemVendaDTO {
 
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+	}
+
+	public VendaBalcaoLoja getVendaBalcaoLoja() {
+		return vendaBalcaoLoja;
+	}
+
+	public void setVendaBalcaoLoja(VendaBalcaoLoja vendaBalcaoLoja) {
+		this.vendaBalcaoLoja = vendaBalcaoLoja;
 	}
 
 
