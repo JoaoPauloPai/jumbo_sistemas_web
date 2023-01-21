@@ -69,13 +69,13 @@ public class VendaBalcaoLojaController {
 
 		for (ItemVendaBalcao item : vendaBalcaoLoja.getItemVendasBalcao()) {
 
-			ItemVendaBalcaoDTO itemVendaBalcaoDTO = new ItemVendaBalcaoDTO();
+			ItemVendaDTO itemVendaBalcaoDTO = new ItemVendaDTO();
 			itemVendaBalcaoDTO.setQuantidade(item.getQuantidade());
 			itemVendaBalcaoDTO.setProduto(item.getProduto());
 			//itemVendaBalcaoDTO.setVendaBalcaoLoja(item.getVendaBalcaoLoja().getId());
 			
 
-			vendaBalcaoLojaDTO.getItemVenda().add(itemVendaBalcaoDTO);
+			//vendaBalcaoLojaDTO.getItemVenda().add(itemVendaBalcaoDTO);
 			
 
 		}
