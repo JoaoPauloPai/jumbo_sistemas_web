@@ -140,6 +140,7 @@ public class VendaSiteLojaController {
 			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
 			itemVendaDTO.setQuantidade(item.getQuantidade());
 			itemVendaDTO.setProduto(item.getProduto());
+			//teste skjdjajm
 
 			vendaSiteLojaDTO.getItemVendaLoja().add(itemVendaDTO);
 		}
