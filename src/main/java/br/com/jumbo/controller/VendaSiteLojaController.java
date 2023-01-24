@@ -155,6 +155,7 @@ public class VendaSiteLojaController {
 		contaReceber.setValorDesconto(vendaSiteLoja.getValorDesconto());
 		contaReceber.setValorTotal(vendaSiteLoja.getValorTotal());
 		contaReceber.setTipo_venda(TipoVendaContaReceber.SITE);
+		contaReceber.setVendaId(vendaSiteLoja.getId());
 
 		contaReceberRepository.saveAndFlush(contaReceber);
 

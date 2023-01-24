@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.ContaPagar;
+import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.repository.ContaPagarRepository;
 
 /**
@@ -34,10 +35,18 @@ public class ContaPagarController {
 
 	@Autowired
 	ContaPagarRepository contaPagarRepository;
+	
+	@Autowired
+	private PessoaFisicaController pessoaFisicaController;
 
 	@PostMapping(value = "**/salvarContaPagar")
 	public ResponseEntity<ContaPagar> salvarAcesso(@RequestBody @Valid ContaPagar contaPagar)
 			throws ExceptionJumboSistemas {
+		
+		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(contaPagar.getPessoa())
+				.getBody();
+		contaPagar.setPessoa(pessoaFisica);
+		
 
 		if (contaPagar.getEmpresa() == null || contaPagar.getEmpresa().getId() <= 0) {
 			throw new ExceptionJumboSistemas("Empresa responsável deve ser informada");

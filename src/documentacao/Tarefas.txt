@@ -2,7 +2,7 @@ Atualizar todas as classes Controller
 Criei tabela 'acesso_end_point' em 23/04/22
 tabela para controles de acesso aos End-Points
 
-Testar todos os End-Points Criados  21/01/23
+Testar todos os End-Points Criados > 21/01/23
 Acesso  - 
 http://localhost:8080/jumbo_sistemas_web/listaAcesso - ok
 http://localhost:8080/jumbo_sistemas_web/salvarAcesso - ok
@@ -38,6 +38,9 @@ http://localhost:8080/jumbo_sistemas_web/deleteContaPagar - ok
 
 ContaReceber
 http://localhost:8080/jumbo_sistemas_web/listaContaReceber - ok
+http://localhost:8080/jumbo_sistemas_web/buscaContaReceberDesc/vend  ok < 21/01/23
+
+
 
 
 

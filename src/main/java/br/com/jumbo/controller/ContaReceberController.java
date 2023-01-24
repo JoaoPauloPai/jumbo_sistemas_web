@@ -5,15 +5,21 @@ package br.com.jumbo.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.jumbo.ExceptionJumboSistemas;
+import br.com.jumbo.model.CategoriaProduto;
 import br.com.jumbo.model.ContaPagar;
 import br.com.jumbo.model.ContaReceber;
 import br.com.jumbo.repository.ContaReceberRepository;
@@ -34,6 +40,24 @@ public class ContaReceberController {
 
 	@Autowired
 	private ContaReceberService contaReceberService;
+	
+	
+	@ResponseBody
+	@PostMapping(value = "**/salvarContaReceber")
+	public ResponseEntity<ContaReceber> salvarContaReceber(
+			@RequestBody @Valid ContaReceber contaReceber)
+			throws ExceptionJumboSistemas { /* Recebe o JSON e converte pra Objeto */
+
+		if (contaReceber.getEmpresa() == null || (contaReceber.getEmpresa().getId() == null)) {
+			throw new ExceptionJumboSistemas("A empresa deve ser informada.");
+		}
+
+	
+
+		ContaReceber contaRecebe = contaReceberRepository.save(contaReceber);
+
+		return new ResponseEntity<ContaReceber>(contaRecebe, HttpStatus.OK);
+	}
 	
 	@ResponseBody
 	@GetMapping(value = "**/listaContaReceber")

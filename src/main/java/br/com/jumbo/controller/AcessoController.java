@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.Acesso;
+import br.com.jumbo.model.CategoriaProduto;
 import br.com.jumbo.repository.AcessoRepository;
 import br.com.jumbo.service.AcessoService;
 
@@ -64,11 +65,19 @@ public class AcessoController {
 			throw new ExceptionJumboSistemas("O Código: " + acesso.getId()
 			+ ", da categoria do produto não foi encotrado no banco de dados");
 		}
+	
+
+
 		
 		acessoRepository.deleteById(acesso.getId());
 
 		return new ResponseEntity("Acesso deletado com sucesso!", HttpStatus.OK);
 	}
+	
+
+
+	
+
 
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteAcessoPorId/{id}") 

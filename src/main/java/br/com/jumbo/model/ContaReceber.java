@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
@@ -47,35 +48,45 @@ public class ContaReceber implements Serializable {
 	@Column(nullable = false)
 	private String descricao;
 
+	@NotNull(message = "O Status da conta deve ser informado")
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private StatusContaReceber status;
 
+	@NotNull(message = "A data de vencimento deve ser informado")
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dtVencimento;
 
+	@NotNull(message = "A data de Pagamento deve ser informado")
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dtPagamento;
 
+	@NotNull(message = "O valor total deve deve ser informado")
 	@Column(nullable = false)
 	private BigDecimal valorTotal;
 
 	private BigDecimal valorDesconto;
 
-	@ManyToOne(targetEntity = Pessoa.class)
+	@NotNull(message = "O ID da pessoa deve ser informado")
+	@ManyToOne(targetEntity = PessoaFisica.class)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
-	private Pessoa pessoa;
+	private PessoaFisica pessoa;
+	
 
+
+	@NotNull(message = "A empresa deve ser informada")
 	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
 
+	@NotNull(message = "O tipo de Venda deve ser informado")
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TipoVendaContaReceber tipo_venda;
 
+	@NotNull(message = "O ID da venda deve ser informado")
 	@Column(nullable = false)
 	private Long vendaId;
 
@@ -159,11 +170,13 @@ public class ContaReceber implements Serializable {
 		this.valorDesconto = valorDesconto;
 	}
 
-	public Pessoa getPessoa() {
+
+
+	public PessoaFisica getPessoa() {
 		return pessoa;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
+	public void setPessoa(PessoaFisica pessoa) {
 		this.pessoa = pessoa;
 	}
 

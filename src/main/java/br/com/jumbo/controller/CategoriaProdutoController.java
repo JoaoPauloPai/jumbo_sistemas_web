@@ -74,7 +74,7 @@ public class CategoriaProdutoController {
 	public ResponseEntity<?> deleteCategoriaProduto(@RequestBody CategoriaProduto categoriaProduto)
 			throws ExceptionJumboSistemas {
 
-		if (categoriaProdutoRepository.findById(categoriaProduto.getId()).isPresent() == false) {
+		if(categoriaProdutoRepository.findById(categoriaProduto.getId()).isPresent() == false) {
 			throw new ExceptionJumboSistemas("O Código: " + categoriaProduto.getId()
 					+ ", da categoria do produto não foi encotrado no banco de dados");
 
