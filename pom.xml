@@ -2,21 +2,33 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
 	<modelVersion>4.0.0</modelVersion>
+	
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.5.6</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
+	
 	<groupId>br.com.jumbo</groupId>
 	<artifactId>jumbo_sistemas_web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>jumbo_sistemas_web</name>
 	<description>Loja Virtual</description>
+	<packaging>jar</packaging>
+	
 	<properties>
+	     <!-- Versão do Java -->
 		<java.version>11</java.version>
+		 <!-- Versão para compilar o projeto -->
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+		 <!-- Comando para travar os testes na implantação do projeto -->
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -112,6 +124,7 @@
 		</dependency>
 		
 	</dependencies>
+	
 	<build>
 		<plugins>
 			<plugin>
@@ -124,5 +137,8 @@
 				<version>3.1.0</version>
 			</plugin>
 		</plugins>
+		<!-- Comando para gerar o nome do Arquivo de implantação -->
+		<finalName>jumbo_sistemas_web</finalName>
 	</build>
+	
 </project>

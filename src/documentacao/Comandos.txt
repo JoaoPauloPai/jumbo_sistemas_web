@@ -1,0 +1,14 @@
+
+Prompt de comando
+Gerar o Arquivo .jar
+Entrar na pasta do prjeto
+C:\Users\user>cd C:\Users\user\git\jumbo_sistemas\projeto2\jumbo_sistemas_web
+
+Gerar o .jar
+C:\Users\user\git\jumbo_sistemas\projeto2\jumbo_sistemas_web>mvn clean package
+
+Rodar o Projeto no Prompt de Comando
+C:\Users\user\git\jumbo_sistemas\projeto2\jumbo_sistemas_web\target>cd C:\Users\user\git\jumbo_sistemas\projeto2\jumbo_sistemas_web\target>
+
+Startar o Projeto no Prompt de comando
+C:\Users\user\git\jumbo_sistemas\projeto2\jumbo_sistemas_web\target>java -jar jumbo_sistemas_web.jar
