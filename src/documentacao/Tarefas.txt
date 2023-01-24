@@ -39,6 +39,7 @@ http://localhost:8080/jumbo_sistemas_web/deleteContaPagar - ok
 ContaReceber
 http://localhost:8080/jumbo_sistemas_web/listaContaReceber - ok
 http://localhost:8080/jumbo_sistemas_web/buscaContaReceberDesc/vend  ok < 21/01/23
+http://localhost:8080/jumbo_sistemas_web/salvarContaReceber - ok > <23/01/23 
 
 
 
