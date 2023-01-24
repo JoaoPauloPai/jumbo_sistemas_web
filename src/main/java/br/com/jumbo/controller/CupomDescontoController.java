@@ -68,7 +68,10 @@ public class CupomDescontoController {
 	
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteCupomDescPorId/{id}")
-	public ResponseEntity<?> deleteCupomDescPorId(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteCupomDescPorId(@PathVariable("id")Long id ) throws ExceptionJumboSistemas {
+		
+		
+	
 
 		cupomDescontoRepository.deleteById(id);
 

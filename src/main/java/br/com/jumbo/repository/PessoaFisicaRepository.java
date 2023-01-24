@@ -33,4 +33,7 @@ public interface PessoaFisicaRepository extends CrudRepository<PessoaFisica, Lon
 	@Query(value = "select pf from PessoaFisica pf where pf.cpf = ?1")
 	public List<PessoaFisica> existeCpfCadastradoList(String cpf);
 
+	@Query(value = "select pf from PessoaFisica pf where pf.id = ?1")
+	public PessoaFisica existeIdCadastrado(Long id);
+
 }

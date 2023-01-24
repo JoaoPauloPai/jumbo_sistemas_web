@@ -22,7 +22,9 @@ import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.CategoriaProduto;
 import br.com.jumbo.model.ContaPagar;
 import br.com.jumbo.model.ContaReceber;
+import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.repository.ContaReceberRepository;
+import br.com.jumbo.repository.PessoaFisicaRepository;
 import br.com.jumbo.service.ContaReceberService;
 
 /**
@@ -41,7 +43,10 @@ public class ContaReceberController {
 	@Autowired
 	private ContaReceberService contaReceberService;
 	
+	@Autowired
+	private PessoaFisicaRepository  pessoaFisicaRepository;	
 	
+
 	@ResponseBody
 	@PostMapping(value = "**/salvarContaReceber")
 	public ResponseEntity<ContaReceber> salvarContaReceber(
@@ -50,6 +55,10 @@ public class ContaReceberController {
 
 		if (contaReceber.getEmpresa() == null || (contaReceber.getEmpresa().getId() == null)) {
 			throw new ExceptionJumboSistemas("A empresa deve ser informada.");
+		}
+		
+		if (contaReceber.getPessoa().getId() != null && pessoaFisicaRepository.existeIdCadastrado(contaReceber.getPessoa().getId()) == null) {
+			throw new ExceptionJumboSistemas("Não existe Pessoa cadastrado com o ID: " + contaReceber.getPessoa().getId());
 		}
 
 	

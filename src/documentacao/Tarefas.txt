@@ -39,7 +39,28 @@ http://localhost:8080/jumbo_sistemas_web/deleteContaPagar - ok
 ContaReceber
 http://localhost:8080/jumbo_sistemas_web/listaContaReceber - ok
 http://localhost:8080/jumbo_sistemas_web/buscaContaReceberDesc/vend  ok < 21/01/23
-http://localhost:8080/jumbo_sistemas_web/salvarContaReceber - ok > <23/01/23 
+http://localhost:8080/jumbo_sistemas_web/salvarContaReceber - ok > <23/01/23 falta itens produtos
+
+CupomDesconto > 24/01/23
+http://localhost:8080/jumbo_sistemas_web/listaCupomDesconto - ok
+http://localhost:8080/jumbo_sistemas_web/salvarCupomDesconto - ok
+http://localhost:8080/jumbo_sistemas_web/deleteCupomDescPorId/3  - ok
+
+Endereço
+http://localhost:8080/jumbo_sistemas_web/listaEndereco - ok
+http://localhost:8080/jumbo_sistemas_web/salvarEndereco - N
+
+FormaPagamento
+http://localhost:8080/jumbo_sistemas_web/buscaFormaPagamentoPorId/2 - ok
+http://localhost:8080/jumbo_sistemas_web/salvarFormaPagamento - ok
+http://localhost:8080/jumbo_sistemas_web/listaFormaPagamento - ok
+http://localhost:8080/jumbo_sistemas_web/deleteFormaPagamentoPorId/2 - ok
+
+ImagemProduto
+http://localhost:8080/jumbo_sistemas_web/deleteImagemProdutoPorId/10 - ok
+http://localhost:8080/jumbo_sistemas_web/deleteImagemObjeto/ N
+http://localhost:8080/jumbo_sistemas_web/obterImagemPorProduto/7 - ok  > 24/01/23
+
 
 
 

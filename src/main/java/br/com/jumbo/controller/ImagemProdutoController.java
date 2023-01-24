@@ -68,9 +68,10 @@ public class ImagemProdutoController {
 	@DeleteMapping(value = "**/deleteImagemObjeto")
 	public ResponseEntity<?> deleteImagemProdutoPorId(@RequestBody ImagemProduto imagemProduto) {
 		
-		if(!imagemProdutoRepository.existsById(imagemProduto.getId())) {
+		if(imagemProdutoRepository.existsById(imagemProduto.getId())) {
 			return new ResponseEntity<String>("Imagem já foi removida ou não existe com esse id: " + imagemProduto.getId(), HttpStatus.OK);
 		}
+		
 		
 		imagemProdutoRepository.deleteById(imagemProduto.getId());
 		
@@ -102,12 +103,12 @@ public class ImagemProdutoController {
 
 			ImagemProdutoDTO imagemProdutoDTO = new ImagemProdutoDTO();
 			
-			/**
+			
 			imagemProdutoDTO.setId(imagemProduto.getId());
 			imagemProdutoDTO.setEmpresa(imagemProduto.getEmpresa().getId());
 			imagemProdutoDTO.setProduto(imagemProduto.getProduto().getId());
 			imagemProdutoDTO.setImagemMiniatura(imagemProduto.getImagemMiniatura());
-			imagemProdutoDTO.setImagemOriginal(imagemProduto.getImagemOriginal());  **/
+			imagemProdutoDTO.setImagemOriginal(imagemProduto.getImagemOriginal());  
 
 			dtos.add(imagemProdutoDTO);
 		}

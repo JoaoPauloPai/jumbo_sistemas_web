@@ -60,16 +60,18 @@ public class Endereco implements Serializable {
 	@Column(nullable = false)
 	private String cidade;
 
+	//@NotNull(message = "A Pessoa deve ser informada")
 	@JsonIgnore
 	@ManyToOne(targetEntity = Pessoa.class)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
 	
+	@NotNull(message = "O Tipo Endereço deve ser informada")
 	@Column(nullable = false)
 	@Enumerated(EnumType.STRING)
 	private TipoEndereco tipoEndereco;
 	
-	@NotNull(message = "A empresa deve ser informada")
+	//@NotNull(message = "A empresa deve ser informada")
 	@JsonIgnore
 	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, 
