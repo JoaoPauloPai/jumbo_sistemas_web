@@ -62,6 +62,16 @@ http://localhost:8080/jumbo_sistemas_web/deleteImagemObjeto/ N
 http://localhost:8080/jumbo_sistemas_web/obterImagemPorProduto/7 - ok  > 24/01/23
 
 
+VendaSiteLoja
+http://localhost:8080/jumbo_sistemas_web/consultaVendaId/4        - ok
+http://localhost:8080/jumbo_sistemas_web/deleteVendaTotalBanco/3  - ok
+http://localhost:8080/jumbo_sistemas_web/deleteVendaTotalBanco2/3 - ok
+http://localhost:8080/jumbo_sistemas_web/ativaRegistroVendaBanco/4- ok
+
+
+
+
+
 
 
 

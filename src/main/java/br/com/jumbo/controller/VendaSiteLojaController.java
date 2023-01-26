@@ -162,7 +162,7 @@ public class VendaSiteLojaController {
 		StringBuilder msgemail = new StringBuilder();
 		msgemail.append("Olá, ").append(pessoaFisica.getNome()).append("<br/>");
 		msgemail.append("Você realizou a compra de nº: ").append(vendaSiteLoja.getId()).append("<br/>");
-		msgemail.append("Na loja ").append(vendaSiteLoja.getEmpresa().getNomeFantasia()).append("<br/>");
+		msgemail.append("Na loja ").append(vendaSiteLoja.getEmpresa().getRazaoSocial()).append("<br/>");
 		msgemail.append("Agradecemos por nos escolher");
 		/* assunto, msg, destino */
 		serviceSendEmail.enviarEmailHtml("Compra Realizada", msgemail.toString(), pessoaFisica.getEmail());
@@ -220,6 +220,7 @@ public class VendaSiteLojaController {
 
 	}
 
+	//Exclusão total do Banco
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteVendaTotalBanco/{idVenda}")
 	public ResponseEntity<String> deleteVendaTotalBanco(@PathVariable(value = "idVenda") Long idVenda) {
@@ -230,6 +231,7 @@ public class VendaSiteLojaController {
 
 	}
 
+	//Exclusão lógica no Banco
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteVendaTotalBanco2/{idVenda}") // Boolean
 	public ResponseEntity<String> deleteVendaTotalBanco2(@PathVariable(value = "idVenda") Long idVenda) {
