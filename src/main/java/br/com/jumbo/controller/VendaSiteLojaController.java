@@ -170,7 +170,6 @@ public class VendaSiteLojaController {
 
 		return new ResponseEntity<VendaSiteLojaDTO>(vendaSiteLojaDTO, HttpStatus.OK);
 	}
-	
 
 	@ResponseBody
 	@GetMapping(value = "**/consultaVendaId/{id}")
@@ -205,46 +204,56 @@ public class VendaSiteLojaController {
 
 		return new ResponseEntity<VendaSiteLojaDTO>(vendaSitelojaDTO, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaVendaDinamica/{valor}/{tipoconsulta}")
-	public ResponseEntity<VendaSiteLojaDTO> consultaVendaDinamica(@PathVariable("valor") String valor,
-			@PathVariable("tipoconsulta")String tipoconsulta) {
+	public ResponseEntity<List<VendaSiteLojaDTO>> consultaVendaDinamica(@PathVariable("valor") String valor,
+			@PathVariable("tipoconsulta") String tipoconsulta) {
 
-		VendaSiteLoja vendaSiteLoja = null;
-		
-		if(tipoconsulta.equalsIgnoreCase("POR_ID_PROD")){
-		vendaSitelojaRepository.vendaPorProduto(Long.parseLong(valor));
+		List<VendaSiteLoja> vendaSiteLoja = null;
+
+		if (tipoconsulta.equalsIgnoreCase("POR_ID_PROD")) {
+			vendaSiteLoja = vendaSitelojaRepository.vendaPorProduto(Long.parseLong(valor));
+
+			vendaSiteLoja = vendaSiteLoja = new ArrayList<VendaSiteLoja>();
 		}
-		
+
 		if (vendaSiteLoja == null) {
 			vendaSiteLoja = new ArrayList<VendaSiteLoja>();
 		}
 
-		VendaSiteLojaDTO vendaSitelojaDTO = new VendaSiteLojaDTO();
+		List<VendaSiteLojaDTO> vendaSitelojaDTOList = new ArrayList<VendaSiteLojaDTO>();
 
-		vendaSitelojaDTO.setValorTotal(vendaSiteLoja.getValorTotal());
-		vendaSitelojaDTO.setPessoa(vendaSiteLoja.getPessoa());
+		for (VendaSiteLoja vsl : vendaSiteLoja) {
 
-		vendaSitelojaDTO.setEntrega(vendaSiteLoja.getEnderecoEntrega());
-		vendaSitelojaDTO.setCobranca(vendaSiteLoja.getEnderecoCobranca());
+			VendaSiteLojaDTO vendaSitelojaDTO = new VendaSiteLojaDTO();
 
-		vendaSitelojaDTO.setValorDesc(vendaSiteLoja.getValorDesconto());
-		vendaSitelojaDTO.setValorFrete(vendaSiteLoja.getValorFrete());
-		vendaSitelojaDTO.setId(vendaSiteLoja.getId());
+			vendaSitelojaDTO.setValorTotal(vsl.getValorTotal());
+			vendaSitelojaDTO.setPessoa(vsl.getPessoa());
 
-		for (ItemVendaLoja item : vendaSiteLoja.getItemVendaLojas()) {
+			vendaSitelojaDTO.setEntrega(vsl.getEnderecoEntrega());
+			vendaSitelojaDTO.setCobranca(vsl.getEnderecoCobranca());
 
-			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
-			itemVendaDTO.setQuantidade(item.getQuantidade());
-			itemVendaDTO.setProduto(item.getProduto());
+			vendaSitelojaDTO.setValorDesc(vsl.getValorDesconto());
+			vendaSitelojaDTO.setValorFrete(vsl.getValorFrete());
+			vendaSitelojaDTO.setId(vsl.getId());
 
-			vendaSitelojaDTO.getItemVendaLoja().add(itemVendaDTO);
+			for (ItemVendaLoja item : vsl.getItemVendaLojas()) {
+
+				ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+				itemVendaDTO.setQuantidade(item.getQuantidade());
+				itemVendaDTO.setProduto(item.getProduto());
+
+				vendaSitelojaDTO.getItemVendaLoja().add(itemVendaDTO);
+
+			}
+			vendaSitelojaDTOList.add(vendaSitelojaDTO);
 		}
 
-		return new ResponseEntity<VendaSiteLojaDTO>(vendaSitelojaDTO, HttpStatus.OK);
+		// return new ResponseEntity<List<VendaSiteLojaDTO>>(vendaSitelojaDTOList,
+		// HttpStatus.OK);
+		return new ResponseEntity<List<VendaSiteLojaDTO>>(vendaSitelojaDTOList, HttpStatus.OK);
 	}
-	
 
 	@ResponseBody
 	@PutMapping(value = "**/ativaRegistroVendaBanco/{idVenda}")
@@ -277,9 +286,6 @@ public class VendaSiteLojaController {
 		return new ResponseEntity<String>("Venda excluida logicamente com sucesso!", HttpStatus.OK);
 
 	}
-
-
-
 
 	@ResponseBody
 	@GetMapping(value = "**/consultaVendaDinamicaFaixaData/{data1}/{data2}")

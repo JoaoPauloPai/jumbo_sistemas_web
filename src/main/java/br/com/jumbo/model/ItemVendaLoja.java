@@ -30,14 +30,17 @@ public class ItemVendaLoja implements Serializable {
 	@Column(nullable = false)
 	private Double quantidade;
 
+	@NotNull(message = "O ID do Produto deve ser informado")
 	@ManyToOne
 	@JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
 	private Produto produto;
 
+	@NotNull(message = "O ID da Venda deve ser informado")
 	@ManyToOne
-	@JoinColumn(name = "venda_compraLoja_virtu_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_compraLoja_virtu_fk"))
+	@JoinColumn(name = "venda_site_loja_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_site_loja_fk"))
 	private VendaSiteLoja vendaSiteLoja;
 
+	@NotNull(message = "A Empresa deve ser informada")
 	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;

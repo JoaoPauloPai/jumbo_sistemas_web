@@ -42,17 +42,6 @@ public class ItemVendaLojaController {
 	public ResponseEntity<ItemVendaLoja> salvarItemVendaLoja(@RequestBody @Valid ItemVendaLoja itemVendaLoja)
 			throws ExceptionJumboSistemas { /* Recebe o JSON e converte pra Objeto */
 
-		/*
-		 * if (categoriaProduto.getEmpresa() == null ||
-		 * (categoriaProduto.getEmpresa().getId() == null)) { throw new
-		 * ExceptionJumboSistemas("A empresa deve ser informada."); }
-		 * 
-		 * if (categoriaProduto.getId() == null &&
-		 * categoriaProdutoRepository.existeCategoria(categoriaProduto.getNomeDesc())) {
-		 * throw new
-		 * ExceptionJumboSistemas("Não pode cadastar categoria com mesmo nome."); }
-		 */
-
 		ItemVendaLoja itemVendaLojaSalvo = itemVendaLojaRepository.save(itemVendaLoja);
 
 		return new ResponseEntity<ItemVendaLoja>(itemVendaLojaSalvo, HttpStatus.OK);
@@ -63,6 +52,8 @@ public class ItemVendaLojaController {
 	public ResponseEntity<List<ItemVendaLoja>> listaItemVenadaLoja() {
 
 		List<ItemVendaLoja> itemvdloja = itemVendaLojaRepository.findAll();
+		
+		
 
 		return new ResponseEntity<List<ItemVendaLoja>>(itemvdloja, HttpStatus.OK);
 
