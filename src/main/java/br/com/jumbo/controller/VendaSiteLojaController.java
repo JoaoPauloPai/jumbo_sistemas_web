@@ -77,21 +77,18 @@ public class VendaSiteLojaController {
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarVendaOnLine")
-	public ResponseEntity<VendaSiteLojaDTO> salvarVendaOnLine(
-			@RequestBody @Valid VendaSiteLoja vendaSiteLoja)
+	public ResponseEntity<VendaSiteLojaDTO> salvarVendaOnLine(@RequestBody @Valid VendaSiteLoja vendaSiteLoja)
 			throws ExceptionJumboSistemas, UnsupportedEncodingException, MessagingException {
 
 		vendaSiteLoja.getPessoa().setEmpresa(vendaSiteLoja.getEmpresa());
-		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaSiteLoja.getPessoa())
-				.getBody();
+		PessoaFisica pessoaFisica = pessoaFisicaController.salvarPessoaFisica(vendaSiteLoja.getPessoa()).getBody();
 		vendaSiteLoja.setPessoa(pessoaFisica);
 
 		vendaSiteLoja.getEnderecoCobranca().setPessoa(pessoaFisica);
 		vendaSiteLoja.getEnderecoCobranca().setEmpresa(vendaSiteLoja.getEmpresa());
 		Endereco enderecoCobranca = enderecoRepository.save(vendaSiteLoja.getEnderecoCobranca());
 		vendaSiteLoja.setEnderecoCobranca(enderecoCobranca);
-		
-	
+
 		vendaSiteLoja.getEnderecoEntrega().setPessoa(pessoaFisica);
 		vendaSiteLoja.getEnderecoEntrega().setEmpresa(vendaSiteLoja.getEmpresa());
 		Endereco enderecoEntrega = enderecoRepository.save(vendaSiteLoja.getEnderecoEntrega());
@@ -105,8 +102,8 @@ public class VendaSiteLojaController {
 		}
 
 		/* Salva primeiro a venda e todo os dados */
-       vendaSiteLoja = vendaSitelojaRepository.saveAndFlush(vendaSiteLoja);
-		
+		vendaSiteLoja = vendaSitelojaRepository.saveAndFlush(vendaSiteLoja);
+
 		StatusRastreio statusRastreio = new StatusRastreio();
 		statusRastreio.setCentroDistribuicao("Loja Local");
 		statusRastreio.setCidade("Local");
@@ -133,8 +130,7 @@ public class VendaSiteLojaController {
 		vendaSiteLojaDTO.setValorDesc(vendaSiteLoja.getValorDesconto());
 		vendaSiteLojaDTO.setValorFrete(vendaSiteLoja.getValorFrete());
 		vendaSiteLojaDTO.setId(vendaSiteLoja.getId());
-		
-	
+
 		for (ItemVendaLoja item : vendaSiteLoja.getItemVendaLojas()) {
 
 			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
@@ -143,7 +139,7 @@ public class VendaSiteLojaController {
 
 			vendaSiteLojaDTO.getItemVendaLoja().add(itemVendaDTO);
 		}
-		
+
 		ContaReceber contaReceber = new ContaReceber();
 		contaReceber.setDescricao("Venda da loja virtual nº: " + vendaSiteLoja.getId());
 		contaReceber.setDtPagamento(Calendar.getInstance().getTime());
@@ -170,11 +166,11 @@ public class VendaSiteLojaController {
 		/* Email para o vendedor */
 		msgemail = new StringBuilder();
 		msgemail.append("Você realizou uma venda, nº ").append(vendaSiteLoja.getId());
-		serviceSendEmail.enviarEmailHtml("Venda Realizada", msgemail.toString(),
-				vendaSiteLoja.getEmpresa().getEmail());
+		serviceSendEmail.enviarEmailHtml("Venda Realizada", msgemail.toString(), vendaSiteLoja.getEmpresa().getEmail());
 
 		return new ResponseEntity<VendaSiteLojaDTO>(vendaSiteLojaDTO, HttpStatus.OK);
 	}
+	
 
 	@ResponseBody
 	@GetMapping(value = "**/consultaVendaId/{id}")
@@ -209,6 +205,46 @@ public class VendaSiteLojaController {
 
 		return new ResponseEntity<VendaSiteLojaDTO>(vendaSitelojaDTO, HttpStatus.OK);
 	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/consultaVendaDinamica/{valor}/{tipoconsulta}")
+	public ResponseEntity<VendaSiteLojaDTO> consultaVendaDinamica(@PathVariable("valor") String valor,
+			@PathVariable("tipoconsulta")String tipoconsulta) {
+
+		VendaSiteLoja vendaSiteLoja = null;
+		
+		if(tipoconsulta.equalsIgnoreCase("POR_ID_PROD")){
+		vendaSitelojaRepository.vendaPorProduto(Long.parseLong(valor));
+		}
+		
+		if (vendaSiteLoja == null) {
+			vendaSiteLoja = new ArrayList<VendaSiteLoja>();
+		}
+
+		VendaSiteLojaDTO vendaSitelojaDTO = new VendaSiteLojaDTO();
+
+		vendaSitelojaDTO.setValorTotal(vendaSiteLoja.getValorTotal());
+		vendaSitelojaDTO.setPessoa(vendaSiteLoja.getPessoa());
+
+		vendaSitelojaDTO.setEntrega(vendaSiteLoja.getEnderecoEntrega());
+		vendaSitelojaDTO.setCobranca(vendaSiteLoja.getEnderecoCobranca());
+
+		vendaSitelojaDTO.setValorDesc(vendaSiteLoja.getValorDesconto());
+		vendaSitelojaDTO.setValorFrete(vendaSiteLoja.getValorFrete());
+		vendaSitelojaDTO.setId(vendaSiteLoja.getId());
+
+		for (ItemVendaLoja item : vendaSiteLoja.getItemVendaLojas()) {
+
+			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+			itemVendaDTO.setQuantidade(item.getQuantidade());
+			itemVendaDTO.setProduto(item.getProduto());
+
+			vendaSitelojaDTO.getItemVendaLoja().add(itemVendaDTO);
+		}
+
+		return new ResponseEntity<VendaSiteLojaDTO>(vendaSitelojaDTO, HttpStatus.OK);
+	}
+	
 
 	@ResponseBody
 	@PutMapping(value = "**/ativaRegistroVendaBanco/{idVenda}")
@@ -220,7 +256,7 @@ public class VendaSiteLojaController {
 
 	}
 
-	//Exclusão total do Banco
+	// Exclusão total do Banco
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteVendaTotalBanco/{idVenda}")
 	public ResponseEntity<String> deleteVendaTotalBanco(@PathVariable(value = "idVenda") Long idVenda) {
@@ -231,7 +267,7 @@ public class VendaSiteLojaController {
 
 	}
 
-	//Exclusão lógica no Banco
+	// Exclusão lógica no Banco
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteVendaTotalBanco2/{idVenda}") // Boolean
 	public ResponseEntity<String> deleteVendaTotalBanco2(@PathVariable(value = "idVenda") Long idVenda) {
@@ -242,10 +278,14 @@ public class VendaSiteLojaController {
 
 	}
 
+
+
+
 	@ResponseBody
 	@GetMapping(value = "**/consultaVendaDinamicaFaixaData/{data1}/{data2}")
-	public ResponseEntity<List<VendaSiteLojaDTO>> consultaVendaDinamicaFaixaData(
-			@PathVariable("data1") String data1, @PathVariable("data2") String data2) throws ParseException {
+
+	public ResponseEntity<List<VendaSiteLojaDTO>> consultaVendaDinamicaFaixaData(@PathVariable("data1") String data1,
+			@PathVariable("data2") String data2) throws ParseException {
 
 		List<VendaSiteLoja> vendaSiteLoja = null;
 
