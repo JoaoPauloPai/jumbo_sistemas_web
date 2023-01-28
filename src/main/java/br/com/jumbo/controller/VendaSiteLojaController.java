@@ -110,12 +110,12 @@ public class VendaSiteLojaController {
 		statusRastreio.setEmpresa(vendaSiteLoja.getEmpresa());
 		statusRastreio.setEstado("Local");
 		statusRastreio.setStatus("Inicio Compra");
-		statusRastreio.setVendaCompraLojaVirtual(vendaSiteLoja);
+		statusRastreio.setVenda_site_loja(vendaSiteLoja);
 
 		statusRastreioRepository.save(statusRastreio);
 
 		/* Associa a venda gravada no banco com a nota fiscal */
-		vendaSiteLoja.getNotaFiscalVenda().setVendaCompraLojaVirtual(vendaSiteLoja);
+		vendaSiteLoja.getNotaFiscalVenda().setVendaSiteLoja(vendaSiteLoja);
 
 		/* Persiste novamente as nota fiscal novamente pra ficar amarrada na venda */
 		notaFiscalVendaRepository.saveAndFlush(vendaSiteLoja.getNotaFiscalVenda());
@@ -134,8 +134,10 @@ public class VendaSiteLojaController {
 		for (ItemVendaLoja item : vendaSiteLoja.getItemVendaLojas()) {
 
 			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
-			itemVendaDTO.setQuantidade(item.getQuantidade());
-			itemVendaDTO.setProduto(item.getProduto());
+			  itemVendaDTO.setQuantidade(item.getQuantidade());
+			  itemVendaDTO.setProduto(item.getProduto());
+			
+	
 
 			vendaSiteLojaDTO.getItemVendaLoja().add(itemVendaDTO);
 		}
@@ -156,9 +158,9 @@ public class VendaSiteLojaController {
 
 		/* Emil para o comprador */
 		StringBuilder msgemail = new StringBuilder();
-		msgemail.append("Olá, ").append(pessoaFisica.getNome()).append("<br/>");
+		msgemail.append("Olá, ").append(pessoaFisica.getNome()).append("!").append("<br/>");
 		msgemail.append("Você realizou a compra de nº: ").append(vendaSiteLoja.getId()).append("<br/>");
-		msgemail.append("Na loja ").append(vendaSiteLoja.getEmpresa().getRazaoSocial()).append("<br/>");
+		msgemail.append("Na loja ").append(vendaSiteLoja.getEmpresa().getNomeFantasia()).append("<br/>");
 		msgemail.append("Agradecemos por nos escolher");
 		/* assunto, msg, destino */
 		serviceSendEmail.enviarEmailHtml("Compra Realizada", msgemail.toString(), pessoaFisica.getEmail());

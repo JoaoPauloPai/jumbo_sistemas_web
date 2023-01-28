@@ -71,6 +71,7 @@ http://localhost:8080/jumbo_sistemas_web/deleteVendaTotalBanco/3  - ok
 http://localhost:8080/jumbo_sistemas_web/deleteVendaTotalBanco2/3 - ok
 http://localhost:8080/jumbo_sistemas_web/ativaRegistroVendaBanco/4- ok
 http://localhost:8080/jumbo_sistemas_web/consultaVendaDinamica/7/POR_ID_PROD - N
+http://localhost:8080/jumbo_sistemas_web/consultaVendaDinamicaFaixaData/2021-07-01/2021-07-30 - N
 
 
 
