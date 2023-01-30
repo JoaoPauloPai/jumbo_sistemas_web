@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.CategoriaProduto;
+import br.com.jumbo.model.MarcaProduto;
 import br.com.jumbo.model.dto.CategoriaProdutoDto;
 import br.com.jumbo.repository.CategoriaProdutoRepository;
 import br.com.jumbo.service.CategoriaProdutoService;
@@ -51,10 +52,15 @@ public class CategoriaProdutoController {
 	}
 
 	@ResponseBody
-	@GetMapping(value = "**/buscaCatProdutoPorId")
-	public ResponseEntity<CategoriaProduto> buscacatprodutoporid(@RequestParam(name = "id") long id) {
+	@GetMapping(value = "**/buscaCatProdutoPorId/{id}")
+	public ResponseEntity<CategoriaProduto> buscacatprodutoporid(@PathVariable("id") long id)
+			throws ExceptionJumboSistemas {
 
-		CategoriaProduto catprod = categoriaProdutoRepository.findById(id).get();
+		CategoriaProduto catprod = categoriaProdutoRepository.findById(id).orElse(null);
+
+		if (catprod == null) {
+			throw new ExceptionJumboSistemas("Não encontrou Categoria do Produto com código: " + id);
+		}
 
 		return new ResponseEntity<CategoriaProduto>(catprod, HttpStatus.OK);
 
@@ -74,7 +80,7 @@ public class CategoriaProdutoController {
 	public ResponseEntity<?> deleteCategoriaProduto(@RequestBody CategoriaProduto categoriaProduto)
 			throws ExceptionJumboSistemas {
 
-		if(categoriaProdutoRepository.findById(categoriaProduto.getId()).isPresent() == false) {
+		if (categoriaProdutoRepository.findById(categoriaProduto.getId()).isPresent() == false) {
 			throw new ExceptionJumboSistemas("O Código: " + categoriaProduto.getId()
 					+ ", da categoria do produto não foi encotrado no banco de dados");
 

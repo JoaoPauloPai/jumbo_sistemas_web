@@ -27,7 +27,7 @@ http://localhost:8080/jumbo_sistemas_web/buscarCatgoriaPorDesc/IMPO - ok
 http://localhost:8080/jumbo_sistemas_web/listaCategoriaProduto - ok
 http://localhost:8080/jumbo_sistemas_web/salvarCategoriaProduto - ok
 http://localhost:8080/jumbo_sistemas_web/deleteCategoriaProduto/ - ok
-http://localhost:8080/jumbo_sistemas_web/buscaCatProdutoPorId/6?id=6  - ERRO 
+http://localhost:8080/jumbo_sistemas_web/buscaCatProdutoPorId/6?id=6  - ok
 
 ContaPagar
 http://localhost:8080/jumbo_sistemas_web/listaContaPagar - ok
