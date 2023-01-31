@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * @author João Paulo
  *
@@ -37,20 +39,24 @@ public class StatusRastreio implements Serializable {
 
 	private String status;
 
+	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name = "venda_site_loja_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_compra_loja_virt_fk"))
-	private VendaSiteLoja venda_site_loja;
+	@JoinColumn(name = "venda_site_loja_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_loja_site_fk"))
+	private VendaSiteLoja vendaSiteLoja;
 
+	@JsonIgnore
 	@ManyToOne(targetEntity = PessoaJuridica.class)
 	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
 
-	public VendaSiteLoja getVenda_site_loja() {
-		return venda_site_loja;
+
+
+	public VendaSiteLoja getVendaSiteLoja() {
+		return vendaSiteLoja;
 	}
 
-	public void setVenda_site_loja(VendaSiteLoja venda_site_loja) {
-		this.venda_site_loja = venda_site_loja;
+	public void setVendaSiteLoja(VendaSiteLoja vendaSiteLoja) {
+		this.vendaSiteLoja = vendaSiteLoja;
 	}
 
 	public PessoaJuridica getEmpresa() {

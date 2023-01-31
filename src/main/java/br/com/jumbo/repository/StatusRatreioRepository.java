@@ -3,9 +3,11 @@
  */
 package br.com.jumbo.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.jumbo.model.StatusRastreio;
 
@@ -16,7 +18,11 @@ import br.com.jumbo.model.StatusRastreio;
  * 19:46:04
  */
 @Repository
-@Transactional
 public interface StatusRatreioRepository extends JpaRepository<StatusRastreio, Long>{
-
+	
+	@Query(value = "select s from StatusRastreio s where s.vendaSiteLoja.id = ?1 order by s.id")
+	public List<StatusRastreio> listaRastreioVenda(Long idVenda);
+	
+	//@Query(value = "select s from StatusRastreio s where s.vendaCompraLojaVirtual.id = ?1 order by s.id")
+	//public List<StatusRastreio> listaRastreioVenda(Long idVenda);
 }
