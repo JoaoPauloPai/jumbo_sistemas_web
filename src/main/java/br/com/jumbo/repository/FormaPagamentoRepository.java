@@ -22,8 +22,11 @@ import br.com.jumbo.model.FormaPagamento;
 @Transactional
 public interface FormaPagamentoRepository extends JpaRepository<FormaPagamento, Long> {
 
-  //@Query("select a from Produto a where upper(trim(a.nome)) like %?1% and a.empresa.id = ?2")
+  
 	@Query("select a from FormaPagamento a where upper(trim(a.descricao))like %?1 and a.empresa.id = ?2")
 	List<FormaPagamento> buscarFormaPagPorNome(String descricao, Long idEmpresa);
+	
+	@Query(value = "select f from FormaPagamento f where f.empresa.id = ?1")
+	List<FormaPagamento> findAll(Long idEmpresa);
 
 }

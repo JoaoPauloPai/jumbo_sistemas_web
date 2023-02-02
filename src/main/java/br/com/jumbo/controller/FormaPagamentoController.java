@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.FormaPagamento;
 import br.com.jumbo.repository.FormaPagamentoRepository;
-import br.com.jumbo.service.FormaPagamentoService;
+
 
 /**
  * @author João Paulo
@@ -65,6 +65,15 @@ public class FormaPagamentoController {
 		return new ResponseEntity<List<FormaPagamento>>(formpag, HttpStatus.OK);
 
 	}
+	
+	@ResponseBody
+	@GetMapping(value = "**/listaFormaPagamento/{idEmpresa}")
+	public ResponseEntity<List<FormaPagamento>> listaFormaPagamentodEmpresa(@PathVariable(value = "idEmpresa") Long idEmpresa){
+		
+		//return new ResponseEntity<List<FormaPagamento>>(formaPagamentoRepository.findAll(idEmpresa), HttpStatus.OK);
+		
+		return new ResponseEntity<List<FormaPagamento>>(formaPagamentoRepository.findAll(idEmpresa), HttpStatus.OK);
+	}
 
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteFormaPagamentoPorId/{id}")
@@ -73,6 +82,7 @@ public class FormaPagamentoController {
 		formaPagamentoRepository.deleteById(id);
 
 		return new ResponseEntity("Forma-Pagamento deletado por Id com sucesso!", HttpStatus.OK);
+		
 	}
 
 	@ResponseBody
