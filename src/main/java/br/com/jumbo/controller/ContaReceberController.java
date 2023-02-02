@@ -22,6 +22,7 @@ import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.CategoriaProduto;
 import br.com.jumbo.model.ContaPagar;
 import br.com.jumbo.model.ContaReceber;
+import br.com.jumbo.model.CupomDesc;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.repository.PessoaFisicaRepository;
@@ -57,9 +58,9 @@ public class ContaReceberController {
 			throw new ExceptionJumboSistemas("A empresa deve ser informada.");
 		}
 		
-		if (contaReceber.getPessoa().getId() != null && pessoaFisicaRepository.existeIdCadastrado(contaReceber.getPessoa().getId()) == null) {
-			throw new ExceptionJumboSistemas("Não existe Pessoa cadastrado com o ID: " + contaReceber.getPessoa().getId());
-		}
+		//if (contaReceber.getPessoa().getId() != null && pessoaFisicaRepository.existeIdCadastrado(contaReceber.getPessoa().getId()) == null) {
+		//	throw new ExceptionJumboSistemas("Não existe Pessoa cadastrado com o ID: " + contaReceber.getPessoa().getId());
+		//}
 
 	
 
@@ -77,6 +78,19 @@ public class ContaReceberController {
 		return new ResponseEntity<List<ContaReceber>>(contarec, HttpStatus.OK);
 
 	}	
+	
+	@ResponseBody
+	@GetMapping(value = "**/buscaContaReceberPorId/{id}")
+	public ResponseEntity<ContaReceber> buscaContaReceberPorId(@PathVariable("id") Long id) throws ExceptionJumboSistemas{ 
+		
+		ContaReceber contaReceber = contaReceberRepository.findById(id).orElse(null);
+		
+		if (contaReceber == null) {
+			throw new ExceptionJumboSistemas("Não encontrou Conta Receber com código: " + id);
+		}
+		
+		return new ResponseEntity<ContaReceber>(contaReceber,HttpStatus.OK);
+	}
 	
 	@ResponseBody
 	@GetMapping(value = "**/buscaContaReceberDesc/{desc}")

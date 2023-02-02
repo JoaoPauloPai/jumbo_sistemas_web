@@ -17,7 +17,7 @@ import br.com.jumbo.model.Usuario;
 import br.com.jumbo.model.dto.CepDTO;
 import br.com.jumbo.model.dto.ConsultaCnpjDto;
 import br.com.jumbo.repository.PessoaFisicaRepository;
-import br.com.jumbo.repository.PessoaRepository;
+import br.com.jumbo.repository.PessoaJuridicaRepository;
 import br.com.jumbo.repository.UsuarioRepository;
 
 /**
@@ -32,10 +32,10 @@ public class PessoaUserService {
 	private JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	private PessoaRepository pessoaRepository;
+	private PessoaFisicaRepository pessoaFisicaRepository;
 
 	@Autowired
-	private PessoaFisicaRepository pessoaFisicaRepository;
+	private PessoaJuridicaRepository pessoaJuridicaRepository;
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
@@ -51,7 +51,7 @@ public class PessoaUserService {
 
 		}
 
-		juridica = pessoaRepository.save(juridica);
+		juridica = pessoaJuridicaRepository.save(juridica);
 
 		Usuario usuarioPj = usuarioRepository.findUserByPessoa(juridica.getId(), juridica.getEmail());
 
@@ -101,14 +101,12 @@ public class PessoaUserService {
 		return juridica;
 	}
 
-	
 	public CepDTO consultaCep(String cep) {
 		return new RestTemplate().getForEntity("https://viacep.com.br/ws/" + cep + "/json/", CepDTO.class).getBody();
 	}
 
 	public ConsultaCnpjDto consultaCnpjReceitaWS(String cnpj) {
-		return new RestTemplate().getForEntity("https://receitaws.com.br/v1/cnpj/" + cnpj, ConsultaCnpjDto.class).getBody();
+		return new RestTemplate().getForEntity("https://receitaws.com.br/v1/cnpj/" + cnpj, ConsultaCnpjDto.class)
+				.getBody();
 	}
-	}
-
-
+}

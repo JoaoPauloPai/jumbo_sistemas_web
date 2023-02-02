@@ -17,7 +17,6 @@ import br.com.jumbo.model.Endereco;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.PessoaJuridica;
 import br.com.jumbo.repository.PessoaJuridicaRepository;
-import br.com.jumbo.repository.PessoaRepository;
 import junit.framework.TestCase;
 
 /**

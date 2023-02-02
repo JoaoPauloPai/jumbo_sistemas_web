@@ -45,6 +45,7 @@ CupomDesconto > 24/01/23
 http://localhost:8080/jumbo_sistemas_web/listaCupomDesconto      - ok
 http://localhost:8080/jumbo_sistemas_web/salvarCupomDesconto     - ok
 http://localhost:8080/jumbo_sistemas_web/deleteCupomDescPorId/3  - ok
+http://localhost:8080/jumbo_sistemas_web/buscaCupomDescPorId/3   - ok 
 
 Endereço
 http://localhost:8080/jumbo_sistemas_web/listaEndereco  - ok
@@ -55,6 +56,7 @@ http://localhost:8080/jumbo_sistemas_web/buscaFormaPagamentoPorId/2 - ok
 http://localhost:8080/jumbo_sistemas_web/salvarFormaPagamento - ok
 http://localhost:8080/jumbo_sistemas_web/listaFormaPagamento - ok
 http://localhost:8080/jumbo_sistemas_web/deleteFormaPagamentoPorId/2 - ok
+http://localhost:8080/jumbo_sistemas_web/listaFormaPagamento/{idEmpresa} - ok
 
 ImagemProduto
 http://localhost:8080/jumbo_sistemas_web/deleteImagemProdutoPorId/10 - ok

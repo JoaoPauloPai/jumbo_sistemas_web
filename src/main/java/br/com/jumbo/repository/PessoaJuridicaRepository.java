@@ -34,8 +34,7 @@ public interface PessoaJuridicaRepository extends JpaRepository<PessoaJuridica, 
 	@Query(value = "select pj from PessoaJuridica pj where pj.inscEstadual = ?1")
 	public List<PessoaJuridica> existeInsEstadualCadastradoList(String inscEstadual);
 
-
-
 	@Query(value = "select pj from PessoaJuridica pj where upper(trim(pj.nome)) like %?1%")
 	public List<PessoaJuridica> pesquisaPjPorNome(String upperCase);
+	
 }

@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.model.StatusRastreio;
-import br.com.jumbo.repository.StatusRatreioRepository;
+import br.com.jumbo.repository.StatusRastreioRepository;
 
 /**
  * @author João Paulo
@@ -27,7 +27,7 @@ import br.com.jumbo.repository.StatusRatreioRepository;
 public class SatatusRastreioController {
 	
 	@Autowired
-	private StatusRatreioRepository statusRatreioRepository;
+	private StatusRastreioRepository statusRatreioRepository;
 	
 	@ResponseBody
 	@GetMapping(value = "**/listaRastreioVenda/{idVenda}")

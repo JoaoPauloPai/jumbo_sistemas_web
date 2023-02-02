@@ -37,8 +37,4 @@ public interface VendaSiteLojaRepository extends JpaRepository<VendaSiteLoja, Lo
 			+ " where i.vendaSiteLoja.excluido = false and i.produto.id = ?1")
 	List<VendaSiteLoja> vendaPorProduto(long idProduto);
 
-	//@Query(value="select i.vendaCompraLojaVirtual from ItemVendaLoja i where "
-	//+ " i.vendaCompraLojaVirtual.excluido = false and i.produto.id = ?1")
-	//List<VendaCompraLojaVirtual> vendaPorProduto(Long idProduto);
-
 }

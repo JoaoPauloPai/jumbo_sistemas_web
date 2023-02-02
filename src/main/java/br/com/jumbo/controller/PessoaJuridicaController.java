@@ -25,7 +25,6 @@ import br.com.jumbo.model.dto.CepDTO;
 import br.com.jumbo.model.dto.ConsultaCnpjDto;
 import br.com.jumbo.repository.EnderecoRepository;
 import br.com.jumbo.repository.PessoaJuridicaRepository;
-import br.com.jumbo.repository.PessoaRepository;
 import br.com.jumbo.service.PessoaUserService;
 import br.com.jumbo.util.ValidaCNPJ;
 
