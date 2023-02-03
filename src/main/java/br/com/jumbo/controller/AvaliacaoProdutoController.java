@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
+import br.com.jumbo.model.Acesso;
 import br.com.jumbo.model.AvaliacaoProduto;
 import br.com.jumbo.repository.AvaliacaoProdutoRepository;
 
@@ -35,59 +36,59 @@ public class AvaliacaoProdutoController {
 
 	@Autowired
 	private AvaliacaoProdutoRepository avaliacaoProdutoRepository;
-	
+
 	@ResponseBody
 	@PostMapping(value = "**/salvaAvaliacaoProduto")
-	public ResponseEntity<AvaliacaoProduto> savalAvaliacaoProduto(@RequestBody @Valid AvaliacaoProduto avaliacaoProduto) throws ExceptionJumboSistemas{
-		
-		if (avaliacaoProduto.getEmpresa() == null || (avaliacaoProduto.getEmpresa() != null && avaliacaoProduto.getEmpresa().getId() <= 0)) {
-			 throw new ExceptionJumboSistemas("Informa a empresa dona do registro");
+	public ResponseEntity<AvaliacaoProduto> savalAvaliacaoProduto(@RequestBody @Valid AvaliacaoProduto avaliacaoProduto)
+			throws ExceptionJumboSistemas {
+
+		if (avaliacaoProduto.getEmpresa() == null
+				|| (avaliacaoProduto.getEmpresa() != null && avaliacaoProduto.getEmpresa().getId() <= 0)) {
+			throw new ExceptionJumboSistemas("Informa a empresa dona do registro");
 		}
-		
-		
-		if(avaliacaoProduto.getProduto() == null || (avaliacaoProduto.getProduto() != null && avaliacaoProduto.getProduto().getId() <= 0)) {
-			 throw new ExceptionJumboSistemas("A avaliação deve conter o produto associado.");
+
+		if (avaliacaoProduto.getProduto() == null
+				|| (avaliacaoProduto.getProduto() != null && avaliacaoProduto.getProduto().getId() <= 0)) {
+			throw new ExceptionJumboSistemas("A avaliação deve conter o produto associado.");
 		}
-		
-		
-		if(avaliacaoProduto.getPessoa() == null || (avaliacaoProduto.getPessoa() != null && avaliacaoProduto.getPessoa().getId() <= 0)) {
-			 throw new ExceptionJumboSistemas("A avaliação deve conter a pessoa ou cliente associado.");
+
+		if (avaliacaoProduto.getPessoa() == null
+				|| (avaliacaoProduto.getPessoa() != null && avaliacaoProduto.getPessoa().getId() <= 0)) {
+			throw new ExceptionJumboSistemas("A avaliação deve conter a pessoa ou cliente associado.");
 		}
-		
+
 		avaliacaoProduto = avaliacaoProdutoRepository.saveAndFlush(avaliacaoProduto);
-		
+
 		return new ResponseEntity<AvaliacaoProduto>(avaliacaoProduto, HttpStatus.OK);
-		
+
 	}
-	
+
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteAvalicaoPessoa/{idAvaliacao}")
-	public ResponseEntity<?> deleteAvalicaoPessoa(@PathVariable("idAvaliacao") Long idAvaliacao) { 
-		
+	public ResponseEntity<?> deleteAvalicaoPessoa(@PathVariable("idAvaliacao") Long idAvaliacao) {
+
 		avaliacaoProdutoRepository.deleteById(idAvaliacao);
-		
-		return new ResponseEntity<String>("Avaliacao Removida",HttpStatus.OK);
+
+		return new ResponseEntity<String>("Avaliacao Removida", HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/avaliacaoProduto/{idProduto}")
-	public ResponseEntity<List<AvaliacaoProduto>> avaliacaoProduto(@PathVariable("idProduto") Long idProduto) { 
-		
+	public ResponseEntity<List<AvaliacaoProduto>> avaliacaoProduto(@PathVariable("idProduto") Long idProduto) {
+
 		List<AvaliacaoProduto> avaliacaoProdutos = avaliacaoProdutoRepository.avaliacaoProduto(idProduto);
-		
-		return new ResponseEntity<List<AvaliacaoProduto>>(avaliacaoProdutos,HttpStatus.OK);
+
+		return new ResponseEntity<List<AvaliacaoProduto>>(avaliacaoProdutos, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/avaliacaoProdutoPorPessoa/{idPessoa}")
-	public ResponseEntity<List<AvaliacaoProduto>> avaliacaoPessoa(@PathVariable("idPessoa") Long idPessoa) { 
-		
+	public ResponseEntity<List<AvaliacaoProduto>> avaliacaoPessoa(@PathVariable("idPessoa") Long idPessoa) {
+
 		List<AvaliacaoProduto> avaliacaoProdutos = avaliacaoProdutoRepository.avaliacaoPessoa(idPessoa);
-		
-		return new ResponseEntity<List<AvaliacaoProduto>>(avaliacaoProdutos,HttpStatus.OK);
+
+		return new ResponseEntity<List<AvaliacaoProduto>>(avaliacaoProdutos, HttpStatus.OK);
 	}
-	
-		
 
 	@ResponseBody
 	@GetMapping(value = "**/listaAvaliacaoProduto")
@@ -100,7 +101,7 @@ public class AvaliacaoProdutoController {
 	}
 
 	@ResponseBody
-	@GetMapping(value = "**/buscaAvaliacaoProdutoPorId")
+	@GetMapping(value = "**/buscaAvaliacaoProduto")
 	public ResponseEntity<AvaliacaoProduto> buscaavaliacaporid(@RequestParam(name = "id") long id) {
 
 		AvaliacaoProduto avaprod = avaliacaoProdutoRepository.findById(id).get();
@@ -108,10 +109,27 @@ public class AvaliacaoProdutoController {
 		return new ResponseEntity<AvaliacaoProduto>(avaprod, HttpStatus.OK);
 
 	}
-	
+
 	@ResponseBody
-	@GetMapping(value = "**/buscaAvaliacaoProdutoPorNota/{id}")
-	public ResponseEntity<AvaliacaoProduto> buscaAvaliacaoProdutoPorNota(@PathVariable(name = "nota") Long id) throws ExceptionJumboSistemas {
+	@GetMapping(value = "**/buscaAvaliacaoProdutoPorId/{id}")
+	public ResponseEntity<AvaliacaoProduto> buscaAvaliacaoProdutoPorId(@PathVariable(name = "id") long id)
+			throws ExceptionJumboSistemas {
+
+		AvaliacaoProduto avaliacaoProduto = avaliacaoProdutoRepository.findById(id).orElse(null);
+
+		if (avaliacaoProduto == null) {
+
+			throw new ExceptionJumboSistemas("Não encotrado Avaliação do produto com o código " + id);
+		}
+
+		return new ResponseEntity<AvaliacaoProduto>(avaliacaoProduto, HttpStatus.OK);
+
+	}
+
+	@ResponseBody
+	@GetMapping(value = "**/buscaAvaliacaoProdutoPorNota/{nota}")
+	public ResponseEntity<AvaliacaoProduto> buscaAvaliacaoProdutoPorNota(@PathVariable(name = "nota") Long id)
+			throws ExceptionJumboSistemas {
 
 		AvaliacaoProduto avaliacaoProdutoSalvo = avaliacaoProdutoRepository.findById(id).orElse(null);
 
@@ -123,10 +141,17 @@ public class AvaliacaoProdutoController {
 		return new ResponseEntity<AvaliacaoProduto>(avaliacaoProdutoSalvo, HttpStatus.OK);
 
 	}
-	
+
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteAvaliacaoProdutoPorId/{id}")
-	public ResponseEntity<?> deleteAvaliacaoProdutoPorId(@PathVariable("id") Long id) {
+	public ResponseEntity<?> deleteAvaliacaoProdutoPorId(@PathVariable("id") Long id) throws ExceptionJumboSistemas  {
+
+		AvaliacaoProduto avaliacaoProduto = avaliacaoProdutoRepository.findById(id).orElse(null);
+
+		if (avaliacaoProduto == null) {
+
+			throw new ExceptionJumboSistemas("Não encotrado Avaliação do produto com o código " + id);
+		}
 
 		avaliacaoProdutoRepository.deleteById(id);
 

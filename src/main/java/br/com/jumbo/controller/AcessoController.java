@@ -59,34 +59,23 @@ public class AcessoController {
 
 	@ResponseBody
 	@PostMapping(value = "**/deleteAcesso")
-	public ResponseEntity<?> deleteAcesso(@RequestBody Acesso acesso) throws ExceptionJumboSistemas{
+	public ResponseEntity<?> deleteAcesso(@RequestBody Acesso acesso) throws ExceptionJumboSistemas {
 
-		if(acessoRepository.findById(acesso.getId()).isPresent() == false) {
-			throw new ExceptionJumboSistemas("O Código: " + acesso.getId()
-			+ ", da categoria do produto não foi encotrado no banco de dados");
+		if (acessoRepository.findById(acesso.getId()).isPresent() == false) {
+			throw new ExceptionJumboSistemas(
+					"O Código: " + acesso.getId() + ", da categoria do produto não foi encotrado no banco de dados");
 		}
-	
 
-
-		
 		acessoRepository.deleteById(acesso.getId());
 
 		return new ResponseEntity("Acesso deletado com sucesso!", HttpStatus.OK);
 	}
-	
-
-
-	
-
 
 	@ResponseBody
-	@DeleteMapping(value = "**/deleteAcessoPorId/{id}") 
-	public ResponseEntity<?> deleteAcessoPorId(@PathVariable("id") Long id)throws ExceptionJumboSistemas {
+	@DeleteMapping(value = "**/deleteAcessoPorId/{id}")
+	public ResponseEntity<?> deleteAcessoPorId(@PathVariable("id") Long id) throws ExceptionJumboSistemas {
 
-		
 		acessoRepository.deleteById(id);
-		
-		
 
 		return new ResponseEntity("Acesso deletado por Id com sucesso!", HttpStatus.OK);
 	}
@@ -124,7 +113,5 @@ public class AcessoController {
 
 		return new ResponseEntity<List<Acesso>>(acess, HttpStatus.OK);
 	}
-	
-	
 
 }
