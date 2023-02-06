@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.jumbo.model.ItemVendaLoja;
+import br.com.jumbo.model.ItemVendaSite;
 
 /**
  * @author João Paulo
@@ -18,6 +18,6 @@ import br.com.jumbo.model.ItemVendaLoja;
  */
 @Repository
 @Transactional
-public interface ItemVendaLojaRepository extends JpaRepository<ItemVendaLoja, Long>{
+public interface ItemVendaLojaRepository extends JpaRepository<ItemVendaSite, Long>{
 
 }

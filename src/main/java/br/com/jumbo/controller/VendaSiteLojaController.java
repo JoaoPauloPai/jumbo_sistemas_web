@@ -29,11 +29,11 @@ import br.com.jumbo.enums.StatusContaReceber;
 import br.com.jumbo.enums.TipoVendaContaReceber;
 import br.com.jumbo.model.ContaReceber;
 import br.com.jumbo.model.Endereco;
-import br.com.jumbo.model.ItemVendaLoja;
+import br.com.jumbo.model.ItemVendaSite;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.StatusRastreio;
 import br.com.jumbo.model.VendaSiteLoja;
-import br.com.jumbo.model.dto.ItemVendaDTO;
+import br.com.jumbo.model.dto.ItemVendaLojaDTO;
 import br.com.jumbo.model.dto.VendaSiteLojaDTO;
 import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.repository.EnderecoRepository;
@@ -98,7 +98,7 @@ public class VendaSiteLojaController {
 
 		for (int i = 0; i < vendaSiteLoja.getItemVendaLojas().size(); i++) {
 			vendaSiteLoja.getItemVendaLojas().get(i).setEmpresa(vendaSiteLoja.getEmpresa());
-			vendaSiteLoja.getItemVendaLojas().get(i).setVendaSiteLoja(vendaSiteLoja);
+		vendaSiteLoja.getItemVendaLojas().get(i).setVendaSite(vendaSiteLoja);
 		}
 
 		/* Salva primeiro a venda e todo os dados */
@@ -131,9 +131,9 @@ public class VendaSiteLojaController {
 		vendaSiteLojaDTO.setValorFrete(vendaSiteLoja.getValorFrete());
 		vendaSiteLojaDTO.setId(vendaSiteLoja.getId());
 
-		for (ItemVendaLoja item : vendaSiteLoja.getItemVendaLojas()) {
+		for (ItemVendaSite item : vendaSiteLoja.getItemVendaLojas()) {
 
-			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+			ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
 			  itemVendaDTO.setQuantidade(item.getQuantidade());
 			  itemVendaDTO.setProduto(item.getProduto());
 			
@@ -195,9 +195,9 @@ public class VendaSiteLojaController {
 		vendaSitelojaDTO.setValorFrete(vendaSiteLoja.getValorFrete());
 		vendaSitelojaDTO.setId(vendaSiteLoja.getId());
 
-		for (ItemVendaLoja item : vendaSiteLoja.getItemVendaLojas()) {
+		for (ItemVendaSite item : vendaSiteLoja.getItemVendaLojas()) {
 
-			ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+			ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
 			itemVendaDTO.setQuantidade(item.getQuantidade());
 			itemVendaDTO.setProduto(item.getProduto());
 
@@ -240,9 +240,9 @@ public class VendaSiteLojaController {
 			vendaSitelojaDTO.setValorFrete(vsl.getValorFrete());
 			vendaSitelojaDTO.setId(vsl.getId());
 
-			for (ItemVendaLoja item : vsl.getItemVendaLojas()) {
+			for (ItemVendaSite item : vsl.getItemVendaLojas()) {
 
-				ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+				ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
 				itemVendaDTO.setQuantidade(item.getQuantidade());
 				itemVendaDTO.setProduto(item.getProduto());
 
@@ -319,9 +319,9 @@ public class VendaSiteLojaController {
 			vendaSiteLojaDTO.setValorFrete(vcl.getValorFrete());
 			vendaSiteLojaDTO.setId(vcl.getId());
 
-			for (ItemVendaLoja item : vcl.getItemVendaLojas()) {
+			for (ItemVendaSite item : vcl.getItemVendaLojas()) {
 
-				ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+				ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
 				itemVendaDTO.setQuantidade(item.getQuantidade());
 				itemVendaDTO.setProduto(item.getProduto());
 
@@ -364,9 +364,9 @@ public class VendaSiteLojaController {
 			vendaSiteLojaDTO.setValorFrete(vcl.getValorFrete());
 			vendaSiteLojaDTO.setId(vcl.getId());
 
-			for (ItemVendaLoja item : vcl.getItemVendaLojas()) {
+			for (ItemVendaSite item : vcl.getItemVendaLojas()) {
 	
-				ItemVendaDTO itemVendaDTO = new ItemVendaDTO();
+				ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
 				itemVendaDTO.setQuantidade(item.getQuantidade());
 				itemVendaDTO.setProduto(item.getProduto());
 	

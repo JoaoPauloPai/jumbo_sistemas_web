@@ -6,7 +6,7 @@ package br.com.jumbo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.jumbo.model.ItemVendaLoja;
+import br.com.jumbo.model.ItemVendaSite;
 import br.com.jumbo.repository.ItemVendaLojaRepository;
 
 /**
@@ -21,7 +21,7 @@ public class ItemVendaLojaService {
 	@Autowired
 	ItemVendaLojaRepository itemVendaLojaRepository;
 	
-	public ItemVendaLoja save(ItemVendaLoja itemVendaLoja) {
+	public ItemVendaSite save(ItemVendaSite itemVendaLoja) {
 		
 		return itemVendaLojaRepository.save(itemVendaLoja);
 				

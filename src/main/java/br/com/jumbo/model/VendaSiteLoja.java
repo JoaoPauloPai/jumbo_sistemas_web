@@ -103,7 +103,7 @@ public class VendaSiteLoja implements Serializable {
 	private PessoaJuridica empresa;
 
 	@OneToMany(mappedBy = "vendaSiteLoja", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<ItemVendaLoja> itemVendaLojas = new ArrayList<ItemVendaLoja>();
+	private List<ItemVendaSite> itemVendaLojas = new ArrayList<ItemVendaSite>();
 	
 	
 	private Boolean excluido = Boolean.FALSE;
@@ -116,11 +116,11 @@ public class VendaSiteLoja implements Serializable {
 		this.excluido = excluido;
 	}
 
-	public List<ItemVendaLoja> getItemVendaLojas() {
+	public List<ItemVendaSite> getItemVendaLojas() {
 		return itemVendaLojas;
 	}
 
-	public void setItemVendaLojas(List<ItemVendaLoja> itemVendaLojas) {
+	public void setItemVendaLojas(List<ItemVendaSite> itemVendaLojas) {
 		this.itemVendaLojas = itemVendaLojas;
 	}
 

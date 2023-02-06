@@ -18,6 +18,8 @@ http://localhost:8080/jumbo_sistemas_web/avaliacaoProduto/7 - N
 http://localhost:8080/jumbo_sistemas_web/listaAvaliacaoProduto - N
 http://localhost:8080/jumbo_sistemas_web/buscaAvaliacaoProdutoPorNota/?nota=8 - N
 http://localhost:8080/jumbo_sistemas_web/deleteAvaliacaoProdutoPorId/10 - ok
+http://localhost:8080/jumbo_sistemas_web/buscaAvaliacaoProduto/6 - N
+
 
 MarcaProduto
 http://localhost:8080/jumbo_sistemas_web/listaMarcaProduto - ok
@@ -44,6 +46,9 @@ ContaReceber
 http://localhost:8080/jumbo_sistemas_web/listaContaReceber - ok
 http://localhost:8080/jumbo_sistemas_web/buscaContaReceberDesc/vend  ok < 21/01/23
 http://localhost:8080/jumbo_sistemas_web/salvarContaReceber - ok > <23/01/23 falta itens produtos
+http://localhost:8080/jumbo_sistemas_web/deleteContaReceber/ - ok
+http://localhost:8080/jumbo_sistemas_web/deleteContaReceberPorId/33
+http://localhost:8080/jumbo_sistemas_web/buscaContaReceberPorId/61 - ok
 
 CupomDesconto > 24/01/23
 http://localhost:8080/jumbo_sistemas_web/listaCupomDesconto      - ok

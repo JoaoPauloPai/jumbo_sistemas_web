@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.CupomDesc;
+import br.com.jumbo.model.FormaPagamento;
 import br.com.jumbo.model.Produto;
 import br.com.jumbo.repository.CupomDescontoRepository;
 import br.com.jumbo.service.CupomDescontoService;
@@ -28,35 +29,38 @@ import br.com.jumbo.service.CupomDescontoService;
 /**
  * @author João Paulo
  *
- * 15 de jan. de 2022
- * 18:21:34
+ *         15 de jan. de 2022 18:21:34
  */
 @Controller
 @RestController
 public class CupomDescontoController {
-	
 
 	@Autowired
 	private CupomDescontoRepository cupomDescontoRepository;
-	
+
 	@ResponseBody
 	@PostMapping(value = "**/salvarCupomDesconto")
-	public ResponseEntity<CupomDesc> salvarCupomDesc(@RequestBody @Valid CupomDesc cupomDesc) throws ExceptionJumboSistemas {
+	public ResponseEntity<CupomDesc> salvarCupomDesc(@RequestBody @Valid CupomDesc cupomDesc)
+			throws ExceptionJumboSistemas {
+		if (cupomDesc.getId() == null) {
 
-		
-		//if (CupomDesc.g() == null) {
-			//List<CupomDesc> cupomDesc = cupomDescontoRepository.buscaAcessoDesc(cupomDesc..toUpperCase());
+			List<CupomDesc> cupomDescList = cupomDescontoRepository.buscarCupomPorDesc(
+					cupomDesc.getCodDesc().toUpperCase(), cupomDesc.getEmpresa().getId());
 
-		//	if (!cupomDesc.isEmpty()) {
-			//	throw new ExceptionJumboSistemas("Já existe Cupom-Desconto com a descrição: " + acesso.getDescricao());
-			//}
-		//}
+			if (!cupomDescList.isEmpty()) {
+				throw new ExceptionJumboSistemas(
+						"Já existe Cupom-Desconto com essa descrição: " + cupomDesc.getCodDesc());
+			}
+		}
+
+
+	
 
 		CupomDesc cupomDescSalvo = cupomDescontoRepository.save(cupomDesc);
 
 		return new ResponseEntity<CupomDesc>(cupomDescSalvo, HttpStatus.OK);
 	}
-	
+
 	@ResponseBody
 	@GetMapping(value = "**/listaCupomDesconto")
 	public ResponseEntity<List<CupomDesc>> listaCupomDesconto() {
@@ -65,29 +69,30 @@ public class CupomDescontoController {
 
 		return new ResponseEntity<List<CupomDesc>>(cupomdesc, HttpStatus.OK);
 
-	}	
-	
+	}
+
 	@ResponseBody
 	@GetMapping(value = "**/buscaCupomDescPorId/{id}")
-	public ResponseEntity<CupomDesc> buscaCupomDescPorId(@PathVariable("id") Long id) throws ExceptionJumboSistemas{ 
-		
+	public ResponseEntity<CupomDesc> buscaCupomDescPorId(@PathVariable("id") Long id) throws ExceptionJumboSistemas {
+
 		CupomDesc cupomDesc = cupomDescontoRepository.findById(id).orElse(null);
-		
+
 		if (cupomDesc == null) {
 			throw new ExceptionJumboSistemas("Não encontrou o Cupom de Desconto com código: " + id);
 		}
-		
-		return new ResponseEntity<CupomDesc>(cupomDesc,HttpStatus.OK);
+
+		return new ResponseEntity<CupomDesc>(cupomDesc, HttpStatus.OK);
 	}
-	
-	
-	
+
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteCupomDescPorId/{id}")
-	public ResponseEntity<?> deleteCupomDescPorId(@PathVariable("id")Long id ) throws ExceptionJumboSistemas {
-		
-		
-	
+	public ResponseEntity<?> deleteCupomDescPorId(@PathVariable("id") Long id) throws ExceptionJumboSistemas {
+
+		CupomDesc cupomDesc = cupomDescontoRepository.findById(id).orElse(null);
+
+		if (cupomDesc == null) {
+			throw new ExceptionJumboSistemas("Não encontrou o Cupom de Desconto com código: " + id);
+		}
 
 		cupomDescontoRepository.deleteById(id);
 

@@ -144,7 +144,7 @@ public class AvaliacaoProdutoController {
 
 	@ResponseBody
 	@DeleteMapping(value = "**/deleteAvaliacaoProdutoPorId/{id}")
-	public ResponseEntity<?> deleteAvaliacaoProdutoPorId(@PathVariable("id") Long id) throws ExceptionJumboSistemas  {
+	public ResponseEntity<?> deleteAvaliacaoProdutoPorId(@PathVariable("id") Long id) throws ExceptionJumboSistemas {
 
 		AvaliacaoProduto avaliacaoProduto = avaliacaoProdutoRepository.findById(id).orElse(null);
 

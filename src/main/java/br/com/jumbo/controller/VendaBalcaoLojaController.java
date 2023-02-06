@@ -24,11 +24,11 @@ import br.com.jumbo.enums.StatusContaReceber;
 import br.com.jumbo.enums.TipoVendaContaReceber;
 import br.com.jumbo.model.ContaReceber;
 import br.com.jumbo.model.ItemVendaBalcao;
-import br.com.jumbo.model.ItemVendaLoja;
+import br.com.jumbo.model.ItemVendaSite;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.VendaBalcaoLoja;
 import br.com.jumbo.model.dto.ItemVendaBalcaoDTO;
-import br.com.jumbo.model.dto.ItemVendaDTO;
+import br.com.jumbo.model.dto.ItemVendaLojaDTO;
 import br.com.jumbo.model.dto.VendaBalcaoLojaDto;
 import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.repository.VendaBalcaoLojaRepository;
@@ -69,7 +69,7 @@ public class VendaBalcaoLojaController {
 
 		for (ItemVendaBalcao item : vendaBalcaoLoja.getItemVendasBalcao()) {
 
-			ItemVendaDTO itemVendaBalcaoDTO = new ItemVendaDTO();
+			ItemVendaLojaDTO itemVendaBalcaoDTO = new ItemVendaLojaDTO();
 			itemVendaBalcaoDTO.setQuantidade(item.getQuantidade());
 			itemVendaBalcaoDTO.setProduto(item.getProduto());
 			//itemVendaBalcaoDTO.setVendaBalcaoLoja(item.getVendaBalcaoLoja().getId());

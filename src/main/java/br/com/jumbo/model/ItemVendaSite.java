@@ -16,14 +16,14 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "item_venda_loja")
-@SequenceGenerator(name = "seq_item_venda_loja", sequenceName = "seq_item_venda_loja", allocationSize = 1, initialValue = 1)
-public class ItemVendaLoja implements Serializable {
+@Table(name = "item_venda_site")
+@SequenceGenerator(name = "seq_item_venda_site", sequenceName = "seq_item_venda_site", allocationSize = 1, initialValue = 1)
+public class ItemVendaSite implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_item_venda_loja")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_item_venda_site")
 	private Long id;
 
 	@NotNull(message = "A Quantidade de Itens deve ser informada")
@@ -38,7 +38,7 @@ public class ItemVendaLoja implements Serializable {
 	@NotNull(message = "O ID da Venda deve ser informado")
 	@ManyToOne
 	@JoinColumn(name = "venda_site_loja_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_site_loja_fk"))
-	private VendaSiteLoja vendaSiteLoja;
+	private VendaSiteLoja vendaSite;
 
 	@NotNull(message = "A Empresa deve ser informada")
 	@ManyToOne(targetEntity = PessoaJuridica.class)
@@ -78,12 +78,12 @@ public class ItemVendaLoja implements Serializable {
 	}
 
 
-	public VendaSiteLoja getVendaSiteLoja() {
-		return vendaSiteLoja;
+	public VendaSiteLoja getVendaSite() {
+		return vendaSite;
 	}
 
-	public void setVendaSiteLoja(VendaSiteLoja vendaSiteLoja) {
-		this.vendaSiteLoja = vendaSiteLoja;
+	public void setVendaSite(VendaSiteLoja vendaSite) {
+		this.vendaSite = vendaSite;
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class ItemVendaLoja implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ItemVendaLoja other = (ItemVendaLoja) obj;
+		ItemVendaSite other = (ItemVendaSite) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
