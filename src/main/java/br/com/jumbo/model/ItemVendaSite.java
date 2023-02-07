@@ -38,7 +38,7 @@ public class ItemVendaSite implements Serializable {
 	@NotNull(message = "O ID da Venda deve ser informado")
 	@ManyToOne
 	@JoinColumn(name = "venda_site_loja_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "venda_site_loja_fk"))
-	private VendaSiteLoja vendaSite;
+	private VendaSiteLoja vendaSiteLoja;
 
 	@NotNull(message = "A Empresa deve ser informada")
 	@ManyToOne(targetEntity = PessoaJuridica.class)
@@ -77,13 +77,12 @@ public class ItemVendaSite implements Serializable {
 		this.produto = produto;
 	}
 
-
-	public VendaSiteLoja getVendaSite() {
-		return vendaSite;
+	public VendaSiteLoja getVendaSiteLoja() {
+		return vendaSiteLoja;
 	}
 
-	public void setVendaSite(VendaSiteLoja vendaSite) {
-		this.vendaSite = vendaSite;
+	public void setVendaSiteLoja(VendaSiteLoja vendaSiteLoja) {
+		this.vendaSiteLoja = vendaSiteLoja;
 	}
 
 	@Override

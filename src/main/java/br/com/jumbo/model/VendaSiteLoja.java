@@ -102,6 +102,7 @@ public class VendaSiteLoja implements Serializable {
 	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
 
+	@NotNull(message = "Os itens de Venda da Loja deve ser informado")
 	@OneToMany(mappedBy = "vendaSiteLoja", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItemVendaSite> itemVendaLojas = new ArrayList<ItemVendaSite>();
 	

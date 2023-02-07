@@ -37,6 +37,7 @@ import br.com.jumbo.model.dto.ItemVendaLojaDTO;
 import br.com.jumbo.model.dto.VendaSiteLojaDTO;
 import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.repository.EnderecoRepository;
+import br.com.jumbo.repository.ItemVendaSiteRepository;
 import br.com.jumbo.repository.NotaFiscalVendaRepository;
 import br.com.jumbo.repository.StatusRastreioRepository;
 import br.com.jumbo.repository.VendaSiteLojaRepository;
@@ -73,6 +74,9 @@ public class VendaSiteLojaController {
 	private ContaReceberRepository contaReceberRepository;
 
 	@Autowired
+	private ItemVendaSiteRepository itemVendaSiteRepository;
+
+	@Autowired
 	private ServiceSendEmail serviceSendEmail;
 
 	@ResponseBody
@@ -98,21 +102,11 @@ public class VendaSiteLojaController {
 
 		for (int i = 0; i < vendaSiteLoja.getItemVendaLojas().size(); i++) {
 			vendaSiteLoja.getItemVendaLojas().get(i).setEmpresa(vendaSiteLoja.getEmpresa());
-		vendaSiteLoja.getItemVendaLojas().get(i).setVendaSite(vendaSiteLoja);
+			vendaSiteLoja.getItemVendaLojas().get(i).setVendaSiteLoja(vendaSiteLoja);
 		}
 
 		/* Salva primeiro a venda e todo os dados */
 		vendaSiteLoja = vendaSitelojaRepository.saveAndFlush(vendaSiteLoja);
-
-		StatusRastreio statusRastreio = new StatusRastreio();
-		statusRastreio.setCentroDistribuicao("Lojas vendas central");
-		statusRastreio.setCidade("São Paulo");
-		statusRastreio.setEmpresa(vendaSiteLoja.getEmpresa());
-		statusRastreio.setEstado("SP");
-		statusRastreio.setStatus("Compra Realizada");
-		statusRastreio.setVendaSiteLoja(vendaSiteLoja);
-
-		statusRastreioRepository.save(statusRastreio);
 
 		/* Associa a venda gravada no banco com a nota fiscal */
 		vendaSiteLoja.getNotaFiscalVenda().setVendaSiteLoja(vendaSiteLoja);
@@ -134,10 +128,8 @@ public class VendaSiteLojaController {
 		for (ItemVendaSite item : vendaSiteLoja.getItemVendaLojas()) {
 
 			ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
-			  itemVendaDTO.setQuantidade(item.getQuantidade());
-			  itemVendaDTO.setProduto(item.getProduto());
-			
-	
+			itemVendaDTO.setQuantidade(item.getQuantidade());
+			itemVendaDTO.setProduto(item.getProduto());
 
 			vendaSiteLojaDTO.getItemVendaLoja().add(itemVendaDTO);
 		}
@@ -155,6 +147,16 @@ public class VendaSiteLojaController {
 		contaReceber.setVendaId(vendaSiteLoja.getId());
 
 		contaReceberRepository.saveAndFlush(contaReceber);
+
+		StatusRastreio statusRastreio = new StatusRastreio();
+		statusRastreio.setCentroDistribuicao("Lojas vendas central");
+		statusRastreio.setCidade("São Paulo");
+		statusRastreio.setEmpresa(vendaSiteLoja.getEmpresa());
+		statusRastreio.setEstado("SP");
+		statusRastreio.setStatus("Compra Realizada");
+		statusRastreio.setVendaSiteLoja(vendaSiteLoja);
+
+		statusRastreioRepository.save(statusRastreio);
 
 		/* Emil para o comprador */
 		StringBuilder msgemail = new StringBuilder();
@@ -336,45 +338,43 @@ public class VendaSiteLojaController {
 
 	}
 
-	
-	
 	@ResponseBody
 	@GetMapping(value = "**/vendaPorCliente/{idCliente}")
 	public ResponseEntity<List<VendaSiteLojaDTO>> vendaPorCliente(@PathVariable("idCliente") Long idCliente) {
 
 		List<VendaSiteLoja> vendaSiteLoja = vendaSitelojaRepository.vendaPorCliente(idCliente);
-		
+
 		if (vendaSiteLoja == null) {
 			vendaSiteLoja = new ArrayList<VendaSiteLoja>();
 		}
-		
+
 		List<VendaSiteLojaDTO> vendaSiteLojaDTOList = new ArrayList<VendaSiteLojaDTO>();
-		
+
 		for (VendaSiteLoja vcl : vendaSiteLoja) {
-			
+
 			VendaSiteLojaDTO vendaSiteLojaDTO = new VendaSiteLojaDTO();
-	
+
 			vendaSiteLojaDTO.setValorTotal(vcl.getValorTotal());
 			vendaSiteLojaDTO.setPessoa(vcl.getPessoa());
-	
+
 			vendaSiteLojaDTO.setEntrega(vcl.getEnderecoEntrega());
 			vendaSiteLojaDTO.setCobranca(vcl.getEnderecoCobranca());
-	
+
 			vendaSiteLojaDTO.setValorDesc(vcl.getValorDesconto());
 			vendaSiteLojaDTO.setValorFrete(vcl.getValorFrete());
 			vendaSiteLojaDTO.setId(vcl.getId());
 
 			for (ItemVendaSite item : vcl.getItemVendaLojas()) {
-	
+
 				ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
 				itemVendaDTO.setQuantidade(item.getQuantidade());
 				itemVendaDTO.setProduto(item.getProduto());
-	
+
 				vendaSiteLojaDTO.getItemVendaLoja().add(itemVendaDTO);
 			}
-			
+
 			vendaSiteLojaDTOList.add(vendaSiteLojaDTO);
-		
+
 		}
 
 		return new ResponseEntity<List<VendaSiteLojaDTO>>(vendaSiteLojaDTOList, HttpStatus.OK);

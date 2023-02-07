@@ -72,9 +72,10 @@ http://localhost:8080/jumbo_sistemas_web/deleteImagemProdutoPorId/10 - ok
 http://localhost:8080/jumbo_sistemas_web/deleteImagemObjeto/ N
 http://localhost:8080/jumbo_sistemas_web/obterImagemPorProduto/7 - ok  > 24/01/23
 
-ItemVendaLoja
-http://localhost:8080/jumbo_sistemas_web/listaItemVendaLoja  - ok
-http://localhost:8080/jumbo_sistemas_web/salvarItemVendaLoja - ok
+ItemVendaSite
+http://localhost:8080/jumbo_sistemas_web/listaItemVendaSite - N
+http://localhost:8080/jumbo_sistemas_web/salvarItemVendaSite - ok
+http://localhost:8080/jumbo_sistemas_web/buscaItemVendaSitePorId/3 - ok
 
 VendaSiteLoja
 http://localhost:8080/jumbo_sistemas_web/consultaVendaId/4        - ok

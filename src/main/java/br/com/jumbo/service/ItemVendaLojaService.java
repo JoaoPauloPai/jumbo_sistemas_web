@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.jumbo.model.ItemVendaSite;
-import br.com.jumbo.repository.ItemVendaLojaRepository;
+import br.com.jumbo.repository.ItemVendaSiteRepository;
 
 /**
  * @author João Paulo
@@ -19,7 +19,7 @@ import br.com.jumbo.repository.ItemVendaLojaRepository;
 public class ItemVendaLojaService {
 	
 	@Autowired
-	ItemVendaLojaRepository itemVendaLojaRepository;
+	ItemVendaSiteRepository itemVendaLojaRepository;
 	
 	public ItemVendaSite save(ItemVendaSite itemVendaLoja) {
 		

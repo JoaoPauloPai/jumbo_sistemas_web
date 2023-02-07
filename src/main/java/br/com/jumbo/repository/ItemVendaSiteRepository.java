@@ -3,7 +3,6 @@
  */
 package br.com.jumbo.repository;
 
-import org.aspectj.apache.bcel.generic.LOOKUPSWITCH;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +17,6 @@ import br.com.jumbo.model.ItemVendaSite;
  */
 @Repository
 @Transactional
-public interface ItemVendaLojaRepository extends JpaRepository<ItemVendaSite, Long>{
+public interface ItemVendaSiteRepository extends JpaRepository<ItemVendaSite, Long>{
 
 }

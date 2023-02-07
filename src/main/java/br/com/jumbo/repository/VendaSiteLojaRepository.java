@@ -25,16 +25,18 @@ public interface VendaSiteLojaRepository extends JpaRepository<VendaSiteLoja, Lo
 	@Query(value = "select a from VendaSiteLoja a where a.id = ?1 and a.excluido = false")
 	VendaSiteLoja findByIdExclusao(Long id);
 
-	@Query(value = "select distinct(i.vendaSiteLoja) from ItemVendaLoja i " + " where i.vendaSiteLoja.excluido = false "
-			+ " and i.vendaSiteLoja.dataVenda >= ?1 " + " and i.vendaSiteLoja.dataVenda <= ?2 ")
+	@Query(value = "select distinct(i.vendaSiteLoja) from ItemVendaSite i "
+	             + " where i.vendaSiteLoja.excluido = false "
+			     + " and i.vendaSiteLoja.dataVenda >= ?1 " 
+	             + " and i.vendaSiteLoja.dataVenda <= ?2 ")
 	List<VendaSiteLoja> consultaVendaFaixaData(Date data1, Date data2);
 
-	@Query(value = "select distinct(i.vendaSiteLoja) from ItemVendaLoja i "
-			+ " where i.vendaSiteLoja.excluido = false and i.vendaSiteLoja.pessoa.id = ?1")
+	@Query(value = "select distinct(i.vendaSiteLoja) from ItemVendaSite i "
+		       	+ " where i.vendaSiteLoja.excluido = false and i.vendaSiteLoja.pessoa.id = ?1")
 	List<VendaSiteLoja> vendaPorCliente(Long idCliente);
 
-	@Query(value = "select i.vendaSiteLoja from ItemVendaLoja i "
-			+ " where i.vendaSiteLoja.excluido = false and i.produto.id = ?1")
+	@Query(value = "select i.vendaSiteLoja from ItemVendaSite i "
+        	+ " where i.vendaSiteLoja.excluido = false and i.produto.id = ?1")
 	List<VendaSiteLoja> vendaPorProduto(long idProduto);
 
 }
