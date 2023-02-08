@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.ItemVendaSite;
-import br.com.jumbo.model.dto.ItemVendaLojaDTO;
+import br.com.jumbo.model.dto.ItemVendaSiteDTO;
 import br.com.jumbo.repository.ItemVendaSiteRepository;
 
 /**
@@ -60,7 +60,7 @@ public class ItemVendaSiteController {
 
 	@ResponseBody
 	@GetMapping(value = "**/buscaItemVendaSitePorId/{id}")
-	public ResponseEntity<ItemVendaLojaDTO> buscaItemVendaSitePorId(@PathVariable(name = "id") long id)
+	public ResponseEntity<ItemVendaSiteDTO> buscaItemVendaSitePorId(@PathVariable(name = "id") long id)
 			throws ExceptionJumboSistemas {
 
 		ItemVendaSite itemVendaSite = itemVendaSiteRepository.findById(id).orElse(null);
@@ -70,14 +70,14 @@ public class ItemVendaSiteController {
 			throw new ExceptionJumboSistemas("Não encotrado o Item-Venda-Site com código " + id);
 		}
 
-		ItemVendaLojaDTO itemVendaLojaDTO = new ItemVendaLojaDTO();
+		ItemVendaSiteDTO itemVendaLojaDTO = new ItemVendaSiteDTO();
 		itemVendaLojaDTO.setId(itemVendaSite.getId());
 		itemVendaLojaDTO.setQuantidade(itemVendaSite.getQuantidade());
 		//itemVendaLojaDTO.setItemVendaSite(itemVendaSite.getId());
 		//itemVendaLojaDTO.setProduto(itemVendaSite.getProduto());
 	
 
-		return new ResponseEntity<ItemVendaLojaDTO>(itemVendaLojaDTO, HttpStatus.OK);
+		return new ResponseEntity<ItemVendaSiteDTO>(itemVendaLojaDTO, HttpStatus.OK);
 
 	}
 

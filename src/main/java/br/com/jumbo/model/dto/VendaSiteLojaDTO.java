@@ -31,13 +31,13 @@ public class VendaSiteLojaDTO {
 
 	private BigDecimal valorFrete;
 
-	private List<ItemVendaLojaDTO> itemVendaLoja = new ArrayList<ItemVendaLojaDTO>();
+	private List<ItemVendaSiteDTO> itemVendaLoja = new ArrayList<ItemVendaSiteDTO>();
 
-	public void setItemVendaLoja(List<ItemVendaLojaDTO> itemVendaLoja) {
+	public void setItemVendaLoja(List<ItemVendaSiteDTO> itemVendaLoja) {
 		this.itemVendaLoja = itemVendaLoja;
 	}
 
-	public List<ItemVendaLojaDTO> getItemVendaLoja() {
+	public List<ItemVendaSiteDTO> getItemVendaLoja() {
 		return itemVendaLoja;
 	}
 	

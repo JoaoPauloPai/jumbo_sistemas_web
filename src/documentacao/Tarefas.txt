@@ -87,6 +87,10 @@ http://localhost:8080/jumbo_sistemas_web/consultaVendaDinamicaFaixaData/2021-07-
 http://localhost:8080/jumbo_sistemas_web/vendaPorCliente/166 - N
 http://localhost:8080/jumbo_sistemas_web/listaRastreioVenda/8 - ok
 
+VendaBalcao
+http://localhost:8080/jumbo_sistemas_web/salvarVendaBalcaoLoja - ok
+http://localhost:8080/jumbo_sistemas_web/consultaVendaBalcaoId/22 - ok
+
 
 
 

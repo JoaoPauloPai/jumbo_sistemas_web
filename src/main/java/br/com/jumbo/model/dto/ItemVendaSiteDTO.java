@@ -12,7 +12,7 @@ import br.com.jumbo.model.VendaSiteLoja;
  *
  *         1 de jul. de 2022 21:20:26
  */
-public class ItemVendaLojaDTO {
+public class ItemVendaSiteDTO {
 
 	private Long id;
 

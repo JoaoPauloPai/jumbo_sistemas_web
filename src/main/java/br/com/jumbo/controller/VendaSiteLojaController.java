@@ -33,7 +33,7 @@ import br.com.jumbo.model.ItemVendaSite;
 import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.StatusRastreio;
 import br.com.jumbo.model.VendaSiteLoja;
-import br.com.jumbo.model.dto.ItemVendaLojaDTO;
+import br.com.jumbo.model.dto.ItemVendaSiteDTO;
 import br.com.jumbo.model.dto.VendaSiteLojaDTO;
 import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.repository.EnderecoRepository;
@@ -127,11 +127,11 @@ public class VendaSiteLojaController {
 
 		for (ItemVendaSite item : vendaSiteLoja.getItemVendaLojas()) {
 
-			ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
-			itemVendaDTO.setQuantidade(item.getQuantidade());
-			itemVendaDTO.setProduto(item.getProduto());
+			ItemVendaSiteDTO itemVendaSiteDTO = new ItemVendaSiteDTO();
+			itemVendaSiteDTO.setQuantidade(item.getQuantidade());
+			itemVendaSiteDTO.setProduto(item.getProduto());
 
-			vendaSiteLojaDTO.getItemVendaLoja().add(itemVendaDTO);
+			vendaSiteLojaDTO.getItemVendaLoja().add(itemVendaSiteDTO);
 		}
 
 		ContaReceber contaReceber = new ContaReceber();
@@ -199,7 +199,7 @@ public class VendaSiteLojaController {
 
 		for (ItemVendaSite item : vendaSiteLoja.getItemVendaLojas()) {
 
-			ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
+			ItemVendaSiteDTO itemVendaDTO = new ItemVendaSiteDTO();
 			itemVendaDTO.setQuantidade(item.getQuantidade());
 			itemVendaDTO.setProduto(item.getProduto());
 
@@ -244,7 +244,7 @@ public class VendaSiteLojaController {
 
 			for (ItemVendaSite item : vsl.getItemVendaLojas()) {
 
-				ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
+				ItemVendaSiteDTO itemVendaDTO = new ItemVendaSiteDTO();
 				itemVendaDTO.setQuantidade(item.getQuantidade());
 				itemVendaDTO.setProduto(item.getProduto());
 
@@ -323,7 +323,7 @@ public class VendaSiteLojaController {
 
 			for (ItemVendaSite item : vcl.getItemVendaLojas()) {
 
-				ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
+				ItemVendaSiteDTO itemVendaDTO = new ItemVendaSiteDTO();
 				itemVendaDTO.setQuantidade(item.getQuantidade());
 				itemVendaDTO.setProduto(item.getProduto());
 
@@ -366,7 +366,7 @@ public class VendaSiteLojaController {
 
 			for (ItemVendaSite item : vcl.getItemVendaLojas()) {
 
-				ItemVendaLojaDTO itemVendaDTO = new ItemVendaLojaDTO();
+				ItemVendaSiteDTO itemVendaDTO = new ItemVendaSiteDTO();
 				itemVendaDTO.setQuantidade(item.getQuantidade());
 				itemVendaDTO.setProduto(item.getProduto());
 
