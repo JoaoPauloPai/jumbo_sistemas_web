@@ -24,6 +24,7 @@ import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.Acesso;
 import br.com.jumbo.model.AvaliacaoProduto;
 import br.com.jumbo.repository.AvaliacaoProdutoRepository;
+import br.com.jumbo.service.AcessoContagemApiService;
 
 /**
  * @author João Paulo
@@ -36,6 +37,9 @@ public class AvaliacaoProdutoController {
 
 	@Autowired
 	private AvaliacaoProdutoRepository avaliacaoProdutoRepository;
+
+	@Autowired
+	private AcessoContagemApiService acessoContagemApiService;
 
 	@ResponseBody
 	@PostMapping(value = "**/salvaAvaliacaoProduto")
@@ -58,6 +62,8 @@ public class AvaliacaoProdutoController {
 		}
 
 		avaliacaoProduto = avaliacaoProdutoRepository.saveAndFlush(avaliacaoProduto);
+
+		acessoContagemApiService.atualizaAcessoEndPointSalvarAvalicaoProduto();
 
 		return new ResponseEntity<AvaliacaoProduto>(avaliacaoProduto, HttpStatus.OK);
 

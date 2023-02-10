@@ -28,3 +28,11 @@ INSERT INTO public.pessoa_juridica(
             usuario_id, acesso_id)
     VALUES (1, '500'),
             (1,'501');
+            
+            INSERT INTO public.acesso_contagem_api(
+            id, nome_end_point, qtde_acesso_end_point)
+    VALUES (1, 'SALVA-AVALIACAO-PRODUTO', 0);
+    
+     INSERT INTO public.acesso_contagem_api(
+            id, nome_end_point, qtde_acesso_end_point)
+    VALUES (2, 'SALVA-COMPRA-SITE', 0);

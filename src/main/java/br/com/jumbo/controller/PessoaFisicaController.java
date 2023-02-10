@@ -22,7 +22,6 @@ import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.Usuario;
 import br.com.jumbo.repository.PessoaFisicaRepository;
 import br.com.jumbo.service.PessoaFisicaService;
-import br.com.jumbo.service.ServiceContagemAcessoApi;
 import br.com.jumbo.util.ValidaCPF;
 
 /**
@@ -37,9 +36,6 @@ public class PessoaFisicaController {
 	private PessoaFisicaRepository pessoaFisicaRepository;
 
 	@Autowired
-	private ServiceContagemAcessoApi serviceContagemAcessoApi;
-
-	@Autowired
 	private PessoaFisicaService pessoaFisicaService;
 
 	@ResponseBody
@@ -48,8 +44,7 @@ public class PessoaFisicaController {
 
 		List<PessoaFisica> fisicas = pessoaFisicaRepository.pesquisaPorNomePF(nome.trim().toUpperCase());
 
-		serviceContagemAcessoApi.atualizaAcessoEndPointPf();
-
+	
 		return new ResponseEntity<List<PessoaFisica>>(fisicas, HttpStatus.OK);
 	}
 

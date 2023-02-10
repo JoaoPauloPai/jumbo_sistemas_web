@@ -41,6 +41,7 @@ import br.com.jumbo.repository.ItemVendaSiteRepository;
 import br.com.jumbo.repository.NotaFiscalVendaRepository;
 import br.com.jumbo.repository.StatusRastreioRepository;
 import br.com.jumbo.repository.VendaSiteLojaRepository;
+import br.com.jumbo.service.AcessoContagemApiService;
 import br.com.jumbo.service.ServiceSendEmail;
 import br.com.jumbo.service.VendaSitelojaServise;
 
@@ -78,6 +79,9 @@ public class VendaSiteLojaController {
 
 	@Autowired
 	private ServiceSendEmail serviceSendEmail;
+	
+	@Autowired
+	private AcessoContagemApiService acessoContagemApiService;
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarVendaOnLine")
@@ -135,7 +139,7 @@ public class VendaSiteLojaController {
 		}
 
 		ContaReceber contaReceber = new ContaReceber();
-		contaReceber.setDescricao("Venda da loja virtual nº: " + vendaSiteLoja.getId());
+		contaReceber.setDescricao("Venda Site Loja nº: " + vendaSiteLoja.getId());
 		contaReceber.setDtPagamento(Calendar.getInstance().getTime());
 		contaReceber.setDtVencimento(Calendar.getInstance().getTime());
 		contaReceber.setEmpresa(vendaSiteLoja.getEmpresa());
@@ -172,6 +176,8 @@ public class VendaSiteLojaController {
 		msgemail.append("Você realizou uma venda, nº ").append(vendaSiteLoja.getId());
 		serviceSendEmail.enviarEmailHtml("Venda Realizada", msgemail.toString(), vendaSiteLoja.getEmpresa().getEmail());
 
+		acessoContagemApiService.atualizaAcessoEndPointSalvarCompraSite();
+		
 		return new ResponseEntity<VendaSiteLojaDTO>(vendaSiteLojaDTO, HttpStatus.OK);
 	}
 
