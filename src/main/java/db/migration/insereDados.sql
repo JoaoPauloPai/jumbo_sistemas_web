@@ -36,3 +36,7 @@ INSERT INTO public.pessoa_juridica(
      INSERT INTO public.acesso_contagem_api(
             id, nome_end_point, qtde_acesso_end_point)
     VALUES (2, 'SALVA-COMPRA-SITE', 0);
+    
+         INSERT INTO public.acesso_contagem_api(
+            id, nome_end_point, qtde_acesso_end_point)
+    VALUES (3, 'LOGIN-SISTEMA', 0);

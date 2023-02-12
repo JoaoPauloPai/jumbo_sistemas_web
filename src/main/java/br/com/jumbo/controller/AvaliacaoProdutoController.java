@@ -63,7 +63,10 @@ public class AvaliacaoProdutoController {
 
 		avaliacaoProduto = avaliacaoProdutoRepository.saveAndFlush(avaliacaoProduto);
 
-		acessoContagemApiService.atualizaAcessoEndPointSalvarAvalicaoProduto();
+		String msg = "1";
+
+		acessoContagemApiService.atualizaContagemEndPoint(msg);
+	
 
 		return new ResponseEntity<AvaliacaoProduto>(avaliacaoProduto, HttpStatus.OK);
 

@@ -176,7 +176,9 @@ public class VendaSiteLojaController {
 		msgemail.append("Você realizou uma venda, nº ").append(vendaSiteLoja.getId());
 		serviceSendEmail.enviarEmailHtml("Venda Realizada", msgemail.toString(), vendaSiteLoja.getEmpresa().getEmail());
 
-		acessoContagemApiService.atualizaAcessoEndPointSalvarCompraSite();
+		String msg = "2";
+
+		acessoContagemApiService.atualizaContagemEndPoint(msg);
 		
 		return new ResponseEntity<VendaSiteLojaDTO>(vendaSiteLojaDTO, HttpStatus.OK);
 	}
