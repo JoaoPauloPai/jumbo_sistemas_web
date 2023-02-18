@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.model.dto.ObejtoRequisicaoRelatorioProdCompraNotaFiscalDTO;
-import br.com.jumbo.repository.NotaFiscalVendaRepository;
-import br.com.jumbo.service.NotaFiscalVendaService;
+import br.com.jumbo.model.dto.ObjetoRelatorioStatusCompra;
+import br.com.jumbo.repository.NotaFiscalVendaSiteRepository;
+import br.com.jumbo.service.NotaFiscalVendaSiteService;
 
 /**
  * @author João Paulo
@@ -29,28 +30,27 @@ import br.com.jumbo.service.NotaFiscalVendaService;
  */
 @Controller
 @RestController
-public class NotaFiscalVendaController {
+public class NotaFiscalVendaSiteController {
 	
 	@Autowired
-	private NotaFiscalVendaRepository notaFiscalVendaRepository;
+	private NotaFiscalVendaSiteRepository notaFiscalVendaSiteRepository;
 	
 	@Autowired
-	private NotaFiscalVendaService notaFiscalVendaService;
+	private NotaFiscalVendaSiteService notaFiscalVendaSiteService;
 	
 	
-	//@ResponseBody
-	//@PostMapping(value = "**/relatorioStatusCompra")
-	/*blic ResponseEntity<List<ObjetoRelatorioStatusCompra>> relatorioStatusCompra (@Valid 
+	@ResponseBody
+	@PostMapping(value = "**/relatorioStatusCompra")
+	public ResponseEntity<List<ObjetoRelatorioStatusCompra>> relatorioStatusCompra (@Valid 
 			             @RequestBody  ObjetoRelatorioStatusCompra objetoRelatorioStatusCompra){
 		
 		List<ObjetoRelatorioStatusCompra> retorno = new ArrayList<ObjetoRelatorioStatusCompra>();
 		
-		retorno = notaFiscalCompraService.relatorioStatusVendaLojaVirtual(objetoRelatorioStatusCompra);
+		retorno = notaFiscalVendaSiteService.relatorioStatusVendaLojaSite(objetoRelatorioStatusCompra);
 		
 		return new ResponseEntity<List<ObjetoRelatorioStatusCompra>>(retorno, HttpStatus.OK);
 		
-	}*/
-	
+	}
 	//@ResponseBody
 	//@PostMapping(value = "**/relatorioProdCompradoNotaFiscal")
 	/*public ResponseEntity<List<ObejtoRequisicaoRelatorioProdCompraNotaFiscalDTO>> relatorioProdCompradoNotaFiscal

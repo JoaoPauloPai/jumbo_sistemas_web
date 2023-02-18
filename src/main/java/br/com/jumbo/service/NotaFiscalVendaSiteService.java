@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.jumbo.model.NotaFiscalVenda;
 import br.com.jumbo.model.dto.ObjetoRelatorioStatusCompra;
-import br.com.jumbo.repository.NotaFiscalVendaRepository;
+import br.com.jumbo.repository.NotaFiscalVendaSiteRepository;
 
 /**
  * @author João Paulo
@@ -23,10 +23,10 @@ import br.com.jumbo.repository.NotaFiscalVendaRepository;
  * 14:04:59
  */
 @Service
-public class NotaFiscalVendaService {
+public class NotaFiscalVendaSiteService {
 	
 	@Autowired
-	NotaFiscalVendaRepository notaFiscalVendaRepository;
+	NotaFiscalVendaSiteRepository notaFiscalVendaRepository;
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -37,10 +37,11 @@ public class NotaFiscalVendaService {
 	}
 	
 	
-	public List<ObjetoRelatorioStatusCompra> relatorioStatusVendaLojaVirtual(ObjetoRelatorioStatusCompra objetoRelatorioStatusCompra){
+	public List<ObjetoRelatorioStatusCompra> relatorioStatusVendaLojaSite(ObjetoRelatorioStatusCompra objetoRelatorioStatusCompra){
 		
 		List<ObjetoRelatorioStatusCompra> retorno = new ArrayList<ObjetoRelatorioStatusCompra>();
 		
+		//cfc = vsl
 		String sql = "select p.id as codigoProduto, "
 				+ " p.nome as nomeProduto, "
 				+ " pf.email as emailCliente, "
@@ -49,22 +50,22 @@ public class NotaFiscalVendaService {
 				+ " pf.id as codigoCliente, "
 				+ " pf.nome as nomeCliente,"
 				+ " p.qtd_estoque as qtdEstoque, "
-				+ " cfc.id as codigoVenda, "
-				+ " cfc.status_venda_loja_virtual as statusVenda "
-				+ " from  vd_cp_loja_virt as cfc "
-				+ " inner join item_venda_loja as ntp on  ntp.venda_compra_loja_virtu_id = cfc.id "
+				+ " vsl.id as codigoVenda, "
+				+ " vsl.status_venda_loja_site as statusVenda "
+				+ " from  venda_site_loja as vsl "
+				+ " inner join item_venda_site as ntp on  ntp.venda_site_loja_id = vsl.id "
 				+ " inner join produto as p on p.id = ntp.produto_id "
-				+ " inner join pessoa_fisica as pf on pf.id = cfc.pessoa_id ";
+				+ " inner join pessoa_fisica as pf on pf.id = vsl.pessoa_id ";
 		
 		
-				sql+= " where cfc.data_venda >= '"+objetoRelatorioStatusCompra.getDataInicial()+"' and cfc.data_venda  <= '"+objetoRelatorioStatusCompra.getDataFinal()+"' ";
+				sql+= " where vsl.data_venda >= '"+objetoRelatorioStatusCompra.getDataInicial()+"' and vsl.data_venda  <= '"+objetoRelatorioStatusCompra.getDataFinal()+"' ";
 				
 				if(!objetoRelatorioStatusCompra.getNomeProduto().isEmpty()) {		
 				  sql += " and upper(p.nome) like upper('%"+objetoRelatorioStatusCompra.getNomeProduto()+"%') ";
 				}
 				
 				if (!objetoRelatorioStatusCompra.getStatusVenda().isEmpty()) {
-				 sql+= " and cfc.status_venda_loja_virtual in ('"+objetoRelatorioStatusCompra.getStatusVenda()+"') ";
+				 sql+= " and vsl.status_venda_loja_virtual in ('"+objetoRelatorioStatusCompra.getStatusVenda()+"') ";
 				}
 				
 				if (!objetoRelatorioStatusCompra.getNomeCliente().isEmpty()) {

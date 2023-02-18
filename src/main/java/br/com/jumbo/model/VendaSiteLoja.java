@@ -10,6 +10,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
@@ -28,6 +30,8 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import br.com.jumbo.enums.StatusVendaLojaSite;
+
 @Entity
 @Table(name = "venda_site_loja")
 @SequenceGenerator(name = "seq_venda_site_loja", sequenceName = "seq_venda_site_loja", allocationSize = 1, initialValue = 1)
@@ -40,7 +44,7 @@ public class VendaSiteLoja implements Serializable {
 	private Long id;
 
 	@NotNull(message = "A pessoa compradora deve ser informado")
-	@ManyToOne(targetEntity = PessoaFisica.class,cascade = CascadeType.ALL)
+	@ManyToOne(targetEntity = PessoaFisica.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private PessoaFisica pessoa;
 
@@ -51,7 +55,7 @@ public class VendaSiteLoja implements Serializable {
 
 	@NotNull(message = "O endereço de cobrança deve ser informado")
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "endereco_cobranca_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_cobranca_fk") )
+	@JoinColumn(name = "endereco_cobranca_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "endereco_cobranca_fk"))
 	private Endereco enderecoCobranca;
 
 	@Min(value = 1, message = "Valor total da venda é invalida")
@@ -71,7 +75,6 @@ public class VendaSiteLoja implements Serializable {
 	@JoinColumn(name = "nota_fiscal_venda_id", nullable = true, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "nota_fiscal_venda_fk"))
 	private NotaFiscalVenda notaFiscalVenda;
 
-	
 	@ManyToOne
 	@JoinColumn(name = "cupom_desc_id", foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "cupom_desc_fk"))
 	private CupomDesc cupDesc;
@@ -94,27 +97,39 @@ public class VendaSiteLoja implements Serializable {
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dataEntrega;
-	
-	
+
 	@NotNull(message = "A empresa dona do registro deve ser informada")
 	@ManyToOne(targetEntity = PessoaJuridica.class)
-	@JoinColumn(name = "empresa_id", nullable = false, 
-	foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
+	@JoinColumn(name = "empresa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_id_fk"))
 	private PessoaJuridica empresa;
+
+//	@NotNull(message = "Status da venda ou compra deve ser informado")
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private StatusVendaLojaSite statusVendaLojaSite;
 
 	@NotNull(message = "Os itens de Venda da Loja deve ser informado")
 	@OneToMany(mappedBy = "vendaSiteLoja", orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<ItemVendaSite> itemVendaLojas = new ArrayList<ItemVendaSite>();
-	
-	
+
 	private Boolean excluido = Boolean.FALSE;
 	
-	public Boolean getExcluido() {
-		return excluido;
+	
+
+	public StatusVendaLojaSite getStatusVendaLojaSite() {
+		return statusVendaLojaSite;
+	}
+
+	public void setStatusVendaLojaSite(StatusVendaLojaSite statusVendaLojaSite) {
+		this.statusVendaLojaSite = statusVendaLojaSite;
 	}
 
 	public void setExcluido(Boolean excluido) {
 		this.excluido = excluido;
+	}
+
+	public Boolean getExcluido() {
+		return excluido;
 	}
 
 	public List<ItemVendaSite> getItemVendaLojas() {
@@ -196,7 +211,6 @@ public class VendaSiteLoja implements Serializable {
 	public void setNotaFiscalVenda(NotaFiscalVenda notaFiscalVenda) {
 		this.notaFiscalVenda = notaFiscalVenda;
 	}
-
 
 	public CupomDesc getCupDesc() {
 		return cupDesc;

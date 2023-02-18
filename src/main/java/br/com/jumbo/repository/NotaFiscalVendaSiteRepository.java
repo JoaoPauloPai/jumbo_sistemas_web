@@ -20,7 +20,7 @@ import br.com.jumbo.model.NotaFiscalVenda;
  */
 @Repository
 @Transactional
-public interface NotaFiscalVendaRepository extends JpaRepository<NotaFiscalVenda, Long> {
+public interface NotaFiscalVendaSiteRepository extends JpaRepository<NotaFiscalVenda, Long> {
 	
 	@Query(value = "select n from NotaFiscalVenda n where n.vendaSiteLoja.id = ?1")
 	List<NotaFiscalVenda> buscaNotaPorVenda(Long idVenda);

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.enums.StatusContaReceber;
+import br.com.jumbo.enums.StatusVendaLojaSite;
 import br.com.jumbo.enums.TipoVendaContaReceber;
 import br.com.jumbo.model.ContaReceber;
 import br.com.jumbo.model.Endereco;
@@ -38,7 +39,7 @@ import br.com.jumbo.model.dto.VendaSiteLojaDTO;
 import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.repository.EnderecoRepository;
 import br.com.jumbo.repository.ItemVendaSiteRepository;
-import br.com.jumbo.repository.NotaFiscalVendaRepository;
+import br.com.jumbo.repository.NotaFiscalVendaSiteRepository;
 import br.com.jumbo.repository.StatusRastreioRepository;
 import br.com.jumbo.repository.VendaSiteLojaRepository;
 import br.com.jumbo.service.AcessoContagemApiService;
@@ -63,7 +64,7 @@ public class VendaSiteLojaController {
 	private PessoaFisicaController pessoaFisicaController;
 
 	@Autowired
-	private NotaFiscalVendaRepository notaFiscalVendaRepository;
+	private NotaFiscalVendaSiteRepository notaFiscalVendaRepository;
 
 	@Autowired
 	private StatusRastreioRepository statusRastreioRepository;
@@ -103,6 +104,9 @@ public class VendaSiteLojaController {
 		vendaSiteLoja.setEnderecoEntrega(enderecoEntrega);
 
 		vendaSiteLoja.getNotaFiscalVenda().setEmpresa(vendaSiteLoja.getEmpresa());
+		
+		vendaSiteLoja.setStatusVendaLojaSite(StatusVendaLojaSite.FINALIZADA);
+		
 
 		for (int i = 0; i < vendaSiteLoja.getItemVendaLojas().size(); i++) {
 			vendaSiteLoja.getItemVendaLojas().get(i).setEmpresa(vendaSiteLoja.getEmpresa());
