@@ -25,14 +25,15 @@ public class ObejtoRequisicaoRelatorioProdCompraSiteNotaFiscalDTO implements Ser
 	@NotEmpty(message = "Informa a data final")
 	private String dataFinal;	
 	
-	private String nomeProduto ="";
-	private String codigoNota ="";
-	private String codigoProduto ="";
-	private String valorVendaProduto ="";
-	private String quantidadeComprada ="";
-	private String codigoFornecedor ="";
-	private String nomeFornecedor ="";
-	private String dataCompra ="";
+	private String nomeProduto = "";
+	private String codigoNota = "";
+	private String codigoProduto = "";
+	private String valorVendaProduto = "";
+	private String quantidadeComprada = "";
+	private String codigoFornecedor = "";
+	private String nomeFornecedor = "";
+	private String dataCompra = "";
+	
 	public String getNomeProduto() {
 		return nomeProduto;
 	}

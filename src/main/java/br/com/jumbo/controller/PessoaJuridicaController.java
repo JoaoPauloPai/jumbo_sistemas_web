@@ -25,6 +25,7 @@ import br.com.jumbo.model.dto.CepDTO;
 import br.com.jumbo.model.dto.ConsultaCnpjDto;
 import br.com.jumbo.repository.EnderecoRepository;
 import br.com.jumbo.repository.PessoaJuridicaRepository;
+import br.com.jumbo.service.PessoaJuridicaService;
 import br.com.jumbo.service.PessoaUserService;
 import br.com.jumbo.util.ValidaCNPJ;
 
@@ -39,6 +40,8 @@ public class PessoaJuridicaController {
 	@Autowired
 	private PessoaUserService pessoaUserService;
 
+	@Autowired
+	private PessoaJuridicaService pessoaJuridicaService;
 	@Autowired
 	private PessoaJuridicaRepository pessoaJuridicaRepository;
 
@@ -84,7 +87,6 @@ public class PessoaJuridicaController {
 	public ResponseEntity<PessoaJuridica> salvarPessoaJuridica(@RequestBody @Valid PessoaJuridica pessoaJuridica)
 			throws ExceptionJumboSistemas {
 
-
 		if (pessoaJuridica == null) {
 			throw new ExceptionJumboSistemas("Pessoa Jurídica não pode ser null");
 		}
@@ -92,7 +94,8 @@ public class PessoaJuridicaController {
 			throw new ExceptionJumboSistemas("Informe o Tipo Pessoa. ");
 		}
 
-		if (pessoaJuridica.getId() == null && pessoaJuridicaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
+		if (pessoaJuridica.getId() == null
+				&& pessoaJuridicaRepository.existeCnpjCadastrado(pessoaJuridica.getCnpj()) != null) {
 			throw new ExceptionJumboSistemas("Ja existe cnpj com o número: " + pessoaJuridica.getCnpj());
 		}
 
@@ -139,7 +142,7 @@ public class PessoaJuridicaController {
 			}
 		}
 
-		pessoaJuridica = pessoaUserService.salvarPessoaJuridica(pessoaJuridica);
+		pessoaJuridica = pessoaJuridicaService.salvarPessoaJuridica(pessoaJuridica);
 
 		return new ResponseEntity<PessoaJuridica>(pessoaJuridica, HttpStatus.OK);
 	}
@@ -153,7 +156,7 @@ public class PessoaJuridicaController {
 		return new ResponseEntity<List<PessoaJuridica>>(pessJur, HttpStatus.OK);
 
 	}
-	
+
 	@ResponseBody
 	@DeleteMapping(value = "**/deletePessoaJuridicaPorId/{id}")
 	public ResponseEntity<?> deletePjPorId(@PathVariable("id") Long id) {

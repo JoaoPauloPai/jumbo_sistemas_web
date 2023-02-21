@@ -10,8 +10,7 @@ import javax.validation.constraints.NotEmpty;
 /**
  * @author João Paulo
  *
- * 17 de fev. de 2023
- * 13:26:01
+ *         17 de fev. de 2023 13:26:01
  */
 public class ObjetoRelatorioStatusCompra implements Serializable {
 
@@ -23,88 +22,131 @@ public class ObjetoRelatorioStatusCompra implements Serializable {
 	@NotEmpty(message = "Informa a data final")
 	private String dataFinal;
 
-	private String codigoProduto ="";
-	private String nomeProduto ="";
-	private String emailCliente ="";
-	private String foneCliente ="";
-	private String valorVendaProduto ="";
-	private String codigoCliente ="";
-	private String nomeCliente ="";
-	private String qtdEstoque ="";
-	private String codigoVenda ="";
-	private String statusVenda ="";
+	private String codigoProduto = "";
+	private String nomeProduto = "";
+	private String marcaProduto = "";
+	private String emailCliente = "";
+	private String foneCliente = "";
+	private String valorVendaProduto = "";
+	private String codigoCliente = "";
+	private String nomeCliente = "";
+	private String nomeFornecedor = "";
+	private String qtdEstoque = "";
+	private String codigoVenda = "";
+	private String statusVenda = "";
+
 	public String getDataInicial() {
 		return dataInicial;
 	}
+
 	public void setDataInicial(String dataInicial) {
 		this.dataInicial = dataInicial;
 	}
+
 	public String getDataFinal() {
 		return dataFinal;
 	}
+
 	public void setDataFinal(String dataFinal) {
 		this.dataFinal = dataFinal;
 	}
+
 	public String getCodigoProduto() {
 		return codigoProduto;
 	}
+
 	public void setCodigoProduto(String codigoProduto) {
 		this.codigoProduto = codigoProduto;
 	}
+
 	public String getNomeProduto() {
 		return nomeProduto;
 	}
+
 	public void setNomeProduto(String nomeProduto) {
 		this.nomeProduto = nomeProduto;
 	}
+	
+	
+
+	public String getMarcaProduto() {
+		return marcaProduto;
+	}
+
+	public void setMarcaProduto(String marcaProduto) {
+		this.marcaProduto = marcaProduto;
+	}
+
 	public String getEmailCliente() {
 		return emailCliente;
 	}
+
 	public void setEmailCliente(String emailCliente) {
 		this.emailCliente = emailCliente;
 	}
+
 	public String getFoneCliente() {
 		return foneCliente;
 	}
+
 	public void setFoneCliente(String foneCliente) {
 		this.foneCliente = foneCliente;
 	}
+
 	public String getValorVendaProduto() {
 		return valorVendaProduto;
 	}
+
 	public void setValorVendaProduto(String valorVendaProduto) {
 		this.valorVendaProduto = valorVendaProduto;
 	}
+
 	public String getCodigoCliente() {
 		return codigoCliente;
 	}
+
 	public void setCodigoCliente(String codigoCliente) {
 		this.codigoCliente = codigoCliente;
 	}
+
 	public String getNomeCliente() {
 		return nomeCliente;
 	}
+
 	public void setNomeCliente(String nomeCliente) {
 		this.nomeCliente = nomeCliente;
 	}
+
+	public String getNomeFornecedor() {
+		return nomeFornecedor;
+	}
+
+	public void setNomeFornecedor(String nomeFornecedor) {
+		this.nomeFornecedor = nomeFornecedor;
+	}
+
 	public String getQtdEstoque() {
 		return qtdEstoque;
 	}
+
 	public void setQtdEstoque(String qtdEstoque) {
 		this.qtdEstoque = qtdEstoque;
 	}
+
 	public String getCodigoVenda() {
 		return codigoVenda;
 	}
+
 	public void setCodigoVenda(String codigoVenda) {
 		this.codigoVenda = codigoVenda;
 	}
+
 	public String getStatusVenda() {
 		return statusVenda;
 	}
+
 	public void setStatusVenda(String statusVenda) {
 		this.statusVenda = statusVenda;
-	}	
+	}
 
-	
 }
