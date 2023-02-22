@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -16,24 +17,33 @@ import br.com.jumbo.model.dto.ObjetoRelatorioStatusCompra;
 import br.com.jumbo.repository.NotaFiscalVendaSiteRepository;
 
 /**
+ * Este relatório permite saber as compras efetuadas pelo site de venda loja
+ * 
+ * @param objetoRelatorioStatusCompra
+ * @return List<ObjetoRelatorioStatusCompra> 
  * @author João Paulo
  *
- *         30 de jan. de 2022 14:04:59
+ *        30 de jan. de 2022 14:04:59
  */
 @Service
 public class NotaFiscalVendaSiteService {
 
 	@Autowired
 	NotaFiscalVendaSiteRepository notaFiscalVendaRepository;
+	
+
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public NotaFiscalVenda save(NotaFiscalVenda notaFiscalVenda) {
 
-		return notaFiscalVendaRepository.save(notaFiscalVenda);
-	}
 
+/**
+ * Este relatório permite saber as compras efetuadas pelo site de venda loja
+ * 
+ * @param objetoRelatorioStatusCompra
+ * @return List<ObjetoRelatorioStatusCompra> 
+ */
 	public List<ObjetoRelatorioStatusCompra> relatorioStatusVendaLojaSite(
 			ObjetoRelatorioStatusCompra objetoRelatorioStatusCompra) {
 

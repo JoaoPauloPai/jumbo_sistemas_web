@@ -3,6 +3,7 @@
  */
 package br.com.jumbo.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -22,7 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.jumbo.ExceptionJumboSistemas;
 import br.com.jumbo.model.Acesso;
 import br.com.jumbo.model.NotaFiscalCompra;
+import br.com.jumbo.model.dto.ObejtoRequisicaoRelatorioProdutoAlertaEstoque;
 import br.com.jumbo.repository.NotaFiscalCompraRepository;
+import br.com.jumbo.service.NotaFiscalCompraService;
 
 /**
  * @author João Paulo
@@ -35,6 +38,10 @@ public class NotaFiscalCompraController {
 
 	@Autowired
 	private NotaFiscalCompraRepository notaFiscalCompraRepository;
+	
+
+	@Autowired
+	private NotaFiscalCompraService notaFiscalCompraService;
 
 	@ResponseBody
 	@PostMapping(value = "**/salvarNotaFiscalCompra")
@@ -122,6 +129,21 @@ public class NotaFiscalCompraController {
 
 		return new ResponseEntity<List<NotaFiscalCompra>>(notaFiscaCompra, HttpStatus.OK);
 
+	}	@ResponseBody
+	@PostMapping(value = "**/relatorioProdAlertaEstoque")
+	public ResponseEntity<List<ObejtoRequisicaoRelatorioProdutoAlertaEstoque>> relatorioProdAlertaEstoque
+	    (@Valid @RequestBody ObejtoRequisicaoRelatorioProdutoAlertaEstoque obejtoRequisicaoRelatorioProdCompraNotaFiscalDto ){
+		
+		List<ObejtoRequisicaoRelatorioProdutoAlertaEstoque> retorno = 
+				new ArrayList<ObejtoRequisicaoRelatorioProdutoAlertaEstoque>();
+		
+		retorno = notaFiscalCompraService.gerarRelatorioAlertaEstoque(obejtoRequisicaoRelatorioProdCompraNotaFiscalDto);
+		
+		
+		return new ResponseEntity<List<ObejtoRequisicaoRelatorioProdutoAlertaEstoque>>(retorno, HttpStatus.OK);
+		
 	}
+	
+	
 
 }
