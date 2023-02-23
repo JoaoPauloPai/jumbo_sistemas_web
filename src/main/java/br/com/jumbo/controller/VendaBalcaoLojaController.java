@@ -3,7 +3,9 @@
  */
 package br.com.jumbo.controller;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -29,9 +31,11 @@ import br.com.jumbo.model.PessoaFisica;
 import br.com.jumbo.model.VendaBalcaoLoja;
 import br.com.jumbo.model.dto.ItemVendaBalcaoDTO;
 import br.com.jumbo.model.dto.ItemVendaSiteDTO;
+import br.com.jumbo.model.dto.ObejtoRequisicaoRelatorioVendaBalcaoLoja;
 import br.com.jumbo.model.dto.VendaBalcaoLojaDto;
 import br.com.jumbo.repository.ContaReceberRepository;
 import br.com.jumbo.repository.VendaBalcaoLojaRepository;
+import br.com.jumbo.service.VendaBalcaoLojaService;
 
 /**
  * @author João Paulo
@@ -47,6 +51,9 @@ public class VendaBalcaoLojaController {
 
 	@Autowired
 	VendaBalcaoLojaRepository vendaBalcaoLojaRepository;
+	
+	@Autowired
+	VendaBalcaoLojaService vendaBalcaoLojaService;
 
 	@Autowired
 	ContaReceberRepository contaReceberRepository;
@@ -137,5 +144,18 @@ public class VendaBalcaoLojaController {
 		vendaBalcaoLojaRepository.deleteById(id);
 
 		return new ResponseEntity("Venda-Balcão deletado por Id com sucesso!", HttpStatus.OK);
+	}
+	
+	@ResponseBody
+	@PostMapping(value = "**/relatorioVendaBalcaLoja")
+	public ResponseEntity<List<ObejtoRequisicaoRelatorioVendaBalcaoLoja>> relatorioVendaBalca(@Valid 
+			             @RequestBody  ObejtoRequisicaoRelatorioVendaBalcaoLoja obejtoRequisicaoRelatorioVendaBalcaoLoja){
+		
+		List<ObejtoRequisicaoRelatorioVendaBalcaoLoja> retorno = new ArrayList<ObejtoRequisicaoRelatorioVendaBalcaoLoja>();
+		
+		retorno = vendaBalcaoLojaService.relatorioVendaBalcaoLoja(obejtoRequisicaoRelatorioVendaBalcaoLoja);
+		
+		return new ResponseEntity<List<ObejtoRequisicaoRelatorioVendaBalcaoLoja>>(retorno, HttpStatus.OK);
+		
 	}
 }
