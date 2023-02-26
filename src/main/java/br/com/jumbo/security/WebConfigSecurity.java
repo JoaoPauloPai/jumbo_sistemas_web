@@ -39,7 +39,9 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 
 		http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 		.disable().authorizeRequests().antMatchers("/").permitAll()
-		.antMatchers("/index").permitAll()
+		.antMatchers("/index","/pagamento/**","/resources/**","/static/**","/templates/**","classpath:/static/**","classpath:/resources/**","classpath:/templates/**").permitAll()
+		.antMatchers(HttpMethod.POST, "/requisicaojunoboleto/**", "/notificacaoapiv2","/pagamento/**","/resources/**","/static/**","/templates/**","classpath:/static/**","classpath:/resources/**","classpath:/templates/**").permitAll()
+		.antMatchers(HttpMethod.GET, "/requisicaojunoboleto/**", "/notificacaoapiv2","/pagamento/**","/resources/**","/static/**","/templates/**","classpath:/static/**","classpath:/resources/**","classpath:/templates/**").permitAll()
 		.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
 				/* redireciona ou da um retorno para index quando desloga */
@@ -66,25 +68,12 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter implements H
 
 	/* Ignora a autenticação */
 	@Override
-	public void configure(WebSecurity auth) throws Exception {
-
-		/*
-		 * web.ignoring() .antMatchers(//HttpMethod.GET, "/salvarAcesso").
-		 * antMatchers(HttpMethod.POST,"/salvarAcesso"); "/outroDeleteAcesso",
-		 * "/listaAcesso", "/outraBuscaAcessoPorId",
-		 * "/buscaAcessoPorId/{id}","/buscaAcessoPorDesc/{desc}", "/listaProduto",
-		 * "/listaAvaliacaoProduto", "/buscaAvaliacaoProdutoPorId",
-		 * "/listaPessoaFisica", "/listaCategoriaProduto", "/buscaCatProdutoPorId",
-		 * "/listaContaPagar", "/listaContaReceber", "/listaCupomDesconto",
-		 * "/listaEndereco", "/deleteAvaliacaoProduto") .antMatchers(HttpMethod.POST,
-		 * "/salvarAcesso", "/outroDeleteAcesso", "/listaAcesso",
-		 * "/outraBuscaAcessoPorId",
-		 * "/buscaAcessoPorId/{id}","/buscaAcessoPorDesc/{desc}", "/listaProduto",
-		 * "/listaAvaliacaoProduto", "/buscaAvaliacaoProdutoPorId",
-		 * "/listaPessoaFisica", "/listaCategoriaProduto", "/buscaCatProdutoPorId",
-		 * "/listaContaPagar", "/listaContaReceber", "/listaCupomDesconto",
-		 * "/listaEndereco", "/deleteAvaliacaoProduto");
-		 */
+	public void configure(WebSecurity web) throws Exception {
+       
+		web.ignoring().
+	    antMatchers(HttpMethod.GET, "/requisicaojunoboleto/**", "/notificacaoapiv2","/pagamento/**","/resources/**","/static/**","/templates/**","classpath:/static/**","classpath:/resources/**","classpath:/templates/**","/webjars/**","/WEB-INF/classes/static/**")
+	   .antMatchers(HttpMethod.POST,"/requisicaojunoboleto/**", "/notificacaoapiv2","/pagamento/**","/resources/**","/static/**","/templates/**","classpath:/static/**","classpath:/resources/**","classpath:/templates/**","/webjars/**","/WEB-INF/classes/static/**");
+	/* Ingnorando URL no momento para nao autenticar */
 	}
 	
 	

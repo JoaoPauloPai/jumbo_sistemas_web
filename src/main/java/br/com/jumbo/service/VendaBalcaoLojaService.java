@@ -27,7 +27,7 @@ public class VendaBalcaoLojaService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	/**
+	/**Este relatório permite saber as vendas efetuadas pelo balcão da loja
 	 * @param obejtoRequisicaoRelatorioVendaBalcaoLoja
 	 * @return
 	 */
@@ -52,6 +52,10 @@ public class VendaBalcaoLojaService {
 				
 		sql += " where vbl.data_venda >= '" + obejtoRequisicaoRelatorioVendaBalcaoLoja.getDataInicial() 
 		  + "' and vbl.data_venda <= '" + obejtoRequisicaoRelatorioVendaBalcaoLoja.getDataFinal() +"' ";
+		
+			if (!obejtoRequisicaoRelatorioVendaBalcaoLoja.getNomeVendedor().isEmpty()) {
+				sql += " and upper(pf.nome) like upper('%" + obejtoRequisicaoRelatorioVendaBalcaoLoja.getNomeVendedor() + "%') ";
+			}
 		  
 		retorno = jdbcTemplate.query(sql, new BeanPropertyRowMapper(ObjetoRelatorioStatusCompra.class));
 		
