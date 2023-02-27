@@ -29,7 +29,7 @@ public class VendaBalcaoLojaService {
 
 	/**Este relatório permite saber as vendas efetuadas pelo balcão da loja
 	 * @param obejtoRequisicaoRelatorioVendaBalcaoLoja
-	 * @return
+	 * @return relatorioVendaBalcaoLoja
 	 */
 	public List<ObejtoRequisicaoRelatorioVendaBalcaoLoja> relatorioVendaBalcaoLoja(
 			ObejtoRequisicaoRelatorioVendaBalcaoLoja obejtoRequisicaoRelatorioVendaBalcaoLoja) {
@@ -37,16 +37,20 @@ public class VendaBalcaoLojaService {
 		List<ObejtoRequisicaoRelatorioVendaBalcaoLoja> retorno = new ArrayList<ObejtoRequisicaoRelatorioVendaBalcaoLoja>();
 
 		String sql = "select vbl.id as codigoVenda, "
-				+ " vbl.data_venda as dataVenda, "
-				+ " vbl.valor_total as valorVenda, "
-				+ " ivb.quantidade as quantProduto, "
-				+ " p.descricao as nomeProduto, "
-				+ " pf.nome as nomeVendedor, "
-				+ " fp.descricao as tipoPagamento "
-				+ " from item_venda_balcao as ivb "
-				+ " inner join venda_balcao_loja as vbl on ivb.venda_balcao_loja_id = vbl.id "
+				         + " vbl.data_venda as dataVenda, "
+				         + " vbl.valor_total as valorVenda, "
+				         + " ivb.quantidade as quantProduto, "
+				         + " p.descricao as nomeProduto, "
+			             + " pf.nome as nomeVendedor, "
+			           	+ " pf1.nome as nomeCliente, "
+				         + " fp.descricao as tipoPagamento "
+			//	+ " from item_venda_balcao as ivb "
+				+ " from venda_balcao_loja as vbl "
+			//	+ " inner join venda_balcao_loja as vbl on ivb.venda_balcao_loja_id = vbl.id "
+				+ " inner join item_venda_balcao as ivb on vbl.id = ivb.venda_balcao_loja_id "
 				+ " inner join vendedor as v on vbl.vendedor_id = v.id "
 				+ " inner join pessoa_fisica as pf on v.pessoa_id = pf.id "
+				+ " inner join pessoa_fisica as pf1 on vbl.pessoa_id = pf1.id "
 				+ " inner join forma_pagamento as fp on vbl.forma_pagamento_id = fp.id "
 				+ " inner join produto as p on p.id = ivb.produto_id ";
 				

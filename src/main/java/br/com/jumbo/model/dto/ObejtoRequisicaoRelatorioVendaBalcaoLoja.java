@@ -20,14 +20,15 @@ public class ObejtoRequisicaoRelatorioVendaBalcaoLoja implements Serializable {
 	private String dataInicial;
 
 	@NotEmpty(message = "Informa a data final")
-
 	private String dataFinal;
+	
 	private String codigoVenda = "";
 	private String dataVenda = "";
 	private String valorVenda = "";
 	private String quantProduto = "";
 	private String nomeProduto = "";
 	private String nomeVendedor = "";
+	private String nomeCliente = "";
 	private String tipoPagamento = "";
 
 	public String getDataInicial() {
@@ -92,6 +93,14 @@ public class ObejtoRequisicaoRelatorioVendaBalcaoLoja implements Serializable {
 
 	public void setNomeVendedor(String nomeVendedor) {
 		this.nomeVendedor = nomeVendedor;
+	}
+
+	public String getNomeCliente() {
+		return nomeCliente;
+	}
+
+	public void setNomeCliente(String nomeCliente) {
+		this.nomeCliente = nomeCliente;
 	}
 
 	public String getTipoPagamento() {
