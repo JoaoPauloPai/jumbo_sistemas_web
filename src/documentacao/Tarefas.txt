@@ -94,6 +94,7 @@ http://localhost:8080/jumbo_sistemas_web/consultaVendaBalcaoId/22 - ok
 Relatórios
 http://localhost:8080/jumbo_sistemas_web/relatorioStatusCompra - ok
 http://localhost:8080/jumbo_sistemas_web/relatorioProdAlertaEstoque - ok
+http://localhost:8080/jumbo_sistemas_web/relatorioVendaBalcaLoja - ok
 
 
 
